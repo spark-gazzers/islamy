@@ -1,0 +1,44 @@
+# This is a basic workflow to build an APK
+
+name: Testing and building package
+
+on:
+  push:
+    tags:
+      - "v*.*.*" 
+# Have to be one job
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Set env
+        run: echo "RELEASE_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      
+      # Installs Java if it's not installed
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      
+      # Installs Flutter
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      
+      # Run Flutter commands
+      - run: flutter pub get
+      - run: flutter pub run intl_utils:generate
+      - run: flutter pub run build_runner build
+      - run: flutter build apk
+      # Create a release
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          # tag: ${{ github.run_number }}
+          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/*.aab"
+          token: ${{ secrets.RELEASES_TOKEN }}
