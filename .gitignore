@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/flutter,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=flutter,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/flutter,visualstudiocode,xcode,macos
+# Edit at https://www.toptal.com/developers/gitignore?templates=flutter,visualstudiocode,xcode,macos
 
 ### Flutter ###
 # Flutter/Dart/Pub related
@@ -15,6 +15,7 @@
 build/
 coverage/
 lib/generated_plugin_registrant.dart
+**.g.dart
 # For library packages, don’t commit the pubspec.lock file.
 # Regenerating the pubspec.lock file lets you test your package against the latest compatible versions of its dependencies.
 # See https://dart.dev/guides/libraries/private-files#pubspeclock
@@ -66,6 +67,35 @@ lib/generated_plugin_registrant.dart
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -87,7 +117,22 @@ lib/generated_plugin_registrant.dart
 
 # Support for Project snippet scope
 
-# End of https://www.toptal.com/developers/gitignore/api/flutter,visualstudiocode
+### Xcode ###
+## User settings
+xcuserdata/
 
-**.g.dart
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# End of https://www.toptal.com/developers/gitignore/api/flutter,visualstudiocode,xcode,macos
 pubspec.lock
+ios/Podfile.lock
