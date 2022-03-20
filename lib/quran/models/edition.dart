@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/quran/models/enums.dart';
+import 'package:intl/intl.dart' as intl;
 part 'edition.g.dart';
 
 @HiveType(typeId: 0)
@@ -64,7 +65,7 @@ class Edition extends HiveObject {
         format: formatValues.map[json["format"]]!,
         type: typeValues.map[json["type"]]!,
         direction: directionValues.map[json["direction"]] ??
-            (json["language"].toString().contains('ar')
+            (intl.Bidi.isRtlLanguage(json["language"].toString())
                 ? Direction.rtl
                 : Direction.ltr),
       );
