@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/enums_values.dart';
 part 'enums.g.dart';
@@ -43,6 +44,11 @@ enum Direction {
   rtl,
   @HiveField(1)
   ltr,
+}
+
+extension DirectionParser on Direction {
+  TextDirection get direction =>
+      this == Direction.ltr ? TextDirection.ltr : TextDirection.rtl;
 }
 
 final directionValues = EnumValues(
