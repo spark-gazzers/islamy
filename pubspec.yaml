@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   dio: ^4.0.4
@@ -20,6 +20,14 @@ dependencies:
   hive_flutter: ^1.1.0
   just_audio: ^0.9.20
   flip_widget: ^0.1.6
+  flutter_svg: ^1.0.3
+  intl_utils: ^2.6.1
+  iconsax: ^0.0.8
+  pinput: ^2.2.3
+  location: ^4.3.0
+  permission_handler: ^9.2.0
+  pubspec: ^2.1.0
+  flutter_localized_locales: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -31,8 +39,8 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -60,3 +68,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  arb_dir: l10n
+  enabled: true
+  output_dir: lib/generated/l10n
+#  main_locale: ar
