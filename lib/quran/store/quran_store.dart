@@ -8,7 +8,6 @@ import 'package:islamy/quran/models/enums_values.dart';
 import 'package:islamy/quran/models/sajda.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/text_quran.dart';
-import 'package:islamy/quran/repository/cloud_quran.dart';
 import 'package:path_provider/path_provider.dart';
 
 class QuranStore {
@@ -78,9 +77,7 @@ class QuranStore {
 
   static Future<bool> isSurahDownloaded(TheHolyQuran quran, Surah surah) async {
     Directory surahDirectory = await getDirectoryForSurah(quran, surah);
-    print(surahDirectory);
-    print(
-        'surahDirectory.length:${surahDirectory.listSync().length} : ayahs.length:${surah.ayahs.length}');
+
     return surahDirectory.listSync().length == surah.ayahs.length;
   }
 
