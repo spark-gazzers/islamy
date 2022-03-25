@@ -136,3 +136,5 @@ xcuserdata/
 # End of https://www.toptal.com/developers/gitignore/api/flutter,visualstudiocode,xcode,macos
 pubspec.lock
 ios/Podfile.lock
+
+lib/generated/l10n
