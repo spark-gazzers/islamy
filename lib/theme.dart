@@ -52,7 +52,6 @@ class ThemeBuilder {
     return data.copyWith(
       barBackgroundColor: theme.primaryColor,
       scaffoldBackgroundColor: theme.scaffoldBackgroundColor,
-      brightness: Brightness.dark,
       textTheme: data.textTheme.copyWith(
         navTitleTextStyle: const TextStyle(
           fontSize: 22,
