@@ -35,5 +35,13 @@
     "try_again": "Try Again",
     "open_settings": "Open Settings",
     "permanently_denied": "Permanently Denied",
-    "the_permisiion_permanently_denied_which_can_cause_some_features_to_malfunction": "The permission is permanently denied which can cause some features to malfunction.\n Still, you can open the settings nad grant us the access to your location or do it later."
+    "the_permisiion_permanently_denied_which_can_cause_some_features_to_malfunction": "The permission is permanently denied which can cause some features to malfunction.\n Still, you can open the settings nad grant us the access to your location or do it later.",
+    "home": "Home",
+    "quran": "Quran",
+    "prayers": "Prayers",
+    "profile": "Profile",
+    "language": "Language",
+    "select_language": "Select Language",
+    "mute_notifications": "Mute Notification",
+    "about_us": "About Us"
 }
