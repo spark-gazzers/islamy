@@ -5,7 +5,9 @@ import 'package:islamy/view/auth/forgot_password/otp.dart';
 import 'package:islamy/view/auth/forgot_password/reset_password.dart';
 import 'package:islamy/view/auth/login/login.dart';
 import 'package:islamy/view/auth/signup/signup.dart';
+import 'package:islamy/view/landing/landing.dart';
 import 'package:islamy/view/on_boarding/on_boarding.dart';
+import 'package:islamy/view/profile/screens/localization_delegate_screen.dart';
 import 'package:islamy/view/splash/splash.dart';
 
 class Routes {
@@ -62,6 +64,8 @@ class Routes {
   static Map<String, WidgetBuilder> get _routes => <String, WidgetBuilder>{
         'splash': (_) => const SplashScreen(),
         'on_boarding': (_) => const OnBoarding(),
-        "enable_location": (_) => const EnableLocation(),
+        'enable_location': (_) => const EnableLocation(),
+        'landing': (_) => const LandingPage(),
+        'select_language': (_) => const LocalizationDelegateScreen(),
       };
 }
