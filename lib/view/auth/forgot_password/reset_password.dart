@@ -128,7 +128,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                         tag: 'sign_in_with_server',
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'landing');
+                            Navigator.pushNamed(context, 'main');
                           },
                           child: Text(S.of(context).reset_password),
                         ),

@@ -75,8 +75,7 @@ class EnableLocation extends StatelessWidget {
                           switch (_permissionGranted) {
                             case PermissionStatus.granted:
                             case PermissionStatus.grantedLimited:
-                              Navigator.pushReplacementNamed(
-                                  context, 'landing');
+                              Navigator.pushReplacementNamed(context, 'main');
                               break;
                             case PermissionStatus.denied:
                               showCupertinoModalPopup(
@@ -102,7 +101,7 @@ class EnableLocation extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
-                          context, 'landing', (route) => false);
+                          context, 'main', (route) => false);
                     },
                     child: Text(S.of(context).skip.toUpperCase()),
                   ),
@@ -136,7 +135,7 @@ class _AssuringLater extends StatelessWidget {
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, 'landing', (route) => false);
+                context, 'main', (route) => false);
           },
           child: Text(S.of(context).skip),
           isDestructiveAction: true,
@@ -168,7 +167,7 @@ class _PermenantlyDenied extends StatelessWidget {
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, 'landing', (route) => false);
+                context, 'main', (route) => false);
           },
           child: Text(S.of(context).skip),
           isDestructiveAction: true,
