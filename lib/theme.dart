@@ -11,6 +11,7 @@ class ThemeBuilder {
       error: const Color(0xffFF0000),
       brightness: Brightness.light,
       surface: Colors.white,
+      surfaceVariant: const Color(0xfff4f4f4),
     ),
   );
 
@@ -68,9 +69,4 @@ class ThemeBuilder {
   }
 
   static ThemeData lightTheme = _adapt(_lightBase);
-  static const Color _lightGreyBackgroundColor = Color(0xfff4f4f4);
-  static Color greyBackgroundColor(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.light
-          ? _lightGreyBackgroundColor
-          : _lightGreyBackgroundColor;
 }
