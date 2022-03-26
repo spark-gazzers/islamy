@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/view/profile/profile.dart';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _LandingPageState extends State<LandingPage>
+class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   late final TabController _controller;
   @override

@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
         brightness: Brightness.dark,
         middle: Text(S.of(context).profile),
       ),
-      backgroundColor: ThemeBuilder.greyBackgroundColor(context),
+      backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -69,10 +69,6 @@ class ProfileScreen extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: Store.localeListner,
                   builder: (_, __, ___) {
-                    // CountryCode.fromCountryCode('countryCode');
-                    // print(json.encode(
-                    //     LocaleNamesLocalizationsDelegate.nativeLocaleNames));
-                    // return Container();
                     return ListTile(
                       leading: const RoundedIcon(Iconsax.global),
                       title: Text(S.of(context).language),
@@ -88,6 +84,14 @@ class ProfileScreen extends StatelessWidget {
                         Navigator.pushNamed(context, 'select_language');
                       },
                     );
+                  },
+                ),
+                ListTile(
+                  leading: const RoundedIcon(Iconsax.book_saved),
+                  title: Text(S.of(context).quran_settings),
+                  trailing: const Icon(CupertinoIcons.forward),
+                  onTap: () {
+                    Navigator.pushNamed(context, 'quran_settings');
                   },
                 ),
               ],
