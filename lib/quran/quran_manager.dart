@@ -24,11 +24,14 @@ class QuranManager {
     return editions;
   }
 
-  static Future<TheHolyQuran> getQuran({Edition? edition}) async {
-    edition ??= QuranStore.settings.defaultTextEdition;
+  static Future<TheHolyQuran> getQuran({
+    required Edition edition,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
     TheHolyQuran? quran = QuranStore.getQuran(edition);
     if (quran == null) {
-      quran = await CloudQuran.getQuran(edition: edition);
+      quran = await CloudQuran.getQuran(
+          edition: edition, onReceiveProgress: onReceiveProgress);
       QuranStore.addQuran(edition, quran);
     }
     return quran;
