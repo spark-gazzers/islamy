@@ -85,7 +85,9 @@ class Ayah {
         hizbQuarter: json["hizbQuarter"],
         sajda: json["sajda"] == false ? null : Sajda.fromJson(json["sajda"]),
         audio: json["audio"],
-        audioSecondary: List<String>.from(json["audioSecondary"].map((x) => x)),
+        audioSecondary: json["audioSecondary"] == null
+            ? null
+            : List<String>.from(json["audioSecondary"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
