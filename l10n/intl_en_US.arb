@@ -43,5 +43,21 @@
     "language": "Language",
     "select_language": "Select Language",
     "mute_notifications": "Mute Notification",
-    "about_us": "About Us"
+    "about_us": "About Us",
+    "quran_settings": "Quran Settings",
+    "quran_reader": "Quran Reader",
+    "text_edition": "Text Edition",
+    "select_text_edition": "Select Text Edition",
+    "audio_edition": "Audio Edition",
+    "select_audio_edition": "Select Audio Edition",
+    "interpretation_edition": "Interpretation Edition",
+    "select_interpretation_edition": "Select Interpretation Edition",
+    "translation_edition": "Translation Edition",
+    "select_translation_edition": "Select Translation Edition",
+    "transliteration_edition": "Transliteration Edition",
+    "select_transliteration_edition": "Select Transliteration Edition",
+    "download": "Download",
+    "in_order_to_use_this_edition_now_or_later_we_need_to_download_it_first": "In order to use this edition now or later we need to download it first.",
+    "download_failed_due_to_unstable_internet_connection": "Download failed due to unstable internet connection.",
+    "edition_was_downloaded_succefully_and_selected_for_edition_type": "{name} was downloaded succefully and selected for {type} edition"
 }
