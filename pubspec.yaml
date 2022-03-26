@@ -27,7 +27,10 @@ dependencies:
   location: ^4.3.0
   permission_handler: ^9.2.0
   pubspec: ^2.1.0
-  flutter_localized_locales: ^2.0.3
+  flag: ^6.0.0
+  country_code_picker: ^2.0.2
+  proper_filesize: ^0.0.2
+  another_flushbar: ^1.10.28
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +44,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/config/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -72,4 +76,5 @@ flutter_intl:
   arb_dir: l10n
   enabled: true
   output_dir: lib/generated/l10n
+  main_locale: en_US
 #  main_locale: ar
