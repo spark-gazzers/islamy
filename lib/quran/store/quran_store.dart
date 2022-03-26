@@ -12,12 +12,13 @@ import 'package:path_provider/path_provider.dart';
 
 class QuranStore {
   const QuranStore._();
-  static const _QuranStoreSettings settings = _QuranStoreSettings.instance;
+  static const _QuranEditionsSettings settings =
+      _QuranEditionsSettings.instance;
 
   static late final Box<Edition> _editionsBox;
   static late final Box<TheHolyQuran> _textQuranBox;
   static Future<void> init() async {
-    await _QuranStoreSettings._init();
+    await _QuranEditionsSettings._init();
     _registerAdapters();
     _editionsBox = await _getBox('editions');
     _textQuranBox = await _getBox('text_quran');
@@ -71,7 +72,30 @@ class QuranStore {
     return box;
   }
 
-  static List<Edition> listEditions() => _listBoxData(_editionsBox);
+  static List<Edition> listEditions() => _editionsBox.values.toList();
+  static List<Edition> listTextEditions() => _editionsBox.values
+      .where((element) =>
+          element.format == Format.text &&
+          element.type == QuranContentType.quran)
+      .toList();
+  static List<Edition> listAudioEditions() => _editionsBox.values
+      .where((element) =>
+          element.format == Format.audio &&
+          element.type == QuranContentType.versebyverse)
+      .toList();
+  static List<Edition> listInterpretationEditions() => _editionsBox.values
+      .where((element) =>
+          element.format == Format.text &&
+          element.type == QuranContentType.tafsir)
+      .toList();
+  static List<Edition> listTranslationEditions() => _editionsBox.values
+      .where((element) =>
+          element.format == Format.text &&
+          element.type == QuranContentType.translation)
+      .toList();
+  static List<Edition> listTransliterationEditions() => _editionsBox.values
+      .where((element) => element.type == QuranContentType.transliteration)
+      .toList();
   static Future<void> addEditions(List<Edition> editions) =>
       _addAll(values: editions, box: _editionsBox);
 
@@ -139,45 +163,103 @@ class QuranStore {
     T? results = box.get(name);
     return results;
   }
-
-  static List<T> _listBoxData<T>(Box<T> box) => box.values.toList();
 }
 
-class _QuranStoreSettings {
-  const _QuranStoreSettings._();
-  static const _QuranStoreSettings instance = _QuranStoreSettings._();
-  static late final Box<dynamic> _settingsBox;
+class _QuranEditionsSettings {
+  const _QuranEditionsSettings._();
+  static const _QuranEditionsSettings instance = _QuranEditionsSettings._();
+  static late final Box<String> _settingsBox;
   static Future<void> _init() async {
-    _settingsBox = await QuranStore._getBox('quran_settings');
+    _settingsBox = await QuranStore._getBox<String>('quran_settings');
   }
 
   Edition get defaultTextEdition {
     List<Edition> editions = QuranStore.listEditions()
         .where((element) => element.format == Format.text)
         .toList();
-    return _settingsBox.get('default_text_edition') ??
-        editions.singleWhere(
-          (element) => element.identifier == 'quran-uthmani',
-        );
+    return editions.singleWhere(
+      (element) =>
+          element.identifier ==
+          (_settingsBox.get('default_text_edition') ?? 'quran-uthmani'),
+    );
   }
 
-  Future<void> setdefaultTextEdition(Edition edition) async {
-    await QuranStore._saveValue(
-        name: 'default_text_edition',
-        value: edition.identifier,
-        box: _settingsBox);
+  set defaultTextEdition(Edition edition) {
+    QuranStore._saveValue(
+      name: 'default_text_edition',
+      value: edition.identifier,
+      box: _settingsBox,
+    );
   }
 
   Edition get defaultAudioEdition {
     List<Edition> editions = QuranStore.listEditions()
-        .where((element) => element.format == Format.audio)
+        .where(
+          (element) =>
+              element.format == Format.audio &&
+              element.type == QuranContentType.versebyverse,
+        )
         .toList();
-    return _settingsBox.get('default_audio_edition') ?? editions.first;
+
+    return editions.singleWhere(
+      (element) =>
+          element.identifier ==
+          (_settingsBox.get('default_audio_edition') ??
+              editions.first.identifier),
+    );
   }
 
-  Future<void> setdefaultAudioEdition(Edition edition) async {
-    await QuranStore._saveValue(
+  set defaultAudioEdition(Edition edition) {
+    QuranStore._saveValue(
         name: 'default_audio_edition',
+        value: edition.identifier,
+        box: _settingsBox);
+  }
+
+  Edition get defaultInterpretationEdition {
+    List<Edition> editions = QuranStore.listEditions()
+        .where(
+          (element) =>
+              element.format == Format.text &&
+              element.type == QuranContentType.tafsir,
+        )
+        .toList();
+
+    return editions.singleWhere(
+      (element) =>
+          element.identifier ==
+          (_settingsBox.get('default_interpretation_edition') ??
+              editions.first.identifier),
+    );
+  }
+
+  set defaultInterpretationEdition(Edition edition) {
+    QuranStore._saveValue(
+        name: 'default_interpretation_edition',
+        value: edition.identifier,
+        box: _settingsBox);
+  }
+
+  Edition get defaultTranslationEdition {
+    List<Edition> editions = QuranStore.listEditions()
+        .where(
+          (element) =>
+              element.format == Format.text &&
+              element.type == QuranContentType.translation,
+        )
+        .toList();
+
+    return editions.singleWhere(
+      (element) =>
+          element.identifier ==
+          (_settingsBox.get('default_translation_edition') ??
+              editions.first.identifier),
+    );
+  }
+
+  set defaultTranslationEdition(Edition edition) {
+    QuranStore._saveValue(
+        name: 'default_translation_edition',
         value: edition.identifier,
         box: _settingsBox);
   }
