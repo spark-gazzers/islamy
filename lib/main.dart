@@ -1,20 +1,23 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
-
+import 'package:country_code_picker/country_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/enums.dart';
-import 'package:islamy/quran/models/text_quran.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/repository/cloud_quran.dart';
-import 'package:islamy/quran/store/quran_store.dart';
+import 'package:islamy/theme.dart';
 import 'package:islamy/utils/api/api_handler.dart';
+import 'package:islamy/utils/helper.dart';
+import 'package:islamy/utils/routes.dart';
 import 'package:islamy/utils/store.dart';
+import 'live.dart' as live;
 
-void main() async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Store.init();
   ApiHandler.init();
   await QuranManager.init();
+  await Helper.init();
+  // return live.main();
   runApp(const MyApp());
 }
 
@@ -24,64 +27,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      home: Test(),
-    );
-  }
-}
-
-class Test extends StatefulWidget {
-  const Test({Key? key}) : super(key: key);
-
-  @override
-  State<Test> createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Material App Bar'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            List<Edition> editions = await QuranManager.listEditions();
-
-            // for (var edition in editions) {
-            //   if (edition.format == Format.audio &&
-            //       (edition.type != QuranContentType.quran ||
-            //           edition.type != QuranContentType.versebyverse)) {
-            //     print('identifier : ${edition.identifier}');
-            //     print('name : ${edition.name}');
-            //     print('type : ${edition.type}');
-            //     print('\n\n');
-            //   }
-            // }
-            // print('done');
-            // final audio = editions
-            //     .firstWhere((element) => element.format == Format.audio);
-            TheHolyQuran quran = await QuranManager.getQuran(
-                edition: editions.singleWhere((element) =>
-                    element.identifier == 'ar.abdulbasitmurattal'));
-            // print('finished');
-            // print(
-            //     await QuranStore.isSurahDownloaded(quran, quran.surahs.first));
-            // await CloudQuran.downloadSurah(
-            //     quran: quran,
-            //     surah: quran.surahs.first,
-            //     onAyahDownloaded: (index) {
-            //       print(
-            //           'downloaded : $index/${quran.surahs.first.ayahs.length}');
-            //     });
-            await QuranManager.playSurah(quran, quran.surahs.first);
-            // print(
-            //     await QuranStore.isSurahDownloaded(quran, quran.surahs.first));
-          },
-          child: Text('Hit Test'),
+      title: 'Islamy App',
+      builder: (context, child) => ScrollConfiguration(
+        behavior: const CupertinoScrollBehavior(),
+        child: CupertinoTheme(
+          data: ThemeBuilder.toCupertino(Theme.of(context)),
+          child: Material(
+            color: Colors.transparent,
+            type: MaterialType.canvas,
+            elevation: 0.0,
+            child: child,
+          ),
         ),
       ),
+      localizationsDelegates: const [
+        S.delegate,
+        CountryLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: ThemeBuilder.lightTheme,
+      debugShowCheckedModeBanner: false,
+      supportedLocales: S.delegate.supportedLocales,
+      onGenerateRoute: Routes.onGenerateRoute,
+      initialRoute: 'main',
     );
   }
 }
