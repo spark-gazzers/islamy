@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/theme.dart';
 
 class QuranSettingsScreen extends StatefulWidget {
   const QuranSettingsScreen({Key? key}) : super(key: key);
