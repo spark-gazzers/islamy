@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/rounded_icon.dart';
