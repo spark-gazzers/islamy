@@ -56,4 +56,15 @@ class Store {
 
   static ValueListenable<Box<dynamic>> get muteNotficationListner =>
       _settingsBox.listenable(keys: ['mute_notifications']);
+
+  static bool get shouldReadBasmlaOnSelection =>
+      (_readValue(name: 'should_read_basmla_on_selection') ?? '1') == '1';
+
+  static set shouldReadBasmlaOnSelection(bool value) {
+    _saveValue(
+        name: 'should_read_basmla_on_selection', value: value ? '1' : '0');
+  }
+
+  static ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
+      _settingsBox.listenable(keys: ['should_read_basmla_on_selection']);
 }
