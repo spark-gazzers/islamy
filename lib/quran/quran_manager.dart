@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/text_quran.dart';
 import 'package:islamy/quran/repository/cloud_quran.dart';
@@ -35,6 +36,19 @@ class QuranManager {
       QuranStore.addQuran(edition, quran);
     }
     return quran;
+  }
+
+  static Future<QuranMeta> getQuranMeta({
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    try {
+      return QuranStore.settings.meta;
+    } catch (e) {
+      QuranMeta meta =
+          await CloudQuran.getQuranMeta(onReceiveProgress: onReceiveProgress);
+      QuranStore.settings.meta = meta;
+      return meta;
+    }
   }
 
   static Future<void> playSurah(TheHolyQuran quran, Surah surah) async {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/text_quran.dart';
 import 'package:islamy/quran/store/quran_store.dart';
@@ -52,6 +53,14 @@ class CloudQuran {
         path: 'quran/${edition.identifier}',
         onReceiveProgress: onReceiveProgress);
     return TheHolyQuran.fromJson(response.data['data']);
+  }
+
+  static Future<QuranMeta> getQuranMeta({
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    Response response =
+        await _call(path: 'meta/', onReceiveProgress: onReceiveProgress);
+    return QuranMeta.fromJson(response.data['data']);
   }
 
   static Future<void> downloadAyah(Directory directory, Ayah ayah) async {
