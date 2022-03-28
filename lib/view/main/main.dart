@@ -24,6 +24,7 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       body: TabBarView(
         controller: _controller,
+        physics: const NeverScrollableScrollPhysics(),
         children: [for (var i = 0; i < 4; i++) const ProfileScreen()],
       ),
       bottomNavigationBar: Builder(builder: (context) {
@@ -37,6 +38,10 @@ class _MainPageState extends State<MainPage>
                 type: BottomNavigationBarType.fixed,
                 showUnselectedLabels: true,
                 onTap: (index) {
+                  if (index == 1) {
+                    Navigator.pushNamed(context, 'quran_screen');
+                    return;
+                  }
                   _controller.animateTo(index);
                 },
                 items: [
