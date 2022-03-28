@@ -12,13 +12,12 @@ import 'package:path_provider/path_provider.dart';
 
 class QuranStore {
   const QuranStore._();
-  static const _QuranEditionsSettings settings =
-      _QuranEditionsSettings.instance;
+  static const _QuranSettings settings = _QuranSettings.instance;
 
   static late final Box<Edition> _editionsBox;
   static late final Box<TheHolyQuran> _textQuranBox;
   static Future<void> init() async {
-    await _QuranEditionsSettings._init();
+    await _QuranSettings._init();
     _registerAdapters();
     _editionsBox = await _getBox('editions');
     _textQuranBox = await _getBox('text_quran');
@@ -165,9 +164,9 @@ class QuranStore {
   }
 }
 
-class _QuranEditionsSettings {
-  const _QuranEditionsSettings._();
-  static const _QuranEditionsSettings instance = _QuranEditionsSettings._();
+class _QuranSettings {
+  const _QuranSettings._();
+  static const _QuranSettings instance = _QuranSettings._();
   static late final Box<String> _settingsBox;
   static Future<void> _init() async {
     _settingsBox = await QuranStore._getBox<String>('quran_settings');
