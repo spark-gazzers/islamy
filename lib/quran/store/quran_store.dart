@@ -5,6 +5,7 @@ import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/enums_values.dart';
+import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/sajda.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/text_quran.dart';
@@ -172,6 +173,11 @@ class _QuranSettings {
     _settingsBox = await QuranStore._getBox<String>('quran_settings');
   }
 
+  QuranMeta get meta => QuranMeta.fromRawJson(_settingsBox.get('quran_meta')!);
+
+  set meta(QuranMeta meta) => _settingsBox.put('quran_meta', meta.toRawJson());
+
+  ////// Editions Selections
   Edition get defaultTextEdition {
     return QuranStore.listTextEditions().singleWhere(
       (element) =>
