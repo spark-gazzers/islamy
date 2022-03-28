@@ -174,10 +174,7 @@ class _QuranEditionsSettings {
   }
 
   Edition get defaultTextEdition {
-    List<Edition> editions = QuranStore.listEditions()
-        .where((element) => element.format == Format.text)
-        .toList();
-    return editions.singleWhere(
+    return QuranStore.listTextEditions().singleWhere(
       (element) =>
           element.identifier ==
           (_settingsBox.get('default_text_edition') ?? 'quran-uthmani'),
@@ -193,13 +190,7 @@ class _QuranEditionsSettings {
   }
 
   Edition get defaultAudioEdition {
-    List<Edition> editions = QuranStore.listEditions()
-        .where(
-          (element) =>
-              element.format == Format.audio &&
-              element.type == QuranContentType.versebyverse,
-        )
-        .toList();
+    List<Edition> editions = QuranStore.listAudioEditions().toList();
 
     return editions.singleWhere(
       (element) =>
@@ -217,13 +208,7 @@ class _QuranEditionsSettings {
   }
 
   Edition get defaultInterpretationEdition {
-    List<Edition> editions = QuranStore.listEditions()
-        .where(
-          (element) =>
-              element.format == Format.text &&
-              element.type == QuranContentType.tafsir,
-        )
-        .toList();
+    List<Edition> editions = QuranStore.listInterpretationEditions().toList();
 
     return editions.singleWhere(
       (element) =>
@@ -241,13 +226,7 @@ class _QuranEditionsSettings {
   }
 
   Edition get defaultTranslationEdition {
-    List<Edition> editions = QuranStore.listEditions()
-        .where(
-          (element) =>
-              element.format == Format.text &&
-              element.type == QuranContentType.translation,
-        )
-        .toList();
+    List<Edition> editions = QuranStore.listTranslationEditions().toList();
 
     return editions.singleWhere(
       (element) =>
