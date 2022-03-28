@@ -59,7 +59,7 @@ class CloudQuran {
     void Function(int, int)? onReceiveProgress,
   }) async {
     Response response =
-        await _call(path: 'meta/', onReceiveProgress: onReceiveProgress);
+        await _call(path: 'meta', onReceiveProgress: onReceiveProgress);
     return QuranMeta.fromJson(response.data['data']);
   }
 
