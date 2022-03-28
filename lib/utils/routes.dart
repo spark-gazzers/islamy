@@ -12,6 +12,7 @@ import 'package:islamy/view/on_boarding/on_boarding.dart';
 import 'package:islamy/view/profile/screens/localization_delegate_screen.dart';
 import 'package:islamy/view/profile/screens/quran_settings.dart';
 import 'package:islamy/view/profile/screens/select_edition.dart';
+import 'package:islamy/view/quran/quran_screen.dart';
 import 'package:islamy/view/splash/splash.dart';
 
 class Routes {
@@ -131,5 +132,6 @@ class Routes {
         'main': (_) => const MainPage(),
         'select_language': (_) => const LocalizationDelegateScreen(),
         'quran_settings': (_) => const QuranSettingsScreen(),
+        'quran_screen': (_) => const QuranScreen(),
       };
 }
