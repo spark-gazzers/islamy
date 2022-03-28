@@ -16,6 +16,18 @@ class ThemeBuilder {
   );
 
   static ThemeData _adapt(ThemeData theme) => theme.copyWith(
+        textTheme: theme.textTheme.copyWith(
+          bodyText2: theme.textTheme.bodyText2?.copyWith(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+            color: const Color(0xff778790),
+          ),
+          subtitle1: theme.textTheme.subtitle1?.copyWith(
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(
@@ -68,5 +80,5 @@ class ThemeBuilder {
     );
   }
 
-  static ThemeData lightTheme = _adapt(_lightBase);
+  static ThemeData get lightTheme => _adapt(_lightBase);
 }
