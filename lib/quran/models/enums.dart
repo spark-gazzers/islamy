@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/enums_values.dart';
 part 'enums.g.dart';
 
@@ -16,6 +17,7 @@ enum QuranContentType {
   @HiveField(4)
   versebyverse,
 }
+
 final typeValues = EnumValues(
   <String, QuranContentType>{
     "quran": QuranContentType.quran,
@@ -25,6 +27,7 @@ final typeValues = EnumValues(
     "versebyverse": QuranContentType.versebyverse
   },
 );
+
 @HiveType(typeId: 3)
 enum Format {
   @HiveField(0)
@@ -32,12 +35,14 @@ enum Format {
   @HiveField(1)
   audio,
 }
+
 final formatValues = EnumValues(
   <String, Format>{
     "audio": Format.audio,
     "text": Format.text,
   },
 );
+
 @HiveType(typeId: 4)
 enum Direction {
   @HiveField(0)
@@ -57,12 +62,19 @@ final directionValues = EnumValues(
     "rtl": Direction.rtl,
   },
 );
+
 @HiveType(typeId: 9)
 enum RevelationType {
   @HiveField(0)
   meccan,
   @HiveField(1)
   medinan,
+}
+
+extension Stringfier on RevelationType {
+  String get name {
+    return this == RevelationType.meccan ? S.current.meccan : S.current.medinan;
+  }
 }
 
 final revelationTypeValues = EnumValues(
