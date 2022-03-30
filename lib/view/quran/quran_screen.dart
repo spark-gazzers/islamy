@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/quran/models/juz.dart';
+import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/view/common/sliding_segmented_control.dart';
+import 'package:islamy/view/quran/screens/juzs.dart';
 import 'package:islamy/view/quran/screens/surahs.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class QuranScreen extends StatefulWidget {
   const QuranScreen({Key? key}) : super(key: key);
@@ -14,6 +18,8 @@ class QuranScreen extends StatefulWidget {
 class _QuranScreenState extends State<QuranScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _controller;
+  final GlobalKey<SurahsListScreenState> _surahsKey =
+      GlobalKey<SurahsListScreenState>();
   @override
   void initState() {
     super.initState();
@@ -44,8 +50,15 @@ class _QuranScreenState extends State<QuranScreen>
             child: TabBarView(
               controller: _controller,
               children: [
-                const SurahsListScreen(),
-                Container(),
+                SurahsListScreen(
+                  key: _surahsKey,
+                ),
+                JuzsListScreen(
+                  onSelected: (i) {
+                    _controller.animateTo(0);
+                    _surahsKey.currentState!.animateTo(i);
+                  },
+                ),
                 Container(),
               ],
             ),
