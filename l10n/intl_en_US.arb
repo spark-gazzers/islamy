@@ -62,5 +62,12 @@
     "edition_was_downloaded_succefully_and_selected_for_edition_type": "{name} was downloaded succefully and selected for {type} edition",
     "quran_reader": "Quran Reader",
     "should_read_basmla_on_selection": "Should read basmala on selection",
-    "note_this_will_not_stop_the_reader_from_reading_the_basmala_on_the_start_of_the_surah": "Note this will not stop the reader from reading the basmala on the start of the surah."
+    "note_this_will_not_stop_the_reader_from_reading_the_basmala_on_the_start_of_the_surah": "Note this will not stop the reader from reading the basmala on the start of the surah.",
+    "the_holly_quran": "The Holly Quran",
+    "surah": "Surah",
+    "juz": "Juz'",
+    "bookmarks": "Bookmarks",
+    "meccan": "Meccan",
+    "medinan": "Medinan",
+    "ayah": "Ayah"
 }
