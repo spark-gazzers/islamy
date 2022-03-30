@@ -1,0 +1,272 @@
+[
+  {
+    "index": 1,
+    "name": "آلم",
+    "englishName": "Alīf-Lām-Mīm",
+    "surahs_range": {
+      "start": 1,
+      "end": 2
+    }
+  },
+  {
+    "index": 2,
+    "name": "سَيَقُولُ",
+    "englishName": "Sayaqūlu",
+    "surahs_range": {
+      "start": 1,
+      "end": 2
+    }
+  },
+  {
+    "index": 3,
+    "name": "تِلْكَ ٱلْرُّسُلُ",
+    "englishName": "Tilka ’r-Rusulu",
+    "surahs_range": {
+      "start": 2,
+      "end": 3
+    }
+  },
+  {
+    "index": 4,
+    "name": "كُلُّ الطَّعَامِ",
+    "englishName": "Kullu-ṭa'āmi",
+    "surahs_range": {
+      "start": 3,
+      "end": 4
+    }
+  },
+  {
+    "index": 5,
+    "name": "وَٱلْمُحْصَنَاتُ",
+    "englishName": "Wa’l-muḥṣanātu",
+    "surahs_range": {
+      "start": 4,
+      "end": 4
+    }
+  },
+  {
+    "index": 6,
+    "name": "لَا يُحِبُّ ٱللهُ",
+    "englishName": "Lā yuḥibbu-’llāhu",
+    "surahs_range": {
+      "start": 4,
+      "end": 5
+    }
+  },
+  {
+    "index": 7,
+    "name": "وَإِذَا سَمِعُوا",
+    "englishName": "Wa ’Idha Samiʿū",
+    "surahs_range": {
+      "start": 5,
+      "end": 6
+    }
+  },
+  {
+    "index": 8,
+    "name": "وَلَوْ أَنَّنَا",
+    "englishName": "Wa-law annanā",
+    "surahs_range": {
+      "start": 6,
+      "end": 7
+    }
+  },
+  {
+    "index": 9,
+    "name": "قَالَ ٱلْمَلَأُ",
+    "englishName": "Qāla ’l-mala’u",
+    "surahs_range": {
+      "start": 7,
+      "end": 8
+    }
+  },
+  {
+    "index": 10,
+    "name": "وَٱعْلَمُواْ",
+    "englishName": "Wa-’aʿlamū",
+    "surahs_range": {
+      "start": 8,
+      "end": 9
+    }
+  },
+  {
+    "index": 11,
+    "name": "يَعْتَذِرُونَ",
+    "englishName": "Yaʿtazerūn",
+    "surahs_range": {
+      "start": 9,
+      "end": 10
+    }
+  },
+  {
+    "index": 12,
+    "name": "وَمَا مِنْ دَآبَّةٍ",
+    "englishName": "Wa mā min dābbatin",
+    "surahs_range": {
+      "start": 11,
+      "end": 12
+    }
+  },
+  {
+    "index": 13,
+    "name": "وَمَا أُبَرِّئُ",
+    "englishName": "Wa mā ubarri’u",
+    "surahs_range": {
+      "start": 12,
+      "end": 14
+    }
+  },
+  {
+    "index": 14,
+    "name": "وَمَا أُبَرِّئُ",
+    "englishName": "Wa mā ubarri’u",
+    "surahs_range": {
+      "start": 15,
+      "end": 16
+    }
+  },
+  {
+    "index": 15,
+    "name": "سُبْحَانَ ٱلَّذِى",
+    "englishName": "Subḥāna ’lladhī",
+    "surahs_range": {
+      "start": 17,
+      "end": 18
+    }
+  },
+  {
+    "index": 16,
+    "name": "قَالَ أَلَمْ",
+    "englishName": "Qāla ’alam",
+    "surahs_range": {
+      "start": 18,
+      "end": 20
+    }
+  },
+  {
+    "index": 17,
+    "name": "ٱقْتَرَبَ لِلْنَّاسِ",
+    "englishName": "Iqtaraba li’n-nāsi",
+    "surahs_range": {
+      "start": 21,
+      "end": 22
+    }
+  },
+  {
+    "index": 18,
+    "name": "قَدْ أَفْلَحَ",
+    "englishName": "Qad ’aflaḥa",
+    "surahs_range": {
+      "start": 23,
+      "end": 25
+    }
+  },
+  {
+    "index": 19,
+    "name": "وَقَالَ ٱلَّذِينَ",
+    "englishName": "Wa-qāla ’lladhīna",
+    "surahs_range": {
+      "start": 25,
+      "end": 27
+    }
+  },
+  {
+    "index": 20,
+    "name": "أَمَّنْ خَلَقَ",
+    "englishName": "’A’man Khalaqa",
+    "surahs_range": {
+      "start": 27,
+      "end": 29
+    }
+  },
+  {
+    "index": 21,
+    "name": "أُتْلُ مَاأُوْحِیَ",
+    "englishName": "Otlu ma oohiya",
+    "surahs_range": {
+      "start": 29,
+      "end": 33
+    }
+  },
+  {
+    "index": 22,
+    "name": "وَمَنْ يَّقْنُتْ",
+    "englishName": "Wa-man yaqnut",
+    "surahs_range": {
+      "start": 33,
+      "end": 36
+    }
+  },
+  {
+    "index": 23,
+    "name": "وَمَآ لي",
+    "englishName": "Wa-Mali",
+    "surahs_range": {
+      "start": 36,
+      "end": 39
+    }
+  },
+  {
+    "index": 24,
+    "name": "فَمَنْ أَظْلَمُ",
+    "englishName": "Fa-man ’aẓlamu",
+    "surahs_range": {
+      "start": 39,
+      "end": 41
+    }
+  },
+  {
+    "index": 25,
+    "name": "إِلَيْهِ يُرَدُّ",
+    "englishName": "Ilayhi yuraddu",
+    "surahs_range": {
+      "start": 41,
+      "end": 45
+    }
+  },
+  {
+    "index": 26,
+    "name": "حم",
+    "englishName": "Ḥā’ Mīm",
+    "surahs_range": {
+      "start": 46,
+      "end": 51
+    }
+  },
+  {
+    "index": 27,
+    "name": "قَالَ فَمَا خَطْبُكُم",
+    "englishName": "Qāla fa-mā khaṭbukum",
+    "surahs_range": {
+      "start": 51,
+      "end": 57
+    }
+  },
+  {
+    "index": 28,
+    "name": "قَدْ سَمِعَ ٱللهُ",
+    "englishName": "Qad samiʿa ’llāhu",
+    "surahs_range": {
+      "start": 58,
+      "end": 66
+    }
+  },
+  {
+    "index": 29,
+    "name": "تَبَارَكَ ٱلَّذِى",
+    "englishName": "Tabāraka ’lladhī",
+    "surahs_range": {
+      "start": 67,
+      "end": 77
+    }
+  },
+  {
+    "index": 30,
+    "name": "عَمَّ",
+    "englishName": "‘Amma",
+    "surahs_range": {
+      "start": 78,
+      "end": 114
+    }
+  }
+]
