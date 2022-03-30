@@ -8,6 +8,15 @@ part 'surah.g.dart';
 
 @HiveType(typeId: 6)
 class Surah {
+  @override
+  String toString() {
+    return number.toString();
+  }
+
+  @override
+  operator ==(Object other) => other is Surah && other.number == number;
+  @override
+  int get hashCode => number.hashCode;
   Surah({
     required this.number,
     required this.name,
