@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/enums_values.dart';
+import 'package:islamy/quran/models/juz.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/sajda.dart';
 import 'package:islamy/quran/models/surah.dart';
@@ -169,9 +171,15 @@ class _QuranSettings {
   const _QuranSettings._();
   static const _QuranSettings instance = _QuranSettings._();
   static late final Box<String> _settingsBox;
+  static late final List<Juz> _juzData;
   static Future<void> _init() async {
     _settingsBox = await QuranStore._getBox<String>('quran_settings');
+    final String data =
+        await rootBundle.loadString('assets/config/juz_data.json');
+    _juzData = Juz.listFromRawJson(data);
   }
+
+  List<Juz> get juzData => _juzData;
 
   QuranMeta get meta => QuranMeta.fromRawJson(_settingsBox.get('quran_meta')!);
 
