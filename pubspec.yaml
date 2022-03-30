@@ -61,9 +61,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: QuranFont
+    - family: QuranFont 1
       fonts:
-        - asset: assets/fonts/QuranFont/QuranFont-Regular.ttf
+        - asset: assets/fonts/Quran/QuranFont 1/font.ttf
+    - family: QuranFont 2
+      fonts:
+        - asset: assets/fonts/Quran/QuranFont 2/font.ttf
+    - family: QuranFont 3
+      fonts:
+        - asset: assets/fonts/Quran/QuranFont 3/font.ttf
 
   #   - family: Trajan Pro
   #     fonts:
