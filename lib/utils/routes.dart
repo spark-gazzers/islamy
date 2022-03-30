@@ -132,6 +132,5 @@ class Routes {
         'main': (_) => const MainPage(),
         'select_language': (_) => const LocalizationDelegateScreen(),
         'quran_settings': (_) => const QuranSettingsScreen(),
-        'quran_screen': (_) => const QuranScreen(),
       };
 }

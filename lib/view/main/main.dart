@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/view/profile/profile.dart';
+import 'package:islamy/view/quran/quran_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -25,7 +26,11 @@ class _MainPageState extends State<MainPage>
       body: TabBarView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: [for (var i = 0; i < 4; i++) const ProfileScreen()],
+        children: [
+          const ProfileScreen(),
+          const QuranScreen(),
+          for (var i = 0; i < 2; i++) const ProfileScreen(),
+        ],
       ),
       bottomNavigationBar: Builder(builder: (context) {
         return AnimatedBuilder(
@@ -38,10 +43,6 @@ class _MainPageState extends State<MainPage>
                 type: BottomNavigationBarType.fixed,
                 showUnselectedLabels: true,
                 onTap: (index) {
-                  if (index == 1) {
-                    Navigator.pushNamed(context, 'quran_screen');
-                    return;
-                  }
                   _controller.animateTo(index);
                 },
                 items: [
