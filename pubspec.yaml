@@ -19,7 +19,6 @@ dependencies:
   path_provider: ^2.0.9
   hive_flutter: ^1.1.0
   just_audio: ^0.9.20
-  flip_widget: ^0.1.6
   flutter_svg: ^1.0.3
   intl_utils: ^2.6.1
   iconsax: ^0.0.8
