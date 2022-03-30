@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/juz.dart';
-import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/view/common/sliding_segmented_control.dart';
 import 'package:islamy/view/quran/screens/juzs.dart';
 import 'package:islamy/view/quran/screens/surahs.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class QuranScreen extends StatefulWidget {
   const QuranScreen({Key? key}) : super(key: key);
