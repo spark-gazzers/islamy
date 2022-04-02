@@ -70,6 +70,10 @@ flutter:
     - family: QuranFont 3
       fonts:
         - asset: assets/fonts/Quran/QuranFont 3/font.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+
 
   #   - family: Trajan Pro
   #     fonts:
