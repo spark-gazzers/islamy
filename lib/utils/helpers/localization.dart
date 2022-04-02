@@ -25,7 +25,7 @@ class _LocalizationHelper {
       l1.toLanguageTag().replaceAll('-', '_').toLowerCase() ==
       l2.toLanguageTag().replaceAll('-', '_').toLowerCase();
 
-  String getVerseEndSymbol(int verseNumber) {
+  String getVerseEndSymbol(int verseNumber, TextDirection direction) {
     var arabicNumeric = '';
     var digits = verseNumber.toString().split("").toList();
 
@@ -34,34 +34,42 @@ class _LocalizationHelper {
         arabicNumeric += "٠";
       }
       if (e == "1") {
-        arabicNumeric += "۱";
+        arabicNumeric += "١";
       }
       if (e == "2") {
-        arabicNumeric += "۲";
+        arabicNumeric += "٢";
       }
       if (e == "3") {
-        arabicNumeric += "۳";
+        arabicNumeric += "٣";
       }
       if (e == "4") {
-        arabicNumeric += "۴";
+        arabicNumeric += "٤";
       }
       if (e == "5") {
-        arabicNumeric += "۵";
+        arabicNumeric += "٥";
       }
       if (e == "6") {
-        arabicNumeric += "۶";
+        arabicNumeric += "٦";
       }
       if (e == "7") {
-        arabicNumeric += "۷";
+        arabicNumeric += "٧";
       }
       if (e == "8") {
-        arabicNumeric += "۸";
+        arabicNumeric += "٨";
       }
       if (e == "9") {
-        arabicNumeric += "۹";
+        arabicNumeric += "٩";
       }
     }
-
-    return '\u06dd' + arabicNumeric.toString();
+    return arabicNumeric;
+    if (direction == TextDirection.ltr) {
+      return String.fromCharCode(0xFD3E) +
+          arabicNumeric +
+          String.fromCharCode(0xFD3F);
+    } else {
+      return String.fromCharCode(0xFD3F) +
+          arabicNumeric +
+          String.fromCharCode(0xFD3E);
+    }
   }
 }
