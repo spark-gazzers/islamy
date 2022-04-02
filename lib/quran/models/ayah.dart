@@ -7,6 +7,10 @@ part 'ayah.g.dart';
 
 @HiveType(typeId: 7)
 class Ayah {
+  @override
+  operator ==(Object other) => other is Ayah && other.number == number;
+  @override
+  int get hashCode => number.hashCode;
   Ayah({
     required this.audio,
     required this.audioSecondary,
