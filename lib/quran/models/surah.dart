@@ -13,13 +13,14 @@ class Surah {
     return number.toString();
   }
 
+  String get name => arabicName.substring(arabicName.indexOf(' ') + 1);
   @override
   operator ==(Object other) => other is Surah && other.number == number;
   @override
   int get hashCode => number.hashCode;
   Surah({
     required this.number,
-    required this.name,
+    required this.arabicName,
     required this.englishName,
     required this.englishNameTranslation,
     required this.revelationType,
@@ -28,7 +29,7 @@ class Surah {
   @HiveField(0)
   final int number;
   @HiveField(1)
-  final String name;
+  final String arabicName;
   @HiveField(2)
   final String englishName;
   @HiveField(3)
@@ -40,7 +41,7 @@ class Surah {
 
   Surah copyWith({
     int? number,
-    String? name,
+    String? arabicName,
     String? englishName,
     String? englishNameTranslation,
     RevelationType? revelationType,
@@ -48,7 +49,7 @@ class Surah {
   }) =>
       Surah(
         number: number ?? this.number,
-        name: name ?? this.name,
+        arabicName: arabicName ?? this.arabicName,
         englishName: englishName ?? this.englishName,
         englishNameTranslation:
             englishNameTranslation ?? this.englishNameTranslation,
@@ -62,7 +63,7 @@ class Surah {
 
   factory Surah.fromJson(Map<String, dynamic> json) => Surah(
         number: json["number"],
-        name: json["name"],
+        arabicName: json["name"],
         englishName: json["englishName"],
         englishNameTranslation: json["englishNameTranslation"],
         revelationType: revelationTypeValues.map[json["revelationType"]]!,
@@ -71,7 +72,7 @@ class Surah {
 
   Map<String, dynamic> toJson() => {
         "number": number,
-        "name": name,
+        "name": arabicName,
         "englishName": englishName,
         "englishNameTranslation": englishNameTranslation,
         "revelationType": revelationTypeValues.reverse[revelationType]!,
