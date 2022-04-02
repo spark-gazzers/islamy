@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/quran_page.dart';
 import 'package:islamy/quran/models/surah.dart';
 
 part 'text_quran.g.dart';
@@ -11,7 +12,8 @@ class TheHolyQuran {
   TheHolyQuran({
     required this.surahs,
     required this.edition,
-  });
+  }) : pages = QuranPage.formatQuran(surahs);
+  List<QuranPage> pages;
   @HiveField(0)
   final List<Surah> surahs;
   @HiveField(1)
