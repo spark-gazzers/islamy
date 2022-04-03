@@ -74,12 +74,12 @@ class CloudQuran {
   }
 
   static Future<void> downloadSurah({
-    required TheHolyQuran quran,
+    required Edition edition,
     required Surah surah,
     Function(int index)? onAyahDownloaded,
   }) async {
     Directory surahDirectory =
-        await QuranStore.getDirectoryForSurah(quran, surah);
+        await QuranStore.getDirectoryForSurah(edition, surah);
     surahDirectory.listSync().forEach((element) {
       element.deleteSync();
     });

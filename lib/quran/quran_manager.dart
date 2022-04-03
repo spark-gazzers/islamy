@@ -51,10 +51,10 @@ class QuranManager {
     }
   }
 
-  static Future<void> playSurah(TheHolyQuran quran, Surah surah) async {
+  static Future<void> playSurah(Edition edition, Surah surah) async {
     AudioPlayer player = AudioPlayer();
     Directory surahDirectory =
-        await QuranStore.getDirectoryForSurah(quran, surah);
+        await QuranStore.getDirectoryForSurah(edition, surah);
     await player.setShuffleModeEnabled(false);
     List<FileSystemEntity> ayahs = surahDirectory.listSync();
     ayahs.sort(
