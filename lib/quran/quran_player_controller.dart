@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/store/quran_store.dart';
 import 'package:islamy/quran/surah_audio_source.dart';
 import 'package:islamy/quran/surah_media_item.dart';
 import 'package:just_audio/just_audio.dart';
