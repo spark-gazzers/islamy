@@ -97,7 +97,6 @@ class _OTPScreenState extends State<OTPScreen> with FormControls {
 
   void _checkOtp() {
     if (formKey.currentState!.validate()) {
-      print(controllers['otp']!.text);
       Navigator.pushNamedAndRemoveUntil(
           context, 'reset_password', (route) => false,
           arguments: {

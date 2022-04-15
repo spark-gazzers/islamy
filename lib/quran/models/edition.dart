@@ -27,8 +27,10 @@ class Edition extends HiveObject with AlquranCloudObject {
   final String identifier;
   @HiveField(1)
   final String language;
+  @override
   @HiveField(2)
   final String name;
+  @override
   @HiveField(3)
   final String englishName;
   @HiveField(4)

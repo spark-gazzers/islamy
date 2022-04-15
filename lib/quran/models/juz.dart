@@ -12,7 +12,9 @@ class Juz extends AlquranCloudObject {
   });
 
   final int index;
+  @override
   final String name;
+  @override
   final String englishName;
   final SurahsRange surahsRange;
 

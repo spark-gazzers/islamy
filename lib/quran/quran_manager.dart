@@ -1,14 +1,11 @@
 import 'dart:io';
 
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
-import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/repository/cloud_quran.dart';
 import 'package:islamy/quran/store/quran_store.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 
 class QuranManager {

@@ -12,7 +12,6 @@ import 'package:islamy/utils/api/api_handler.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/routes.dart';
 import 'package:islamy/utils/store.dart';
-import 'live.dart' as live;
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();

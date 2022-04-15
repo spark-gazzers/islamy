@@ -12,7 +12,6 @@ import 'package:islamy/view/on_boarding/on_boarding.dart';
 import 'package:islamy/view/profile/screens/localization_delegate_screen.dart';
 import 'package:islamy/view/profile/screens/quran_settings.dart';
 import 'package:islamy/view/profile/screens/select_edition.dart';
-import 'package:islamy/view/quran/quran_screen.dart';
 import 'package:islamy/view/quran/screens/quran_reader.dart';
 import 'package:islamy/view/splash/splash.dart';
 

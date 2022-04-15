@@ -126,7 +126,6 @@ class QuranPlayerContoller extends BaseAudioHandler
     // start the preparations for the new surah
     // setting the new source and getting the total length
     final source = await SurahAudioSource.create(quran: quran, surah: surah);
-    print(source.uri);
     Duration? total = await _player.setAudioSource(source);
     // setting the new total duration
     _total = total!;
@@ -170,7 +169,6 @@ class QuranPlayerContoller extends BaseAudioHandler
     // assuring the controller state change to stop and back to the top
     _valueStream!.listen((percentage) async {
       if (percentage >= 1.0) {
-        print('stopping due to over reach $percentage');
         await _player.stop();
         await _player.seek(Duration.zero, index: 0);
       }

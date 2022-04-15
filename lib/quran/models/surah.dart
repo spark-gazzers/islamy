@@ -28,8 +28,10 @@ class Surah extends AlquranCloudObject {
   });
   @HiveField(0)
   final int number;
+  @override
   @HiveField(1)
   final String name;
+  @override
   @HiveField(2)
   final String englishName;
   @HiveField(3)

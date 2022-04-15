@@ -62,14 +62,5 @@ class _LocalizationHelper {
       }
     }
     return arabicNumeric;
-    if (direction == TextDirection.ltr) {
-      return String.fromCharCode(0xFD3E) +
-          arabicNumeric +
-          String.fromCharCode(0xFD3F);
-    } else {
-      return String.fromCharCode(0xFD3F) +
-          arabicNumeric +
-          String.fromCharCode(0xFD3E);
-    }
   }
 }
