@@ -12,10 +12,13 @@ class ThemeBuilder {
       brightness: Brightness.light,
       surface: Colors.white,
       surfaceVariant: const Color(0xfff4f4f4),
+      tertiaryContainer: const Color(0xffFEAA00),
+      onTertiaryContainer: Colors.white,
     ),
   );
 
   static ThemeData _adapt(ThemeData theme) => theme.copyWith(
+        cupertinoOverrideTheme: toCupertino(theme),
         textTheme: theme.textTheme.copyWith(
           bodyText2: theme.textTheme.bodyText2?.copyWith(
             fontSize: 14.0,
@@ -63,9 +66,12 @@ class ThemeBuilder {
     CupertinoThemeData data =
         MaterialBasedCupertinoThemeData(materialTheme: theme);
     return data.copyWith(
+      primaryColor: theme.primaryColor,
       barBackgroundColor: theme.primaryColor,
       scaffoldBackgroundColor: theme.scaffoldBackgroundColor,
+      primaryContrastingColor: Colors.white,
       textTheme: data.textTheme.copyWith(
+        primaryColor: theme.primaryColor,
         navTitleTextStyle: const TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w600,
