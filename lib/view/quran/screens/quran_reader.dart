@@ -136,17 +136,20 @@ class SurahInlineReader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Column(
-      children: [
-        if (inline.start) _SurahTitle(surah: inline.surah),
-        Text.rich(
-          TextSpan(
-            children: _buildAyahsSpans,
-            locale: Locale(edition.language),
+    Widget child = ValueListenableBuilder<int>(
+      valueListenable: QuranPlayerContoller.instance.currentAyah,
+      builder: (BuildContext context, int value, Widget? child) => Column(
+        children: [
+          if (inline.start) _SurahTitle(surah: inline.surah),
+          Text.rich(
+            TextSpan(
+              children: _buildAyahsSpans,
+              locale: Locale(edition.language),
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
     if (!selected) {
       child = Opacity(
@@ -160,11 +163,33 @@ class SurahInlineReader extends StatelessWidget {
   List<InlineSpan> get _buildAyahsSpans {
     final List<InlineSpan> spans = <InlineSpan>[];
     for (var ayah in inline.ayahs) {
+      bool isSelected = ayah.numberInSurah ==
+              QuranPlayerContoller.instance.currentAyah.value &&
+          Store.highlightAyahOnPlayer &&
+          selected;
+      // ignore: prefer_function_declarations_over_variables
+      VoidCallback? onTap = selected
+          ? () async {
+              print('here');
+              await QuranPlayerContoller.instance.seekToAyah(ayah);
+              QuranPlayerContoller.instance.play();
+            }
+          : null;
+      // ignore: prefer_function_declarations_over_variables
+      VoidCallback? onLongTap = selected
+          ? () {
+              QuranPlayerContoller.instance.seekToAyah(ayah);
+            }
+          : null;
+
       // if it's basmla remove basmala but the first ayah in Baraa is not a basmala
       if (ayah.numberInSurah == 1 &&
           inline.surah.number != 1 &&
           inline.surah.number != 9) {
         spans.add(AyahSpan(
+          isSelected: isSelected,
+          onLongTap: onLongTap,
+          onTap: onTap,
           ayah: ayah.copyWith(
             text: ayah.text.replaceFirst(
                 QuranManager.getQuran(edition).surahs.first.ayahs.first.text,
@@ -175,6 +200,9 @@ class SurahInlineReader extends StatelessWidget {
       } else {
         spans.add(AyahSpan(
           ayah: ayah,
+          isSelected: isSelected,
+          onLongTap: onLongTap,
+          onTap: onTap,
           direction: edition.direction.direction,
         ));
       }
@@ -325,7 +353,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    splashRadius: 145,
+                    splashRadius: 150,
                     onPressed: QuranPlayerContoller.instance.skipToPrevious,
                     icon: const Icon(Iconsax.previous5),
                   ),
@@ -335,6 +363,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
+                      splashRadius: 150,
                       onPressed: resume,
                       iconSize: 45,
                       icon: AnimatedIcon(
@@ -346,6 +375,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
                     ),
                   ),
                   IconButton(
+                    splashRadius: 150,
                     onPressed: QuranPlayerContoller.instance.skipToNext,
                     icon: const Icon(Iconsax.next5),
                   ),
