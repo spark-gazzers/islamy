@@ -143,7 +143,7 @@ class SurahInlineReader extends StatelessWidget {
           if (inline.start) _SurahTitle(surah: inline.surah),
           Text.rich(
             TextSpan(
-              children: _buildAyahsSpans,
+              children: _buildAyahsSpans(context),
               locale: Locale(edition.language),
             ),
             textAlign: TextAlign.center,
@@ -160,7 +160,7 @@ class SurahInlineReader extends StatelessWidget {
     return child;
   }
 
-  List<InlineSpan> get _buildAyahsSpans {
+  List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
     for (var ayah in inline.ayahs) {
       bool isSelected = ayah.numberInSurah ==
@@ -170,18 +170,13 @@ class SurahInlineReader extends StatelessWidget {
       // ignore: prefer_function_declarations_over_variables
       VoidCallback? onTap = selected
           ? () async {
-              print('here');
               await QuranPlayerContoller.instance.seekToAyah(ayah);
               QuranPlayerContoller.instance.play();
             }
           : null;
       // ignore: prefer_function_declarations_over_variables
-      VoidCallback? onLongTap = selected
-          ? () {
-              QuranPlayerContoller.instance.seekToAyah(ayah);
-            }
-          : null;
-
+      VoidCallback? onLongTap =
+          selected ? () => _openContextMenue(context, ayah) : null;
       // if it's basmla remove basmala but the first ayah in Baraa is not a basmala
       if (ayah.numberInSurah == 1 &&
           inline.surah.number != 1 &&
@@ -207,9 +202,34 @@ class SurahInlineReader extends StatelessWidget {
         ));
       }
     }
-    // print('spans length:${spans.length}');
-    // print('ayahs length:${inline.ayahs.length}');
     return spans;
+  }
+
+  void _openContextMenue(BuildContext context, Ayah ayah) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: Text.rich(
+          AyahSpan(
+            ayah: ayah,
+            direction: edition.direction.direction,
+          ),
+          style: TextStyle(
+            fontFamily: Store.quranFont,
+            fontSize: Store.quranFontSize,
+          ),
+        ),
+        actions: [
+          // TODO: add the actual actions
+          CupertinoActionSheetAction(onPressed: () {}, child: Text('data')),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () => Navigator.pop(context),
+          child: Text(S.of(context).cancel),
+          isDestructiveAction: true,
+        ),
+      ),
+    );
   }
 }
 
