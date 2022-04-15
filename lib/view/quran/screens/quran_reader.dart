@@ -10,7 +10,6 @@ import 'package:islamy/quran/models/quran_page.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/quran_player_controller.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/ayah_span.dart';
@@ -288,7 +287,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
   }
 
   TheHolyQuran get audioQuran =>
-      QuranStore.getQuran(QuranStore.settings.defaultAudioEdition)!;
+      QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
   void _listenToPlayer() {
     QuranPlayerContoller.instance.isPlaying.addListener(() {
       if (mounted) {
@@ -361,14 +360,13 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
 
   void resume() async {
     // if surah not downloaded, download it
-    if (!(await QuranStore.isSurahDownloaded(
-        QuranStore.settings.defaultAudioEdition, widget.surah))) {
+    if (!(await QuranManager.isSurahDownloaded(
+        audioQuran.edition, widget.surah))) {
       showCupertinoModalPopup(
         context: context,
         builder: (_) => DownloadSurahDialog(
-          edition: QuranStore.settings.defaultAudioEdition,
-          surah: QuranStore.getQuran(QuranStore.settings.defaultAudioEdition)!
-              .surahs
+          edition: audioQuran.edition,
+          surah: audioQuran.surahs
               .singleWhere((element) => element.number == widget.surah.number),
         ),
       ).then((value) {

@@ -4,7 +4,6 @@ import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/quran_player_controller.dart';
 import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -26,7 +25,7 @@ class SurahsListScreenState extends State<SurahsListScreen>
   }
 
   TheHolyQuran get quran {
-    final quran = QuranStore.getQuran(QuranStore.settings.defaultTextEdition)!;
+    final quran = QuranManager.getQuran(QuranStore.settings.defaultTextEdition);
     quran.surahs.sort((s1, s2) => s1.number.compareTo(s2.number));
     return quran;
   }
@@ -68,12 +67,12 @@ class _SurahListTile extends StatelessWidget {
     return ListTile(
       onTap: () async {
         TheHolyQuran quran =
-            QuranStore.getQuran(QuranStore.settings.defaultAudioEdition)!;
+            QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
         // start by stopping if it's not for this surah
         if (!QuranPlayerContoller.instance.isForSurah(quran, surah)) {
           await QuranPlayerContoller.instance.stop();
           // if it's downloaed start the preperations
-          if (await QuranStore.isSurahDownloaded(
+          if (await QuranManager.isSurahDownloaded(
               QuranStore.settings.defaultAudioEdition, surah)) {
             await QuranPlayerContoller.instance.prepareForSurah(quran, surah);
           }

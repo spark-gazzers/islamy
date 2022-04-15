@@ -83,7 +83,7 @@ class CloudQuran {
   }) async {
     // the surah directory
     Directory surahDirectory =
-        await QuranStore.getDirectoryForSurah(edition, surah);
+        await QuranStore._getDirectoryForSurah(edition, surah);
     // if there is a fault and this method is called even id the surah is downloaded before for this edition then delete the old one.
     // better safe than sorry.
     for (var file in surahDirectory.listSync()) {
@@ -126,9 +126,9 @@ class CloudQuran {
     // start by calculating if the surah needs basmala
     // add basmala at the start only if the surah is not ٱلْفَاتِحَة cause it's already included at the first
     // neither ٱلتَّوْبَة cause it's starts without it.
-    TheHolyQuran quran = QuranStore.getQuran(edition)!;
+    TheHolyQuran quran = QuranStore._getQuran(edition)!;
     bool needsBasmala = surah.number != 1 && surah.number == 9;
-    File basmala = await QuranStore.basmalaFileFor(quran);
+    File basmala = await QuranStore._basmalaFileFor(quran);
     if (needsBasmala) {
       ayahsFiles.insert(0, basmala);
     }

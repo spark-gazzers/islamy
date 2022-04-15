@@ -1,6 +1,8 @@
 library quran;
 
 import 'dart:io';
+import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
@@ -20,9 +22,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/enums_values.dart';
 import 'package:islamy/quran/models/juz.dart';
-import 'package:islamy/quran/quran_player_controller.dart';
+import 'dart:async';
+import 'package:audio_service/audio_service.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
+
 part 'store/quran_store.dart';
 part 'repository/cloud_quran.dart';
+part './audio_controller/quran_player_controller.dart';
+part 'audio_controller/surah_audio_source.dart';
+part 'audio_controller/surah_media_item.dart';
 
 class QuranManager {
   static late final File artWork;
@@ -32,9 +41,10 @@ class QuranManager {
   static const String durationJsonFileName = 'durations.json';
   static const List<String> noMediaPlatforms = ['android', 'fuchsia'];
   static Future<void> init() async {
+    await _initDefaultArtImage();
     CloudQuran.init();
     await QuranStore.init();
-    await _initDefaultArtImage();
+    await QuranPlayerContoller.init();
   }
 
   static Future<void> _initDefaultArtImage() async {
@@ -47,11 +57,14 @@ class QuranManager {
     }
   }
 
+  static TheHolyQuran getQuranByID(String id) =>
+      getQuran(QuranStore._listEditions()
+          .singleWhere((element) => element.identifier == id));
   static Future<List<Edition>> downloadEditions() async {
-    List<Edition> editions = QuranStore.listEditions();
+    List<Edition> editions = QuranStore._listEditions();
     if (editions.isEmpty) {
       editions = await CloudQuran.listEditions();
-      await QuranStore.addEditions(editions);
+      await QuranStore._addEditions(editions);
     }
     return editions;
   }
@@ -60,11 +73,11 @@ class QuranManager {
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    TheHolyQuran? quran = QuranStore.getQuran(edition);
+    TheHolyQuran? quran = QuranStore._getQuran(edition);
     if (quran == null) {
       quran = await CloudQuran.getQuran(
           edition: edition, onReceiveProgress: onReceiveProgress);
-      QuranStore.addQuran(edition, quran);
+      QuranStore._addQuran(edition, quran);
     }
     return quran;
   }
@@ -83,9 +96,9 @@ class QuranManager {
   }
 
   static bool isQuranDownloaded(Edition edition) =>
-      QuranStore.getQuran(edition) != null;
+      QuranStore._getQuran(edition) != null;
   static TheHolyQuran getQuran(Edition edition) =>
-      QuranStore.getQuran(edition)!;
+      QuranStore._getQuran(edition)!;
 
   static Future<void> downloadSurah({
     required Edition edition,
@@ -94,4 +107,7 @@ class QuranManager {
   }) =>
       CloudQuran.downloadSurah(
           edition: edition, surah: surah, onAyahDownloaded: onAyahDownloaded);
+
+  static Future<bool> isSurahDownloaded(Edition edition, Surah surah) =>
+      QuranStore._isSurahDownloaded(edition, surah);
 }

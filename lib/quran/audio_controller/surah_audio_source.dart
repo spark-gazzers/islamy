@@ -1,9 +1,4 @@
-import 'dart:io';
-
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
-import 'package:just_audio/just_audio.dart';
+part of quran;
 
 class SurahAudioSource extends DashAudioSource {
   TheHolyQuran quran;
@@ -29,7 +24,7 @@ class SurahAudioSource extends DashAudioSource {
     List<String> words = path.split(Platform.pathSeparator);
     int surahNumber = int.parse(words[words.length - 2]);
     String id = words[words.length - 3];
-    TheHolyQuran quran = QuranStore.getQuran(QuranStore.listEditions()
+    TheHolyQuran quran = QuranStore._getQuran(QuranStore._listEditions()
         .singleWhere((element) => element.identifier == id))!;
     return SurahAudioSource(
         quran: quran,

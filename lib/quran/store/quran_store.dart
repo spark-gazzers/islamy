@@ -61,7 +61,7 @@ class QuranStore {
     return box;
   }
 
-  static List<Edition> listEditions() => _editionsBox.values.toList();
+  static List<Edition> _listEditions() => _editionsBox.values.toList();
   static List<Edition> listTextEditions() => _editionsBox.values
       .where((element) =>
           element.format == Format.text &&
@@ -85,11 +85,11 @@ class QuranStore {
   static List<Edition> listTransliterationEditions() => _editionsBox.values
       .where((element) => element.type == QuranContentType.transliteration)
       .toList();
-  static Future<void> addEditions(List<Edition> editions) =>
+  static Future<void> _addEditions(List<Edition> editions) =>
       _addAll(values: editions, box: _editionsBox);
 
-  static Future<bool> isSurahDownloaded(Edition edition, Surah surah) async {
-    Directory surahDirectory = await getDirectoryForSurah(edition, surah);
+  static Future<bool> _isSurahDownloaded(Edition edition, Surah surah) async {
+    Directory surahDirectory = await _getDirectoryForSurah(edition, surah);
 
     return surahDirectory.listSync().length ==
         surah.ayahs.length +
@@ -101,7 +101,7 @@ class QuranStore {
                 : 0);
   }
 
-  static Future<Directory> getDirectoryForSurah(
+  static Future<Directory> _getDirectoryForSurah(
       Edition edition, Surah surah) async {
     Directory docDirectory = await getApplicationDocumentsDirectory();
     Directory quranDirectory = _getDescendant(docDirectory, edition.identifier);
@@ -111,7 +111,7 @@ class QuranStore {
   }
 
   static Future<File> _fileIn(Edition edition, Surah surah, String name) async {
-    Directory directory = await getDirectoryForSurah(edition, surah);
+    Directory directory = await _getDirectoryForSurah(edition, surah);
     File file;
     if (directory.path.endsWith(Platform.pathSeparator)) {
       file = File(directory.path + name);
@@ -126,7 +126,7 @@ class QuranStore {
   static Future<File> surahDurationsFile(Edition edition, Surah surah) =>
       _fileIn(edition, surah, QuranManager.durationJsonFileName);
 
-  static Future<File> basmalaFileFor(TheHolyQuran quran) =>
+  static Future<File> _basmalaFileFor(TheHolyQuran quran) =>
       _fileIn(quran.edition, quran.surahs.first, '1.mp3');
 
   static Directory _getDescendant(Directory directory, String child) {
@@ -138,11 +138,11 @@ class QuranStore {
     return descendant;
   }
 
-  static TheHolyQuran? getQuran(Edition edition) {
+  static TheHolyQuran? _getQuran(Edition edition) {
     return _readValue(name: edition.identifier, box: _textQuranBox);
   }
 
-  static Future<void> addQuran(Edition edition, TheHolyQuran quran) async {
+  static Future<void> _addQuran(Edition edition, TheHolyQuran quran) async {
     await _saveValue(
         name: edition.identifier, value: quran, box: _textQuranBox);
   }

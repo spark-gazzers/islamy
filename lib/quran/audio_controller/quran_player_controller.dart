@@ -1,17 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math' as math;
-
-import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/surah_audio_source.dart';
-import 'package:islamy/quran/surah_media_item.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:duration/duration.dart' as duration_formater;
+part of quran;
 
 class QuranPlayerContoller extends BaseAudioHandler
     with QueueHandler, SeekHandler {
@@ -83,7 +70,7 @@ class QuranPlayerContoller extends BaseAudioHandler
   Duration get total => _total ?? Duration.zero;
   Future<void> _loadPositions() async {
     final directory =
-        await QuranStore.getDirectoryForSurah(_quran!.edition, _surah!);
+        await QuranStore._getDirectoryForSurah(_quran!.edition, _surah!);
     File durationsJson = File(directory.path +
         Platform.pathSeparator +
         QuranManager.durationJsonFileName);

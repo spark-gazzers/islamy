@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/quran_player_controller.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/api/api_handler.dart';
 import 'package:islamy/utils/helper.dart';
@@ -27,7 +26,6 @@ Future<void> init() async {
   await Helper.init();
   FFmpegKitConfig.setLogRedirectionStrategy(
       LogRedirectionStrategy.neverPrintLogs);
-  await QuranPlayerContoller.init();
 }
 
 class MyApp extends StatelessWidget {

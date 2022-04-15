@@ -1,8 +1,4 @@
-import 'package:audio_service/audio_service.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
+part of quran;
 
 class SurahMediaItem extends MediaItem {
   final TheHolyQuran quran;
@@ -34,7 +30,7 @@ class SurahMediaItem extends MediaItem {
     }
     String identifier = item.id.split('#')[0];
     int surahNumber = int.parse(item.id.split('#')[1]);
-    TheHolyQuran quran = QuranStore.getQuran(QuranStore.listEditions()
+    TheHolyQuran quran = QuranStore._getQuran(QuranStore._listEditions()
         .singleWhere((element) => element.identifier == identifier))!;
 
     return SurahMediaItem(
@@ -52,8 +48,7 @@ class SurahMediaItem extends MediaItem {
       quran.edition.identifier + '#' + surah.number.toString();
 
   static TheHolyQuran quranFromID(String id) =>
-      QuranStore.getQuran(QuranStore.listEditions().singleWhere(
-          (element) => element.identifier == id.split('#').first))!;
+      QuranManager.getQuranByID(id.split('#').first);
   static Surah surahFromID(String id) => quranFromID(id).surahs.singleWhere(
         (element) => element.number == int.parse(id.split('#')[1]),
       );

@@ -62,14 +62,14 @@ class _EditionListTile extends StatelessWidget {
     return ListTile(
       selected: isSelected,
       title: Text(edition.localizedName),
-      leading: QuranStore.getQuran(edition) == null
+      leading: QuranManager.isQuranDownloaded(edition)
           ? const Icon(Icons.download)
           : const Icon(Icons.download_done),
       subtitle: Text(Helper.localization.nameOf(Locale(edition.language))),
       trailing:
           isSelected ? const Icon(CupertinoIcons.check_mark_circled) : null,
       onTap: () async {
-        if (QuranStore.getQuran(edition) == null) {
+        if (QuranManager.isQuranDownloaded(edition)) {
           Edition? ret = await showCupertinoModalPopup<Edition>(
               context: context,
               builder: (_) => DownloadQuranEditionSheet(edition: edition));
