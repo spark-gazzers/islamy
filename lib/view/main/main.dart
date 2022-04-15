@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/view/home/home.dart';
 import 'package:islamy/view/profile/profile.dart';
 import 'package:islamy/view/quran/quran_screen.dart';
 
@@ -26,10 +27,11 @@ class _MainPageState extends State<MainPage>
       body: TabBarView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-          const ProfileScreen(),
-          const QuranScreen(),
-          for (var i = 0; i < 2; i++) const ProfileScreen(),
+        children: const [
+          HomeScreen(),
+          QuranScreen(),
+          HomeScreen(),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: Builder(builder: (context) {
