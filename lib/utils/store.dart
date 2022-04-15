@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
 
 class Store {
   const Store._();
@@ -32,6 +31,19 @@ class Store {
     return results;
   }
 
+  static String get quranFont =>
+      _readValue(name: 'quran_font') ?? 'QuranFont 3';
+
+  static set quranFont(String font) =>
+      _saveValue(name: 'quran_font', value: font);
+
+  static double get quranFontSize =>
+      double.parse(_readValue(name: 'quran_font_size') ?? '26.0');
+
+  static set quranFontSize(double size) => _saveValue(
+        name: 'quran_font_size',
+        value: size.toString(),
+      );
   static Locale get locale {
     String? value = _readValue(name: 'locale');
     if (value == null) {
