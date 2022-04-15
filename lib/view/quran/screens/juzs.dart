@@ -25,7 +25,7 @@ class _JuzsListScreenState extends State<JuzsListScreen>
       itemScrollController: _controller,
       itemBuilder: (_, index) => ListTile(
         leading: SurahIcon(number: QuranStore.settings.juzData[index].index),
-        title: Text(QuranStore.settings.juzData[index].translatedName),
+        title: Text(QuranStore.settings.juzData[index].localizedName),
         trailing: Text(
           QuranStore.settings.juzData[index].otherName,
           style: QuranStore.settings.juzData[index].otherName ==
