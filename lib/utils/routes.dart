@@ -13,6 +13,7 @@ import 'package:islamy/view/profile/screens/localization_delegate_screen.dart';
 import 'package:islamy/view/profile/screens/quran_settings.dart';
 import 'package:islamy/view/profile/screens/select_edition.dart';
 import 'package:islamy/view/quran/quran_screen.dart';
+import 'package:islamy/view/quran/screens/quran_reader.dart';
 import 'package:islamy/view/splash/splash.dart';
 
 class Routes {
@@ -114,15 +115,24 @@ class Routes {
               title: S.current.select_translation_edition,
             );
         break;
+      case 'surah_reader_screen':
+        builder = (context) => QuranSurahReader(
+              surah: args['surah'],
+              edition: args['edition'],
+              ayah: args['ayah'],
+            );
+        break;
       default:
     }
     return _buildRoute(settings, builder);
   }
 
-  static Route _buildRoute(RouteSettings settings, [WidgetBuilder? builder]) =>
+  static Route _buildRoute(RouteSettings settings, WidgetBuilder? builder) =>
       CupertinoPageRoute(
         builder: builder ?? _routes[settings.name]!,
         settings: settings,
+        fullscreenDialog:
+            (settings.arguments as Map?)?['fullscreenDialog'] ?? false,
       );
   // static Route
   static Map<String, WidgetBuilder> get _routes => <String, WidgetBuilder>{
