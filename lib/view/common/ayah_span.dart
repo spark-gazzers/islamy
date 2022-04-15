@@ -9,9 +9,9 @@ class AyahSpan extends TextSpan {
   AyahSpan({
     required Ayah ayah,
     required TextDirection direction,
-    required VoidCallback? onTap,
-    required VoidCallback? onLongTap,
-    required bool isSelected,
+    VoidCallback? onTap,
+    VoidCallback? onLongTap,
+    bool isSelected = false,
   }) : super(
           children: <InlineSpan>[
             TextSpan(
