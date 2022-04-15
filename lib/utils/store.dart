@@ -77,6 +77,13 @@ class Store {
         name: 'should_read_basmla_on_selection', value: value ? '1' : '0');
   }
 
+  static bool get highlightAyahOnPlayer =>
+      (_readValue(name: 'highlight_ayah_on_player') ?? '1') == '1';
+
+  static set highlightAyahOnPlayer(bool value) {
+    _saveValue(name: 'highlight_ayah_on_player', value: value ? '1' : '0');
+  }
+
   static ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
       _settingsBox.listenable(keys: ['should_read_basmla_on_selection']);
 }
