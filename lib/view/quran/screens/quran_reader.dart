@@ -318,38 +318,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          StreamBuilder<double>(
-            stream: QuranPlayerContoller.instance.valueStream,
-            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-              FormattedLengthDuration formatter = Helper.formatters
-                  .formatLengthDuration(QuranPlayerContoller.instance.duration,
-                      QuranPlayerContoller.instance.total);
-              return Column(
-                children: [
-                  Slider.adaptive(
-                    value: snapshot.data ?? 0.0,
-                    // snapshot.data ?? controller?.playedPercentage ?? 0.0,
-                    onChanged: (_) {},
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 16.0),
-                    child: DefaultTextStyle.merge(
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(formatter.start),
-                          Text(formatter.end),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
+          const AudioSlider(),
           IconTheme.merge(
             data: const IconThemeData(color: Colors.white),
             child: Padding(
@@ -425,5 +394,66 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
     } else {
       QuranPlayerContoller.instance.pause();
     }
+  }
+}
+
+class AudioSlider extends StatefulWidget {
+  const AudioSlider({Key? key}) : super(key: key);
+
+  @override
+  State<AudioSlider> createState() => _AudioSliderState();
+}
+
+class _AudioSliderState extends State<AudioSlider> {
+  double? _value;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<double>(
+      stream: QuranPlayerContoller.instance.valueStream,
+      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+        FormattedLengthDuration formatter = Helper.formatters
+            .formatLengthDuration(QuranPlayerContoller.instance.duration,
+                QuranPlayerContoller.instance.total);
+        return Column(
+          children: [
+            Slider.adaptive(
+              value: _value ??
+                  snapshot.data ??
+                  QuranPlayerContoller.instance.durationValue,
+              // snapshot.data ?? controller?.playedPercentage ?? 0.0,
+              onChanged: (value) {
+                // making the _value not null means it's currently active
+                setState(() {
+                  _value = value;
+                });
+              },
+              onChangeEnd: (value) {
+                QuranPlayerContoller.instance.seekToValue(value);
+                setState(() {
+                  _value = null;
+                });
+              },
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+              child: DefaultTextStyle.merge(
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(formatter.start),
+                    Text(formatter.end),
+                  ],
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

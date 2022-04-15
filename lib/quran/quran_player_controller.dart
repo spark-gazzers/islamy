@@ -56,6 +56,11 @@ class QuranPlayerContoller extends BaseAudioHandler
   /// The current position of the player.
   Duration get duration => _player.position;
 
+  /// The current position of the player as value from 0 .. 1.0.
+  double get durationValue =>
+      _player.position.inMicroseconds.toDouble() /
+      total.inMicroseconds.toDouble();
+
   ///The value stream of the current played duration in 0.0 to 1.0 value
   Stream<double>? _valueStream;
 
@@ -161,11 +166,11 @@ class QuranPlayerContoller extends BaseAudioHandler
       _isPlaying!.value = event;
     });
     // setting the player to the top manually
-    await _player.stop();
     await _player.seek(Duration.zero, index: 0);
     // assuring the controller state change to stop and back to the top
     _valueStream!.listen((percentage) async {
       if (percentage >= 1.0) {
+        print('stopping due to over reach $percentage');
         await _player.stop();
         await _player.seek(Duration.zero, index: 0);
       }
@@ -174,7 +179,7 @@ class QuranPlayerContoller extends BaseAudioHandler
 
   double _percentageOfDuration(Duration duration) {
     double ret =
-        duration.inMilliseconds.toDouble() / total.inMilliseconds.toDouble();
+        duration.inMicroseconds.toDouble() / total.inMicroseconds.toDouble();
     return math.min<double>(1.0, ret);
   }
 
@@ -205,6 +210,8 @@ class QuranPlayerContoller extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) => _player.seek(position);
+  Future<void> seekToValue(double value) =>
+      seek(Duration(microseconds: (value * total.inMicroseconds).toInt()));
 
   @override
   Future<void> stop() => _player.stop();
