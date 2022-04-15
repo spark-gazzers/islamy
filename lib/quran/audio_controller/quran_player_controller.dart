@@ -194,6 +194,8 @@ class QuranPlayerContoller extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) => _player.seek(position);
+  Future<void> seekToAyah(Ayah ayah) => seek(_positions[ayah.numberInSurah]!);
+
   Future<void> seekToValue(double value) =>
       seek(Duration(microseconds: (value * total.inMicroseconds).toInt()));
 
