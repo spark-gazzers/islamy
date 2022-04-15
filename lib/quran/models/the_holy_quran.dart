@@ -9,11 +9,23 @@ part 'text_quran.g.dart';
 
 @HiveType(typeId: 5)
 class TheHolyQuran {
+  @override
+  operator ==(Object other) =>
+      other is TheHolyQuran && other.edition == edition;
+
+  @override
+  int get hashCode => edition.hashCode;
+
   TheHolyQuran({
     required this.surahs,
     required this.edition,
-  }) : pages = QuranPage.formatQuran(surahs);
-  List<QuranPage> pages;
+  });
+  List<QuranPage> get pages {
+    _pages ??= QuranPage.formatQuran(surahs);
+    return _pages!;
+  }
+
+  List<QuranPage>? _pages;
   @HiveField(0)
   final List<Surah> surahs;
   @HiveField(1)
