@@ -10,7 +10,8 @@ import 'package:islamy/quran/models/juz.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/sajda.dart';
 import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/text_quran.dart';
+import 'package:islamy/quran/models/the_holy_quran.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 class QuranStore {
@@ -101,26 +102,51 @@ class QuranStore {
   static Future<void> addEditions(List<Edition> editions) =>
       _addAll(values: editions, box: _editionsBox);
 
-  static Future<bool> isSurahDownloaded(TheHolyQuran quran, Surah surah) async {
-    Directory surahDirectory = await getDirectoryForSurah(quran, surah);
+  static Future<bool> isSurahDownloaded(Edition edition, Surah surah) async {
+    Directory surahDirectory = await getDirectoryForSurah(edition, surah);
 
-    return surahDirectory.listSync().length == surah.ayahs.length;
+    return surahDirectory.listSync().length ==
+        surah.ayahs.length +
+            // merged surah + durations.json
+            2 +
+            // if the platform supports .nomedia
+            (QuranManager.noMediaPlatforms.contains(Platform.operatingSystem)
+                ? 1
+                : 0);
   }
 
   static Future<Directory> getDirectoryForSurah(
-      TheHolyQuran quran, Surah surah) async {
+      Edition edition, Surah surah) async {
     Directory docDirectory = await getApplicationDocumentsDirectory();
-    Directory quranDirectory =
-        _getDescendant(docDirectory, quran.edition.identifier);
+    Directory quranDirectory = _getDescendant(docDirectory, edition.identifier);
     Directory surahDirectory =
         _getDescendant(quranDirectory, surah.number.toString());
     return surahDirectory;
   }
 
+  static Future<File> _fileIn(Edition edition, Surah surah, String name) async {
+    Directory directory = await getDirectoryForSurah(edition, surah);
+    File file;
+    if (directory.path.endsWith(Platform.pathSeparator)) {
+      file = File(directory.path + name);
+    } else {
+      file = File(directory.path + Platform.pathSeparator + name);
+    }
+    return file;
+  }
+
+  static Future<File> mergedSurahFile(Edition edition, Surah surah) =>
+      _fileIn(edition, surah, QuranManager.mergedSurahFileName);
+  static Future<File> surahDurationsFile(Edition edition, Surah surah) =>
+      _fileIn(edition, surah, QuranManager.durationJsonFileName);
+
+  static Future<File> basmalaFileFor(TheHolyQuran quran) =>
+      _fileIn(quran.edition, quran.surahs.first, '1.mp3');
+
   static Directory _getDescendant(Directory directory, String child) {
     if (!directory.existsSync()) directory.createSync();
-    String path = directory.absolute.path;
-    if (!path.endsWith('/')) path += '/';
+    String path = directory.path;
+    if (!path.endsWith(Platform.pathSeparator)) path += Platform.pathSeparator;
     Directory descendant = Directory(path + child);
     if (!descendant.existsSync()) descendant.createSync();
     return descendant;
