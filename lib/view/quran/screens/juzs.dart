@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:islamy/quran/store/quran_store.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

@@ -1,20 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:duration/duration.dart' as duration_formater;
-import 'package:duration/locale.dart';
-import 'package:ffmpeg_kit_flutter_min/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min/ffmpeg_session.dart';
-import 'package:ffmpeg_kit_flutter_min/return_code.dart';
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/quran_meta.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/quran/quran_player_controller.dart';
-import 'package:islamy/quran/store/quran_store.dart';
+part of quran;
 
 class CloudQuran {
   const CloudQuran._();

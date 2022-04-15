@@ -1,12 +1,28 @@
-import 'dart:io';
+library quran;
 
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
+import 'package:islamy/quran/models/sajda.dart';
+import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/repository/cloud_quran.dart';
-import 'package:islamy/quran/store/quran_store.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:duration/duration.dart' as duration_formater;
+import 'package:duration/locale.dart';
+import 'package:ffmpeg_kit_flutter_min/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_min/ffmpeg_session.dart';
+import 'package:ffmpeg_kit_flutter_min/return_code.dart';
+import 'package:islamy/quran/models/ayah.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/quran/models/enums_values.dart';
+import 'package:islamy/quran/models/juz.dart';
+import 'package:islamy/quran/quran_player_controller.dart';
+part 'store/quran_store.dart';
+part 'repository/cloud_quran.dart';
 
 class QuranManager {
   static late final File artWork;
@@ -31,7 +47,7 @@ class QuranManager {
     }
   }
 
-  static Future<List<Edition>> listEditions() async {
+  static Future<List<Edition>> downloadEditions() async {
     List<Edition> editions = QuranStore.listEditions();
     if (editions.isEmpty) {
       editions = await CloudQuran.listEditions();
@@ -40,7 +56,7 @@ class QuranManager {
     return editions;
   }
 
-  static Future<TheHolyQuran> getQuran({
+  static Future<TheHolyQuran> downloadQuran({
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
   }) async {
@@ -53,7 +69,7 @@ class QuranManager {
     return quran;
   }
 
-  static Future<QuranMeta> getQuranMeta({
+  static Future<QuranMeta> downloadQuranMeta({
     void Function(int, int)? onReceiveProgress,
   }) async {
     try {
@@ -65,4 +81,17 @@ class QuranManager {
       return meta;
     }
   }
+
+  static bool isQuranDownloaded(Edition edition) =>
+      QuranStore.getQuran(edition) != null;
+  static TheHolyQuran getQuran(Edition edition) =>
+      QuranStore.getQuran(edition)!;
+
+  static Future<void> downloadSurah({
+    required Edition edition,
+    required Surah surah,
+    Function(int index)? onAyahDownloaded,
+  }) =>
+      CloudQuran.downloadSurah(
+          edition: edition, surah: surah, onAyahDownloaded: onAyahDownloaded);
 }

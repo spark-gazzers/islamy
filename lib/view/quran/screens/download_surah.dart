@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/repository/cloud_quran.dart';
+import 'package:islamy/quran/quran_manager.dart';
 
 class DownloadSurahDialog extends StatefulWidget {
   final Edition edition;
@@ -99,7 +99,7 @@ class _DownloadSurahDialogState extends State<DownloadSurahDialog> {
   void startDownload() {
     setState(
       () {
-        download = CloudQuran.downloadSurah(
+        download = QuranManager.downloadSurah(
             edition: widget.edition,
             surah: widget.surah,
             onAyahDownloaded: (index) {

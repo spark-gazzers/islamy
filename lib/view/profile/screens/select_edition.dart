@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/store/quran_store.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/view/profile/screens/download_quran.dart';
 

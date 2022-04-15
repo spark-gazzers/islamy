@@ -9,8 +9,8 @@ import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/quran_page.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/quran/quran_player_controller.dart';
-import 'package:islamy/quran/store/quran_store.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/ayah_span.dart';
@@ -40,7 +40,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
     super.initState();
     int start = 0;
     _pageController = PageController(initialPage: start);
-    quran = QuranStore.getQuran(widget.edition)!;
+    quran = QuranManager.getQuran(widget.edition);
     _pages.addAll(quran.pages.sublist(
         widget.surah.ayahs.first.page - 1, widget.surah.ayahs.last.page));
   }
@@ -168,7 +168,7 @@ class SurahInlineReader extends StatelessWidget {
         spans.add(AyahSpan(
           ayah: ayah.copyWith(
             text: ayah.text.replaceFirst(
-                QuranStore.getQuran(edition)!.surahs.first.ayahs.first.text,
+                QuranManager.getQuran(edition).surahs.first.ayahs.first.text,
                 ''),
           ),
           direction: edition.direction.direction,

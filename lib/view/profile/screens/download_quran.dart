@@ -128,7 +128,7 @@ class _DownloadQuranEditionSheetState extends State<DownloadQuranEditionSheet> {
   void startDownload() {
     setState(
       () {
-        download = QuranManager.getQuran(
+        download = QuranManager.downloadQuran(
             edition: widget.edition,
             onReceiveProgress: (part, all) {
               _downloadMeterController

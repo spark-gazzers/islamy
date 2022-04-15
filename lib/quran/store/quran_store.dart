@@ -1,18 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/enums.dart';
-import 'package:islamy/quran/models/enums_values.dart';
-import 'package:islamy/quran/models/juz.dart';
-import 'package:islamy/quran/models/quran_meta.dart';
-import 'package:islamy/quran/models/sajda.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
-import 'package:path_provider/path_provider.dart';
+part of quran;
 
 class QuranStore {
   const QuranStore._();
