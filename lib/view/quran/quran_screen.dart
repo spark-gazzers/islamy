@@ -27,6 +27,7 @@ class _QuranScreenState extends State<QuranScreen>
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        transitionBetweenRoutes: false,
         brightness: Brightness.dark,
         middle: Text(S.of(context).the_holly_quran),
       ),

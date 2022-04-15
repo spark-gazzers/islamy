@@ -14,6 +14,8 @@ class ProfileScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         brightness: Brightness.dark,
+        heroTag: 'profile_navigation_bar_tag',
+        transitionBetweenRoutes: false,
         middle: Text(S.of(context).profile),
       ),
       backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
