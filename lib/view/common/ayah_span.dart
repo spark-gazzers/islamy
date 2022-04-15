@@ -1,5 +1,6 @@
-import 'package:flutter/gestures.dart';
+import 'package:flutter/gestures.dart' show LongPressGestureRecognizer;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/utils/helper.dart';
 
@@ -14,7 +15,14 @@ class AyahSpan extends TextSpan {
           children: <InlineSpan>[
             TextSpan(
               text: ayah.text,
-              recognizer: TapGestureRecognizer()..onTap = onTap,
+              recognizer: LongPressGestureRecognizer()
+                ..onLongPressCancel = onTap
+                ..onLongPress = () {
+                  if (onLongTap != null) {
+                    HapticFeedback.heavyImpact();
+                    onLongTap();
+                  }
+                },
             ),
             AyahsNumberSpan(ayah: ayah, direction: direction),
           ],
@@ -24,7 +32,6 @@ class AyahSpan extends TextSpan {
             decoration:
                 isSelected ? TextDecoration.underline : TextDecoration.none,
           ),
-          recognizer: TapGestureRecognizer()..onTap = onTap,
         );
 }
 
