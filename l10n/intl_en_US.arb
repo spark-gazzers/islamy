@@ -1,4 +1,5 @@
 {
+    "app_name": "iSlamy",
     "log_in_to_your_account": "Login to your account",
     "phone_number": "Phone Number",
     "password": "Password",
@@ -58,6 +59,7 @@
     "select_transliteration_edition": "Select Transliteration Edition",
     "download": "Download",
     "in_order_to_use_this_edition_now_or_later_we_need_to_download_it_first": "In order to use this edition now or later we need to download it first.",
+    "in_order_to_play_this_surah_in_this_edition_now_or_later_we_need_to_download_it_first": "In order to play {surah} in {edition} edition now or later we need to download it first.",
     "download_failed_due_to_unstable_internet_connection": "Download failed due to unstable internet connection.",
     "edition_was_downloaded_succefully_and_selected_for_edition_type": "{name} was downloaded succefully and selected for {type} edition",
     "quran_reader": "Quran Reader",
@@ -69,5 +71,9 @@
     "bookmarks": "Bookmarks",
     "meccan": "Meccan",
     "medinan": "Medinan",
-    "ayah": "Ayah"
+    "ayah": "Ayah",
+    "order": "Order",
+    "ayahs_count": "Ayahs Count",
+    "downloaded_count_ayah_out_of_total": "Downloaded {count} ayah out of {total} ayah.",
+    "number_in_quran": "Number in quran"
 }
