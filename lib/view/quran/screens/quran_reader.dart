@@ -214,6 +214,8 @@ class SurahInlineReader extends StatelessWidget {
             ayah: ayah,
             direction: edition.direction.direction,
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontFamily: Store.quranFont,
             fontSize: Store.quranFontSize,
