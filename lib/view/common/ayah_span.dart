@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart' show LongPressGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/ayah.dart';
+import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
 
 class AyahSpan extends TextSpan {
@@ -23,15 +24,17 @@ class AyahSpan extends TextSpan {
                     onLongTap();
                   }
                 },
+              style: TextStyle(
+                background: Paint()
+                  ..color = isSelected
+                      ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
+                      : Colors.transparent,
+                decoration:
+                    isSelected ? TextDecoration.underline : TextDecoration.none,
+              ),
             ),
             AyahsNumberSpan(ayah: ayah, direction: direction),
           ],
-          style: TextStyle(
-            background: Paint()
-              ..color = isSelected ? Colors.red : Colors.transparent,
-            decoration:
-                isSelected ? TextDecoration.underline : TextDecoration.none,
-          ),
         );
 }
 
