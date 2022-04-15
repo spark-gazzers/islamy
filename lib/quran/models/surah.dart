@@ -3,24 +3,24 @@ import 'dart:convert';
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/quran/models/alquran_cloud_object.dart';
 
 part 'surah.g.dart';
 
 @HiveType(typeId: 6)
-class Surah {
+class Surah extends AlquranCloudObject {
   @override
   String toString() {
     return number.toString();
   }
 
-  String get name => arabicName.substring(arabicName.indexOf(' ') + 1);
   @override
   operator ==(Object other) => other is Surah && other.number == number;
   @override
   int get hashCode => number.hashCode;
   Surah({
     required this.number,
-    required this.arabicName,
+    required this.name,
     required this.englishName,
     required this.englishNameTranslation,
     required this.revelationType,
@@ -29,7 +29,7 @@ class Surah {
   @HiveField(0)
   final int number;
   @HiveField(1)
-  final String arabicName;
+  final String name;
   @HiveField(2)
   final String englishName;
   @HiveField(3)
@@ -41,7 +41,7 @@ class Surah {
 
   Surah copyWith({
     int? number,
-    String? arabicName,
+    String? name,
     String? englishName,
     String? englishNameTranslation,
     RevelationType? revelationType,
@@ -49,7 +49,7 @@ class Surah {
   }) =>
       Surah(
         number: number ?? this.number,
-        arabicName: arabicName ?? this.arabicName,
+        name: name ?? this.name,
         englishName: englishName ?? this.englishName,
         englishNameTranslation:
             englishNameTranslation ?? this.englishNameTranslation,
@@ -63,7 +63,7 @@ class Surah {
 
   factory Surah.fromJson(Map<String, dynamic> json) => Surah(
         number: json["number"],
-        arabicName: json["name"],
+        name: json["name"],
         englishName: json["englishName"],
         englishNameTranslation: json["englishNameTranslation"],
         revelationType: revelationTypeValues.map[json["revelationType"]]!,
@@ -72,7 +72,7 @@ class Surah {
 
   Map<String, dynamic> toJson() => {
         "number": number,
-        "name": arabicName,
+        "name": name,
         "englishName": englishName,
         "englishNameTranslation": englishNameTranslation,
         "revelationType": revelationTypeValues.reverse[revelationType]!,

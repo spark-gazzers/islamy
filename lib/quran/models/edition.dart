@@ -3,11 +3,16 @@ import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:islamy/utils/store.dart';
+import 'package:islamy/quran/models/alquran_cloud_object.dart';
 part 'edition.g.dart';
 
 @HiveType(typeId: 0)
-class Edition extends HiveObject {
+class Edition extends HiveObject with AlquranCloudObject {
+  @override
+  operator ==(Object other) =>
+      other is Edition && other.identifier == identifier;
+  @override
+  int get hashCode => identifier.hashCode;
   Edition({
     required this.identifier,
     required this.language,
@@ -32,8 +37,7 @@ class Edition extends HiveObject {
   final QuranContentType type;
   @HiveField(6)
   final Direction direction;
-  String get localizedName =>
-      Store.locale.toLanguageTag().startsWith('ar') ? name : englishName;
+
   Edition copyWith({
     String? identifier,
     String? language,

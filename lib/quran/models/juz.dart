@@ -1,8 +1,9 @@
 import 'dart:convert' show json;
 
+import 'package:islamy/quran/models/alquran_cloud_object.dart';
 import 'package:islamy/utils/store.dart';
 
-class Juz {
+class Juz extends AlquranCloudObject {
   Juz({
     required this.index,
     required this.name,
@@ -14,8 +15,7 @@ class Juz {
   final String name;
   final String englishName;
   final SurahsRange surahsRange;
-  String get translatedName =>
-      Store.locale.languageCode.startsWith('ar') ? name : englishName;
+
   String get otherName =>
       !Store.locale.languageCode.startsWith('ar') ? name : englishName;
   static List<Juz> listFromRawJson(String str) =>
