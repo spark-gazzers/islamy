@@ -1,4 +1,4 @@
-import 'package:flutter/gestures.dart' show LongPressGestureRecognizer;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/ayah.dart';
@@ -16,14 +16,15 @@ class AyahSpan extends TextSpan {
           children: <InlineSpan>[
             TextSpan(
               text: ayah.text,
-              recognizer: LongPressGestureRecognizer()
-                ..onLongPressCancel = onTap
-                ..onLongPress = () {
+              recognizer: MultiTapGestureRecognizer(
+                  longTapDelay: const Duration(milliseconds: 300))
+                ..onLongTapDown = (pointer, details) {
                   if (onLongTap != null) {
                     HapticFeedback.heavyImpact();
                     onLongTap();
                   }
-                },
+                }
+                ..onTap = (_) => onTap?.call(),
               style: TextStyle(
                 background: Paint()
                   ..color = isSelected
