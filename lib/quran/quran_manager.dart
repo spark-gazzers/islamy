@@ -1,19 +1,37 @@
 import 'dart:io';
 
+import 'package:audio_service/audio_service.dart';
+import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/quran_meta.dart';
 import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/text_quran.dart';
+import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/repository/cloud_quran.dart';
 import 'package:islamy/quran/store/quran_store.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
 
 class QuranManager {
-  const QuranManager._();
+  static late final File artWork;
 
+  const QuranManager._();
+  static const String mergedSurahFileName = 'merged.mp3';
+  static const String durationJsonFileName = 'durations.json';
+  static const List<String> noMediaPlatforms = ['android', 'fuchsia'];
   static Future<void> init() async {
     CloudQuran.init();
     await QuranStore.init();
+    await _initDefaultArtImage();
+  }
+
+  static Future<void> _initDefaultArtImage() async {
+    ByteData bytes = await rootBundle.load('assets/images/logo_with_text.png');
+    artWork = File((await getApplicationDocumentsDirectory()).path +
+        Platform.pathSeparator +
+        'logo.png');
+    if (!artWork.existsSync() || artWork.lengthSync() == 0) {
+      await artWork.writeAsBytes(bytes.buffer.asUint8List());
+    }
   }
 
   static Future<List<Edition>> listEditions() async {
@@ -49,31 +67,5 @@ class QuranManager {
       QuranStore.settings.meta = meta;
       return meta;
     }
-  }
-
-  static Future<void> playSurah(Edition edition, Surah surah) async {
-    AudioPlayer player = AudioPlayer();
-    Directory surahDirectory =
-        await QuranStore.getDirectoryForSurah(edition, surah);
-    await player.setShuffleModeEnabled(false);
-    List<FileSystemEntity> ayahs = surahDirectory.listSync();
-    ayahs.sort(
-      (a1, a2) {
-        return a1.path.compareTo(a2.path);
-      },
-    );
-    await player.setAudioSource(
-      ConcatenatingAudioSource(
-        useLazyPreparation: true,
-        children: [
-          for (var ayahFile in ayahs) AudioSource.uri(ayahFile.uri),
-        ],
-      ),
-      preload: true,
-    );
-    final complete = player.play();
-    player.currentIndexStream.listen((event) {});
-    await complete;
-    player.dispose();
   }
 }
