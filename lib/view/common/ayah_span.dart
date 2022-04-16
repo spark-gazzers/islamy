@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/quran/models/ayah.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
 
@@ -14,8 +15,8 @@ class AyahSpan extends TextSpan {
     bool isSelected = false,
   }) : super(
           children: <InlineSpan>[
+            ...AyahTajweedSplitter.formatAyah(ayah),
             TextSpan(
-              text: ayah.text,
               recognizer: MultiTapGestureRecognizer(
                   longTapDelay: const Duration(milliseconds: 300))
                 ..onLongTapDown = (pointer, details) {
