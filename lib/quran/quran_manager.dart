@@ -32,6 +32,8 @@ part 'repository/cloud_quran.dart';
 part './audio_controller/quran_player_controller.dart';
 part 'audio_controller/surah_audio_source.dart';
 part 'audio_controller/surah_media_item.dart';
+part 'tajweed/rules.dart';
+part 'tajweed/splitter.dart';
 
 class QuranManager {
   static late final File artWork;
