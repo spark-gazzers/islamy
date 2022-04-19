@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   intl: ^0.17.0
   dio: ^4.0.4
   path_provider: ^2.0.9
@@ -36,13 +35,14 @@ dependencies:
   duration: ^3.0.11
   ffmpeg_kit_flutter_min: 4.5.1-LTS
   rxdart: ^0.27.3
+  cupertino_icons: ^1.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
   hive_generator: ^1.1.2
   build_runner: ^2.1.7
+  very_good_analysis: ^2.4.0
 
 flutter:
 
