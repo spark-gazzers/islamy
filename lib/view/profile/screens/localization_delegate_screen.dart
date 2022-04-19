@@ -18,14 +18,14 @@ class LocalizationDelegateScreen extends StatelessWidget {
       ),
       child: ListView.builder(
         itemCount: S.delegate.supportedLocales.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (BuildContext context, int index) {
           final bool isSelected = Helper.localization
               .equals(S.delegate.supportedLocales[index], Store.locale);
           return ListTile(
             selected: isSelected,
             leading: Container(
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
               ),
               clipBehavior: Clip.hardEdge,
               child: Flag.fromString(

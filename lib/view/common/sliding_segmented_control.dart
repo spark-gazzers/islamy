@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SlidingSegmentedControl extends StatelessWidget {
-  final TabController? controller;
-  final List<Widget> tabs;
-  final bool isScrollable;
   const SlidingSegmentedControl({
     Key? key,
     this.controller,
@@ -11,6 +8,9 @@ class SlidingSegmentedControl extends StatelessWidget {
     this.isScrollable = false,
   }) : super(key: key);
 
+  final TabController? controller;
+  final List<Widget> tabs;
+  final bool isScrollable;
   TabController _controller(BuildContext context) =>
       controller ?? DefaultTabController.of(context)!;
   @override
@@ -21,23 +21,23 @@ class SlidingSegmentedControl extends StatelessWidget {
       shadowColor: Colors.white54,
       shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(24.0),
+          Radius.circular(24),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: TabBar(
           tabs: tabs,
           controller: _controller(context),
           isScrollable: isScrollable,
           labelStyle: const TextStyle(
-            fontSize: 14.0,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
           labelColor: Colors.white,
           unselectedLabelColor: const Color(0xff2A4250),
           unselectedLabelStyle: const TextStyle(
-            fontSize: 14.0,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
           indicator: BoxDecoration(

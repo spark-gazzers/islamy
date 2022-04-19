@@ -2,9 +2,10 @@ import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/surah.dart';
 
 class QuranPage {
+  const QuranPage(this.pageNumber, this.inlines);
+
   final List<SurahInline> inlines;
   final int pageNumber;
-  const QuranPage(this.pageNumber, this.inlines);
 
   @override
   String toString() {
@@ -12,16 +13,20 @@ class QuranPage {
   }
 
   @override
-  operator ==(Object other) =>
+  bool operator ==(Object other) =>
       other is QuranPage && other.pageNumber == pageNumber;
 
   static List<QuranPage> formatQuran(List<Surah> surahs) {
-    List<QuranPage> format = [];
+    final List<QuranPage> format = <QuranPage>[];
     // ignore: prefer_const_constructors
-    QuranPage page = QuranPage(1, []);
-    SurahInline inline = SurahInline(ayahs: [], surah: surahs[0], start: true);
-    for (Surah surah in surahs) {
-      for (Ayah ayah in surah.ayahs) {
+    QuranPage page = QuranPage(1, <SurahInline>[]);
+    SurahInline inline = SurahInline(
+      ayahs: <Ayah>[],
+      surah: surahs[0],
+      start: true,
+    );
+    for (final Surah surah in surahs) {
+      for (final Ayah ayah in surah.ayahs) {
         if (ayah.page == page.pageNumber) {
           // add to the current inline
           inline.ayahs.add(ayah);
@@ -30,14 +35,15 @@ class QuranPage {
           if (inline.ayahs.isNotEmpty) {
             page.inlines.add(inline);
             format.add(page);
-            page = QuranPage(ayah.page, []);
-            inline = SurahInline(ayahs: [ayah], surah: surah, start: false);
+            page = QuranPage(ayah.page, <SurahInline>[]);
+            inline =
+                SurahInline(ayahs: <Ayah>[ayah], surah: surah, start: false);
           } else {
             // if the inline is empty complete start new inline and end the page
 
             inline.ayahs.add(ayah);
             format.add(page);
-            page = QuranPage(ayah.page, []);
+            page = QuranPage(ayah.page, <SurahInline>[]);
           }
         }
       }
@@ -46,7 +52,10 @@ class QuranPage {
       // start a new inline if applicable
       if (surahs.indexOf(surah) != surahs.length - 1) {
         inline = SurahInline(
-            ayahs: [], surah: surahs[surahs.indexOf(surah) + 1], start: true);
+          ayahs: <Ayah>[],
+          surah: surahs[surahs.indexOf(surah) + 1],
+          start: true,
+        );
       } else {
         format.add(page);
       }
@@ -60,13 +69,13 @@ class QuranPage {
 }
 
 class SurahInline {
-  final List<Ayah> ayahs;
-  final Surah surah;
-  final bool start;
-
   SurahInline({
     required this.ayahs,
     required this.surah,
     required this.start,
   });
+
+  final List<Ayah> ayahs;
+  final Surah surah;
+  final bool start;
 }

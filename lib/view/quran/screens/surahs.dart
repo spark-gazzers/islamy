@@ -25,8 +25,9 @@ class SurahsListScreenState extends State<SurahsListScreen>
   }
 
   TheHolyQuran get quran {
-    final quran = QuranManager.getQuran(QuranStore.settings.defaultTextEdition);
-    quran.surahs.sort((s1, s2) => s1.number.compareTo(s2.number));
+    final TheHolyQuran quran =
+        QuranManager.getQuran(QuranStore.settings.defaultTextEdition);
+    quran.surahs.sort((Surah s1, Surah s2) => s1.number.compareTo(s2.number));
     return quran;
   }
 
@@ -43,7 +44,7 @@ class SurahsListScreenState extends State<SurahsListScreen>
     super.build(context);
     return ScrollablePositionedList.separated(
       itemScrollController: _controller,
-      itemBuilder: (context, index) => _SurahListTile(
+      itemBuilder: (BuildContext context, int index) => _SurahListTile(
         surah: quran.surahs[index],
       ),
       itemCount: quran.surahs.length,
@@ -56,32 +57,41 @@ class SurahsListScreenState extends State<SurahsListScreen>
 }
 
 class _SurahListTile extends StatelessWidget {
-  final Surah surah;
   const _SurahListTile({
     Key? key,
     required this.surah,
   }) : super(key: key);
 
+  final Surah surah;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        TheHolyQuran quran =
+        final TheHolyQuran quran =
             QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
         // start by stopping if it's not for this surah
         if (!QuranPlayerContoller.instance.isForSurah(quran, surah)) {
           await QuranPlayerContoller.instance.stop();
           // if it's downloaed start the preperations
           if (await QuranManager.isSurahDownloaded(
-              QuranStore.settings.defaultAudioEdition, surah)) {
+            QuranStore.settings.defaultAudioEdition,
+            surah,
+          )) {
             await QuranPlayerContoller.instance.prepareForSurah(quran, surah);
           }
         }
-        Navigator.pushNamed(context, 'surah_reader_screen', arguments: {
-          'surah': surah,
-          'edition': QuranStore.settings.defaultTextEdition,
-          'fullscreenDialog': true,
-        });
+        // ignoring cause reading surah directory/preperations are almost sync ops.
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(
+          context,
+          'surah_reader_screen',
+          arguments: <String, dynamic>{
+            'surah': surah,
+            'edition': QuranStore.settings.defaultTextEdition,
+            'fullscreenDialog': true,
+          },
+        );
       },
       leading: SurahIcon(
         color: Theme.of(context).primaryColor,
@@ -89,11 +99,9 @@ class _SurahListTile extends StatelessWidget {
       ),
       title: Text(surah.englishName),
       subtitle: Text(
-        surah.revelationType.name +
-            ' - ' +
-            surah.ayahs.length.toString() +
-            ' ' +
-            S.of(context).ayah,
+        '${surah.revelationType.name} '
+        '-'
+        ' ${surah.ayahs.length} ${S.of(context).ayah}',
       ),
       trailing: Text(
         surah.name.replaceAll('\n', 'replace'),
@@ -101,7 +109,7 @@ class _SurahListTile extends StatelessWidget {
         locale: const Locale('ar'),
         style: const TextStyle(
           fontFamily: 'QuranFont',
-          fontSize: 26.0,
+          fontSize: 26,
         ),
         textDirection: TextDirection.rtl,
         overflow: TextOverflow.visible,

@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/quran/models/ayah.dart';
+import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/view/auth/enable_location/enable_location.dart';
 import 'package:islamy/view/auth/forgot_password/forgot_password.dart';
@@ -17,51 +20,52 @@ import 'package:islamy/view/splash/splash.dart';
 
 class Routes {
   const Routes._();
-  static Route onGenerateRoute(RouteSettings settings) {
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WidgetBuilder? builder;
-    Map<String, dynamic> args = <String, dynamic>{};
+    final Map<String, dynamic> args = <String, dynamic>{};
     try {
       args.addAll(
-          settings.arguments as Map<String, dynamic>? ?? <String, dynamic>{});
+        settings.arguments as Map<String, dynamic>? ?? <String, dynamic>{},
+      );
     } finally {}
     switch (settings.name) {
       case 'login':
-        builder = (context) => LoginScreen(
-              password: args['password'],
-              phone: args['phone'],
+        builder = (BuildContext context) => LoginScreen(
+              password: args['password'] as String,
+              phone: args['phone'] as String,
             );
         break;
       case 'signup':
-        builder = (context) => SignupScreen(
-              password: args['password'],
-              phone: args['phone'],
+        builder = (BuildContext context) => SignupScreen(
+              password: args['password'] as String,
+              phone: args['phone'] as String,
             );
         break;
 
       case 'forgot_password':
-        builder = (context) => ForgotPasswordScreen(
-              phone: args['phone'],
+        builder = (BuildContext context) => ForgotPasswordScreen(
+              phone: args['phone'] as String,
             );
         break;
 
       case 'reset_password':
-        builder = (context) => ResetPasswordScreen(
-              phone: args['phone'],
+        builder = (BuildContext context) => ResetPasswordScreen(
+              phone: args['phone'] as String,
             );
         break;
 
       case 'otp':
-        builder = (context) => OTPScreen(
-              phone: args['phone'],
+        builder = (BuildContext context) => OTPScreen(
+              phone: args['phone'] as String,
             );
         break;
 
       case 'select_text_quran':
-        builder = (context) => SelectEditionDelegate(
+        builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.text_edition,
               selected: QuranStore.settings.defaultTextEdition,
               choices: QuranStore.listTextEditions(),
-              onSelected: (edition) {
+              onSelected: (Edition edition) {
                 QuranStore.settings.defaultTextEdition = edition;
               },
               title: S.current.select_text_edition,
@@ -69,11 +73,11 @@ class Routes {
         break;
 
       case 'select_audio_quran':
-        builder = (context) => SelectEditionDelegate(
+        builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.audio_edition,
               selected: QuranStore.settings.defaultAudioEdition,
               choices: QuranStore.listAudioEditions(),
-              onSelected: (edition) {
+              onSelected: (Edition edition) {
                 QuranStore.settings.defaultAudioEdition = edition;
               },
               title: S.current.select_audio_edition,
@@ -81,11 +85,11 @@ class Routes {
         break;
 
       case 'select_interpretation_quran':
-        builder = (context) => SelectEditionDelegate(
+        builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.interpretation_edition,
               selected: QuranStore.settings.defaultInterpretationEdition,
               choices: QuranStore.listInterpretationEditions(),
-              onSelected: (edition) {
+              onSelected: (Edition edition) {
                 QuranStore.settings.defaultInterpretationEdition = edition;
               },
               title: S.current.select_interpretation_edition,
@@ -93,32 +97,32 @@ class Routes {
         break;
 
       case 'select_translation_quran':
-        builder = (context) => SelectEditionDelegate(
+        builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.translation_edition,
               selected: QuranStore.settings.defaultTranslationEdition,
               choices: QuranStore.listTranslationEditions(),
-              onSelected: (edition) {
+              onSelected: (Edition edition) {
                 QuranStore.settings.defaultTranslationEdition = edition;
               },
               title: S.current.select_translation_edition,
             );
         break;
       case 'select_transliteration_quran':
-        builder = (context) => SelectEditionDelegate(
+        builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.transliteration_edition,
               selected: QuranStore.settings.defaultTranslationEdition,
               choices: QuranStore.listTransliterationEditions(),
-              onSelected: (edition) {
+              onSelected: (Edition edition) {
                 QuranStore.settings.defaultTranslationEdition = edition;
               },
               title: S.current.select_translation_edition,
             );
         break;
       case 'surah_reader_screen':
-        builder = (context) => QuranSurahReader(
-              surah: args['surah'],
-              edition: args['edition'],
-              ayah: args['ayah'],
+        builder = (BuildContext context) => QuranSurahReader(
+              surah: args['surah'] as Surah,
+              edition: args['edition'] as Edition,
+              ayah: args['ayah'] as Ayah,
             );
         break;
       default:
@@ -126,12 +130,16 @@ class Routes {
     return _buildRoute(settings, builder);
   }
 
-  static Route _buildRoute(RouteSettings settings, WidgetBuilder? builder) =>
-      CupertinoPageRoute(
+  static Route<dynamic> _buildRoute(
+    RouteSettings settings,
+    WidgetBuilder? builder,
+  ) =>
+      CupertinoPageRoute<dynamic>(
         builder: builder ?? _routes[settings.name]!,
         settings: settings,
-        fullscreenDialog:
-            (settings.arguments as Map?)?['fullscreenDialog'] ?? false,
+        fullscreenDialog: (settings.arguments
+                as Map<String, dynamic>?)?['fullscreenDialog'] as bool? ??
+            false,
       );
   // static Route
   static Map<String, WidgetBuilder> get _routes => <String, WidgetBuilder>{

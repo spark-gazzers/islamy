@@ -16,15 +16,16 @@ import 'package:islamy/view/common/ayah_span.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 
 class QuranSurahReader extends StatefulWidget {
-  final Surah surah;
-  final Edition edition;
-  final Ayah? ayah;
   const QuranSurahReader({
     Key? key,
     required this.surah,
     required this.edition,
     this.ayah,
   }) : super(key: key);
+
+  final Surah surah;
+  final Edition edition;
+  final Ayah? ayah;
 
   @override
   State<QuranSurahReader> createState() => _QuranSurahReaderState();
@@ -37,11 +38,16 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   @override
   void initState() {
     super.initState();
-    int start = 0;
+    // TODO(psyonixFx): should support from bookmark later
+    const int start = 0;
     _pageController = PageController(initialPage: start);
     quran = QuranManager.getQuran(widget.edition);
-    _pages.addAll(quran.pages.sublist(
-        widget.surah.ayahs.first.page - 1, widget.surah.ayahs.last.page));
+    _pages.addAll(
+      quran.pages.sublist(
+        widget.surah.ayahs.first.page - 1,
+        widget.surah.ayahs.last.page,
+      ),
+    );
   }
 
   void _reload() {
@@ -67,7 +73,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
         child: PageView.builder(
           controller: _pageController,
           itemCount: _pages.length,
-          itemBuilder: (context, index) => PageReader(
+          itemBuilder: (BuildContext context, int index) => PageReader(
             page: _pages[index],
             surah: widget.surah,
             edition: widget.edition,
@@ -80,10 +86,6 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
 }
 
 class PageReader extends StatelessWidget {
-  final QuranPage page;
-  final Surah surah;
-  final Edition edition;
-  final void Function(Ayah ayah) playCallback;
   const PageReader({
     Key? key,
     required this.page,
@@ -92,15 +94,16 @@ class PageReader extends StatelessWidget {
     required this.surah,
   }) : super(key: key);
 
+  final QuranPage page;
+  final Surah surah;
+  final Edition edition;
+  final void Function(Ayah ayah) playCallback;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       primary: true,
-      restorationId: edition.identifier +
-          '-' +
-          surah.number.toString() +
-          '-' +
-          page.pageNumber.toString(),
+      restorationId: '${edition.identifier}-${surah.number}-${page.pageNumber}',
       child: DefaultTextStyle(
         style: TextStyle(
           fontFamily: Store.quranFont,
@@ -108,8 +111,8 @@ class PageReader extends StatelessWidget {
           color: Colors.black,
         ),
         child: Column(
-          children: [
-            for (var i = 0; i < page.inlines.length; i++)
+          children: <Widget>[
+            for (int i = 0; i < page.inlines.length; i++)
               SurahInlineReader(
                 inline: page.inlines[i],
                 edition: edition,
@@ -139,7 +142,7 @@ class SurahInlineReader extends StatelessWidget {
     Widget child = ValueListenableBuilder<int>(
       valueListenable: QuranPlayerContoller.instance.currentAyah,
       builder: (BuildContext context, int value, Widget? child) => Column(
-        children: [
+        children: <Widget>[
           if (inline.start) _SurahTitle(surah: inline.surah),
           Text.rich(
             TextSpan(
@@ -162,57 +165,60 @@ class SurahInlineReader extends StatelessWidget {
 
   List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
-    for (var ayah in inline.ayahs) {
-      bool isSelected = ayah.numberInSurah ==
+    for (final Ayah ayah in inline.ayahs) {
+      final bool isSelected = ayah.numberInSurah ==
               QuranPlayerContoller.instance.currentAyah.value &&
           Store.highlightAyahOnPlayer &&
           selected;
       // ignore: prefer_function_declarations_over_variables
-      VoidCallback? onTap = selected
+      final VoidCallback? onTap = selected
           ? () async {
               await QuranPlayerContoller.instance.seekToAyah(ayah);
               QuranPlayerContoller.instance.play();
             }
           : null;
       // ignore: prefer_function_declarations_over_variables
-      VoidCallback? onLongTap =
+      final VoidCallback? onLongTap =
           selected ? () => _openContextMenue(context, ayah) : null;
-      // if it's basmla remove basmala but the first ayah in Baraa is not a basmala
+      // if it's basmla remove basmala but the first
+      // ayah in Baraa is not a basmala
       if (ayah.numberInSurah == 1 &&
           inline.surah.number != 1 &&
           inline.surah.number != 9) {
-        spans.add(AyahSpan(
-          isSelected: isSelected,
-          onLongTap: onLongTap,
-          onTap: onTap,
-          ayah: ayah.copyWith(
-            text: ayah.text.replaceFirst(
+        spans.add(
+          AyahSpan(
+            isSelected: isSelected,
+            onLongTap: onLongTap,
+            onTap: onTap,
+            ayah: ayah.copyWith(
+              text: ayah.text.replaceFirst(
                 QuranManager.getQuran(edition).surahs.first.ayahs.first.text,
-                ''),
+                '',
+              ),
+            ),
           ),
-          direction: edition.direction.direction,
-        ));
+        );
       } else {
-        spans.add(AyahSpan(
-          ayah: ayah,
-          isSelected: isSelected,
-          onLongTap: onLongTap,
-          onTap: onTap,
-          direction: edition.direction.direction,
-        ));
+        spans.add(
+          AyahSpan(
+            ayah: ayah,
+            isSelected: isSelected,
+            onLongTap: onLongTap,
+            onTap: onTap,
+          ),
+        );
       }
     }
     return spans;
   }
 
   void _openContextMenue(BuildContext context, Ayah ayah) {
-    showCupertinoModalPopup(
+    showCupertinoModalPopup<void>(
       context: context,
-      builder: (context) => CupertinoActionSheet(
+      builder: (BuildContext context) => CupertinoActionSheet(
         title: Text.rich(
           AyahSpan(
             ayah: ayah,
-            direction: edition.direction.direction,
           ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -221,14 +227,17 @@ class SurahInlineReader extends StatelessWidget {
             fontSize: Store.quranFontSize,
           ),
         ),
-        actions: [
-          // TODO: add the actual actions
-          CupertinoActionSheetAction(onPressed: () {}, child: Text('data')),
+        actions: <Widget>[
+          // TODO(psyonixFx): add the actual actions
+          CupertinoActionSheetAction(
+            onPressed: () {},
+            child: const Text('data'),
+          ),
         ],
         cancelButton: CupertinoActionSheetAction(
           onPressed: () => Navigator.pop(context),
-          child: Text(S.of(context).cancel),
           isDestructiveAction: true,
+          child: Text(S.of(context).cancel),
         ),
       ),
     );
@@ -236,8 +245,8 @@ class SurahInlineReader extends StatelessWidget {
 }
 
 class _SurahTitle extends StatelessWidget {
-  final Surah surah;
   const _SurahTitle({Key? key, required this.surah}) : super(key: key);
+  final Surah surah;
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +255,7 @@ class _SurahTitle extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
-      elevation: 8.0,
+      elevation: 8,
       color: Theme.of(context).colorScheme.primaryContainer,
       shadowColor: Colors.white54,
       child: DefaultTextStyle.merge(
@@ -254,13 +263,13 @@ class _SurahTitle extends StatelessWidget {
           color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             Expanded(
               flex: 2,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text(S.of(context).ayahs_count),
                   Text(
                     surah.ayahs.length.toString(),
@@ -286,7 +295,7 @@ class _SurahTitle extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text(S.of(context).order),
                   Text(
                     surah.number.toString(),
@@ -302,15 +311,16 @@ class _SurahTitle extends StatelessWidget {
 }
 
 class SurahAudioPlayer extends StatefulWidget {
-  final Edition edition;
-  final Surah surah;
-  final Ayah? ayah;
   const SurahAudioPlayer({
     Key? key,
     required this.edition,
     required this.surah,
     this.ayah,
   }) : super(key: key);
+
+  final Edition edition;
+  final Surah surah;
+  final Ayah? ayah;
 
   @override
   State<SurahAudioPlayer> createState() => _SurahAudioPlayerState();
@@ -364,16 +374,17 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           const AudioSlider(),
           IconTheme.merge(
             data: const IconThemeData(color: Colors.white),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * .15),
+                horizontal: MediaQuery.of(context).size.width * .15,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: <Widget>[
                   IconButton(
                     splashRadius: 150,
                     onPressed: QuranPlayerContoller.instance.skipToPrevious,
@@ -410,18 +421,21 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
     );
   }
 
-  void resume() async {
+  Future<void> resume() async {
     // if surah not downloaded, download it
     if (!(await QuranManager.isSurahDownloaded(
-        audioQuran.edition, widget.surah))) {
-      showCupertinoModalPopup(
+      audioQuran.edition,
+      widget.surah,
+    ))) {
+      showCupertinoModalPopup<Edition>(
         context: context,
         builder: (_) => DownloadSurahDialog(
           edition: audioQuran.edition,
-          surah: audioQuran.surahs
-              .singleWhere((element) => element.number == widget.surah.number),
+          surah: audioQuran.surahs.singleWhere(
+            (Surah element) => element.number == widget.surah.number,
+          ),
         ),
-      ).then((value) {
+      ).then((Edition? value) {
         if (value != null) resume();
       });
       return;
@@ -432,6 +446,8 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
       await QuranPlayerContoller.instance
           .prepareForSurah(audioQuran, widget.surah);
       // reload the screen for each part to prepare on it's own
+      // or finishing up if the screen is off loaded
+      if (!mounted) return;
       context.findAncestorStateOfType<_QuranSurahReaderState>()!._reload();
       // this widget preparing
       _listenToPlayer();
@@ -459,23 +475,25 @@ class _AudioSliderState extends State<AudioSlider> {
     return StreamBuilder<double>(
       stream: QuranPlayerContoller.instance.valueStream,
       builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-        FormattedLengthDuration formatter = Helper.formatters
-            .formatLengthDuration(QuranPlayerContoller.instance.duration,
-                QuranPlayerContoller.instance.total);
+        final FormattedLengthDuration formatter =
+            Helper.formatters.formatLengthDuration(
+          QuranPlayerContoller.instance.duration,
+          QuranPlayerContoller.instance.total,
+        );
         return Column(
-          children: [
+          children: <Widget>[
             Slider.adaptive(
               value: _value ??
                   snapshot.data ??
                   QuranPlayerContoller.instance.durationValue,
               // snapshot.data ?? controller?.playedPercentage ?? 0.0,
-              onChanged: (value) {
+              onChanged: (double value) {
                 // making the _value not null means it's currently active
                 setState(() {
                   _value = value;
                 });
               },
-              onChangeEnd: (value) {
+              onChangeEnd: (double value) {
                 QuranPlayerContoller.instance.seekToValue(value);
                 setState(() {
                   _value = null;
@@ -483,8 +501,7 @@ class _AudioSliderState extends State<AudioSlider> {
               },
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
               child: DefaultTextStyle.merge(
                 style: Theme.of(context)
                     .textTheme
@@ -492,7 +509,7 @@ class _AudioSliderState extends State<AudioSlider> {
                     .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Text(formatter.start),
                     Text(formatter.end),
                   ],

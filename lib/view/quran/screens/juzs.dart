@@ -4,11 +4,12 @@ import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class JuzsListScreen extends StatefulWidget {
-  final void Function(int number) onSelected;
   const JuzsListScreen({
     Key? key,
     required this.onSelected,
   }) : super(key: key);
+
+  final void Function(int number) onSelected;
 
   @override
   State<JuzsListScreen> createState() => _JuzsListScreenState();
@@ -23,7 +24,7 @@ class _JuzsListScreenState extends State<JuzsListScreen>
     super.build(context);
     return ScrollablePositionedList.separated(
       itemScrollController: _controller,
-      itemBuilder: (_, index) => ListTile(
+      itemBuilder: (_, int index) => ListTile(
         leading: SurahIcon(number: QuranStore.settings.juzData[index].index),
         title: Text(QuranStore.settings.juzData[index].localizedName),
         trailing: Text(
@@ -32,7 +33,7 @@ class _JuzsListScreenState extends State<JuzsListScreen>
                   QuranStore.settings.juzData[index].name
               ? const TextStyle(
                   fontFamily: 'QuranFont',
-                  fontSize: 26.0,
+                  fontSize: 26,
                 )
               : null,
         ),

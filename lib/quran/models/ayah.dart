@@ -7,10 +7,6 @@ part 'ayah.g.dart';
 
 @HiveType(typeId: 7)
 class Ayah {
-  @override
-  operator ==(Object other) => other is Ayah && other.number == number;
-  @override
-  int get hashCode => number.hashCode;
   Ayah({
     required this.audio,
     required this.audioSecondary,
@@ -24,6 +20,37 @@ class Ayah {
     required this.hizbQuarter,
     required this.sajda,
   });
+
+  factory Ayah.fromRawJson(String str) =>
+      Ayah.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
+        number: json['number'] as int,
+        text: json['text'] as String,
+        numberInSurah: json['numberInSurah'] as int,
+        juz: json['juz'] as int,
+        manzil: json['manzil'] as int,
+        page: json['page'] as int,
+        ruku: json['ruku'] as int,
+        hizbQuarter: json['hizbQuarter'] as int,
+        sajda: json['sajda'] == false
+            ? null
+            : Sajda.fromJson(json['sajda'] as Map<String, dynamic>),
+        audio: json['audio'] as String,
+        audioSecondary: json['audioSecondary'] == null
+            ? null
+            : List<String>.from(
+                (json['audioSecondary'] as List<String>)
+                    .map<String>((String x) => x),
+              ),
+      );
+
+  @override
+  bool operator ==(Object other) => other is Ayah && other.number == number;
+
+  @override
+  int get hashCode => number.hashCode;
+
   @HiveField(0)
   final int number;
   @HiveField(1)
@@ -74,39 +101,21 @@ class Ayah {
         audioSecondary: audioSecondary ?? this.audioSecondary,
       );
 
-  factory Ayah.fromRawJson(String str) => Ayah.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
-        number: json["number"],
-        text: json["text"],
-        numberInSurah: json["numberInSurah"],
-        juz: json["juz"],
-        manzil: json["manzil"],
-        page: json["page"],
-        ruku: json["ruku"],
-        hizbQuarter: json["hizbQuarter"],
-        sajda: json["sajda"] == false ? null : Sajda.fromJson(json["sajda"]),
-        audio: json["audio"],
-        audioSecondary: json["audioSecondary"] == null
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'number': number,
+        'text': text,
+        'numberInSurah': numberInSurah,
+        'juz': juz,
+        'manzil': manzil,
+        'page': page,
+        'ruku': ruku,
+        'hizbQuarter': hizbQuarter,
+        'sajda': sajda?.toJson(),
+        'audio': audio,
+        'audioSecondary': audioSecondary == null
             ? null
-            : List<String>.from(json["audioSecondary"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "number": number,
-        "text": text,
-        "numberInSurah": numberInSurah,
-        "juz": juz,
-        "manzil": manzil,
-        "page": page,
-        "ruku": ruku,
-        "hizbQuarter": hizbQuarter,
-        "sajda": sajda?.toJson(),
-        "audio": audio,
-        "audioSecondary": audioSecondary == null
-            ? null
-            : List<dynamic>.from(audioSecondary!.map((x) => x)),
+            : List<dynamic>.from(audioSecondary!.map<String>((String x) => x)),
       };
 }

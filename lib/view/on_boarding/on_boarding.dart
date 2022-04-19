@@ -11,17 +11,17 @@ class OnBoarding extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 const SizedBox(height: 109),
                 const Image(
                   height: 252.96,
                   image: AssetImage('assets/images/on_boarding.png'),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(32.0),
+                  padding: const EdgeInsets.all(32),
                   child: Text(
                     S.of(context).manage_your_daily_islamic_habits,
                     textAlign: TextAlign.center,
@@ -37,6 +37,7 @@ class OnBoarding extends StatelessWidget {
                   child: Text(
                     S
                         .of(context)
+                        // ignore: lines_longer_than_80_chars
                         .islamy_lets_you_manage_your_daily_islamic_habits_with_ease,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -48,11 +49,11 @@ class OnBoarding extends StatelessWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60.0),
+              padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Hero(
                     transitionOnUserGestures: true,
                     tag: 'sign_in_with_server',
@@ -66,7 +67,7 @@ class OnBoarding extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24.0),
+                  const SizedBox(height: 24),
                   Hero(
                     transitionOnUserGestures: true,
                     tag: 'sign_in_with_google',
@@ -78,7 +79,7 @@ class OnBoarding extends StatelessWidget {
                       onPressed: () {},
                       icon: const Image(
                         image: AssetImage('assets/images/google.png'),
-                        width: 21.0,
+                        width: 21,
                       ),
                       label: Text(
                         S.of(context).sign_in_with_ + S.of(context).google,

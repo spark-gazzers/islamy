@@ -5,12 +5,16 @@ class _LocalizationHelper {
   static const _LocalizationHelper instance = _LocalizationHelper._();
   static late Map<String, String> _localeNames;
   Future<void> init() async {
-    _localeNames = Map.from(json.decode(
-        await rootBundle.loadString('assets/config/locale_names.json')));
+    _localeNames = Map<String, String>.from(
+      json.decode(
+        await rootBundle.loadString('assets/config/locale_names.json'),
+      ) as Map<String, String>,
+    );
   }
 
   String nameOf(Locale locale) {
-    String key = locale.toLanguageTag().replaceAll('-', '_').toLowerCase();
+    final String key =
+        locale.toLanguageTag().replaceAll('-', '_').toLowerCase();
     if (_localeNames.containsKey(key)) {
       return _localeNames[key]!;
     }
@@ -18,7 +22,7 @@ class _LocalizationHelper {
         _localeNames[locale.countryCode] != null) {
       return _localeNames[locale.countryCode]!;
     }
-    throw 'not found locale$locale';
+    throw StateError('not found locale$locale');
   }
 
   bool equals(Locale l1, Locale l2) =>
@@ -26,41 +30,36 @@ class _LocalizationHelper {
       l2.toLanguageTag().replaceAll('-', '_').toLowerCase();
 
   String getVerseEndSymbol(int verseNumber, TextDirection direction) {
-    var arabicNumeric = '';
-    var digits = verseNumber.toString().split("").toList();
+    final StringBuffer arabicNumeric = StringBuffer();
 
-    for (var e in digits) {
-      if (e == "0") {
-        arabicNumeric += "٠";
-      }
-      if (e == "1") {
-        arabicNumeric += "١";
-      }
-      if (e == "2") {
-        arabicNumeric += "٢";
-      }
-      if (e == "3") {
-        arabicNumeric += "٣";
-      }
-      if (e == "4") {
-        arabicNumeric += "٤";
-      }
-      if (e == "5") {
-        arabicNumeric += "٥";
-      }
-      if (e == "6") {
-        arabicNumeric += "٦";
-      }
-      if (e == "7") {
-        arabicNumeric += "٧";
-      }
-      if (e == "8") {
-        arabicNumeric += "٨";
-      }
-      if (e == "9") {
-        arabicNumeric += "٩";
-      }
+    final List<String> digits = verseNumber.toString().split('').toList();
+    const List<String> english = <String>[
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '0'
+    ];
+    const List<String> arabic = <String>[
+      '١',
+      '٢',
+      '٣',
+      '٤',
+      '٥',
+      '٦',
+      '٧',
+      '٨',
+      '٩',
+      '٠'
+    ];
+    for (final String e in digits) {
+      arabicNumeric.write(arabic[english.indexOf(e)]);
     }
-    return arabicNumeric;
+    return arabicNumeric.toString();
   }
 }

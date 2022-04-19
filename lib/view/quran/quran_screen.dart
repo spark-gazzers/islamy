@@ -32,12 +32,11 @@ class _QuranScreenState extends State<QuranScreen>
         middle: Text(S.of(context).the_holly_quran),
       ),
       child: Column(
-        children: [
+        children: <Widget>[
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SlidingSegmentedControl(
-              tabs: [
+              tabs: <Widget>[
                 Tab(child: Text(S.of(context).surah)),
                 Tab(child: Text(S.of(context).juz)),
                 Tab(child: Text(S.of(context).bookmarks)),
@@ -48,12 +47,12 @@ class _QuranScreenState extends State<QuranScreen>
           Expanded(
             child: TabBarView(
               controller: _controller,
-              children: [
+              children: <Widget>[
                 SurahsListScreen(
                   key: _surahsKey,
                 ),
                 JuzsListScreen(
-                  onSelected: (i) {
+                  onSelected: (int i) {
                     _controller.animateTo(0);
                     _surahsKey.currentState!.animateTo(i);
                   },

@@ -2,7 +2,7 @@ part of quran;
 
 class TajweedRules {
   const TajweedRules._();
-  static const List<TajweedRule> ids = [
+  static const List<TajweedRule> ids = <TajweedRule>[
     TajweedRule._('[h', Color(0xffAAAAAA), 'hamza_wasl'),
     TajweedRule._('[s', Color(0xffAAAAAA), 'silent'),
     TajweedRule._('[l', Color(0xffAAAAAA), 'laam_shamsiyah'),
@@ -24,9 +24,9 @@ class TajweedRules {
 }
 
 class TajweedRule {
+  const TajweedRule._(this.id, this.color, this.nameIdentifier);
+
   final String id;
   final Color color;
   final String nameIdentifier;
-
-  const TajweedRule._(this.id, this.color, this.nameIdentifier);
 }

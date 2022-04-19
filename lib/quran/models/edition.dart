@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:islamy/quran/models/enums.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:islamy/quran/models/alquran_cloud_object.dart';
+import 'package:islamy/quran/models/enums.dart';
+
 part 'edition.g.dart';
 
+/// The quran edition.
+///
+/// Editions are genuinely container for quran specific meta like
+/// foramt,revelation and type ...
 @HiveType(typeId: 0)
 class Edition extends HiveObject with AlquranCloudObject {
-  @override
-  operator ==(Object other) =>
-      other is Edition && other.identifier == identifier;
-  @override
-  int get hashCode => identifier.hashCode;
   Edition({
     required this.identifier,
     required this.language,
@@ -22,6 +22,30 @@ class Edition extends HiveObject with AlquranCloudObject {
     required this.type,
     required this.direction,
   });
+  factory Edition.fromRawJson(String str) =>
+      Edition.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Edition.fromJson(Map<String, dynamic> json) => Edition(
+        identifier: json['identifier'] as String,
+        language: json['language'] as String,
+        name: json['name'] as String,
+        englishName: json['englishName'] as String,
+        format: formatValues.map[json['format'] as String] as Format,
+        type: typeValues.map[json['type']] as QuranContentType,
+        direction: directionValues.map[json['direction']] as Direction? ??
+            (intl.Bidi.isRtlLanguage(json['language'].toString())
+                ? Direction.rtl
+                : Direction.ltr),
+      );
+
+  static List<Edition> listFrom(List<Map<String, dynamic>> json) =>
+      List<Edition>.from(json.map<Edition>(Edition.fromJson));
+
+  @override
+  bool operator ==(Object other) =>
+      other is Edition && other.identifier == identifier;
+  @override
+  int get hashCode => identifier.hashCode;
 
   @HiveField(0)
   final String identifier;
@@ -59,32 +83,15 @@ class Edition extends HiveObject with AlquranCloudObject {
         direction: direction ?? this.direction,
       );
 
-  factory Edition.fromRawJson(String str) => Edition.fromJson(json.decode(str));
-
-  static List<Edition> listFrom(List json) =>
-      List<Edition>.from(json.map((x) => Edition.fromJson(x)));
   String toRawJson() => json.encode(toJson());
 
-  factory Edition.fromJson(Map<String, dynamic> json) => Edition(
-        identifier: json["identifier"],
-        language: json["language"],
-        name: json["name"],
-        englishName: json["englishName"],
-        format: formatValues.map[json["format"]]!,
-        type: typeValues.map[json["type"]]!,
-        direction: directionValues.map[json["direction"]] ??
-            (intl.Bidi.isRtlLanguage(json["language"].toString())
-                ? Direction.rtl
-                : Direction.ltr),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "identifier": identifier,
-        "language": language,
-        "name": name,
-        "englishName": englishName,
-        "format": formatValues.reverse[format],
-        "type": typeValues.reverse[type],
-        "direction": directionValues.reverse[direction],
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'identifier': identifier,
+        'language': language,
+        'name': name,
+        'englishName': englishName,
+        'format': formatValues.reverse[format],
+        'type': typeValues.reverse[type],
+        'direction': directionValues.reverse[direction],
       };
 }

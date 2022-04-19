@@ -21,8 +21,8 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 91.0),
+        children: <Widget>[
+          const SizedBox(height: 91),
           ClipOval(
             child: Container(
               color: Colors.black,
@@ -31,43 +31,44 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 16, bottom: 24.0),
+            padding: EdgeInsets.only(top: 16, bottom: 24),
             child: Text(
               'Ahmed Ali',
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
               ),
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 28.0),
+            margin: const EdgeInsets.symmetric(horizontal: 28),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                ValueListenableBuilder(
+              children: <Widget>[
+                ValueListenableBuilder<dynamic>(
                   valueListenable: Store.muteNotficationListner,
                   builder: (_, __, ___) {
                     return ListTile(
                       leading: const RoundedIcon(Iconsax.notification),
                       title: Text(S.of(context).mute_notifications),
                       trailing: CupertinoSwitch(
-                          value: Store.muteNotfication,
-                          onChanged: (_) {
-                            Store.muteNotfication = !Store.muteNotfication;
-                          }),
+                        value: Store.muteNotfication,
+                        onChanged: (_) {
+                          Store.muteNotfication = !Store.muteNotfication;
+                        },
+                      ),
                       onTap: () {
                         Store.muteNotfication = !Store.muteNotfication;
                       },
                     );
                   },
                 ),
-                ValueListenableBuilder(
+                ValueListenableBuilder<dynamic>(
                   valueListenable: Store.localeListner,
                   builder: (_, __, ___) {
                     return ListTile(
@@ -77,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
                         Helper.localization.nameOf(Store.locale),
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 14.0,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

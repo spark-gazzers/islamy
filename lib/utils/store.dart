@@ -14,7 +14,7 @@ class Store {
       _settingsBox = await Hive.openBox<String>('settings');
     }
     if (!_settingsBox.isOpen) {
-      await Hive.openBox(_settingsBox.name);
+      await Hive.openBox<String>(_settingsBox.name);
     }
   }
 
@@ -27,7 +27,7 @@ class Store {
   }
 
   static String? _readValue({required String name}) {
-    String? results = _settingsBox.get(name);
+    final String? results = _settingsBox.get(name);
     return results;
   }
 
@@ -45,7 +45,7 @@ class Store {
         value: size.toString(),
       );
   static Locale get locale {
-    String? value = _readValue(name: 'locale');
+    final String? value = _readValue(name: 'locale');
     if (value == null) {
       return Locale(Intl.defaultLocale ?? Intl.systemLocale);
     }
@@ -57,7 +57,7 @@ class Store {
   }
 
   static ValueListenable<Box<dynamic>> get localeListner =>
-      _settingsBox.listenable(keys: ['locale']);
+      _settingsBox.listenable(keys: <String>['locale']);
 
   static bool get muteNotfication =>
       _readValue(name: 'mute_notifications') == '1';
@@ -67,14 +67,16 @@ class Store {
   }
 
   static ValueListenable<Box<dynamic>> get muteNotficationListner =>
-      _settingsBox.listenable(keys: ['mute_notifications']);
+      _settingsBox.listenable(keys: <String>['mute_notifications']);
 
   static bool get shouldReadBasmlaOnSelection =>
       (_readValue(name: 'should_read_basmla_on_selection') ?? '1') == '1';
 
   static set shouldReadBasmlaOnSelection(bool value) {
     _saveValue(
-        name: 'should_read_basmla_on_selection', value: value ? '1' : '0');
+      name: 'should_read_basmla_on_selection',
+      value: value ? '1' : '0',
+    );
   }
 
   static bool get highlightAyahOnPlayer =>
@@ -85,5 +87,6 @@ class Store {
   }
 
   static ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
-      _settingsBox.listenable(keys: ['should_read_basmla_on_selection']);
+      _settingsBox
+          .listenable(keys: <String>['should_read_basmla_on_selection']);
 }

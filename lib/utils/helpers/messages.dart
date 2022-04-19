@@ -4,7 +4,7 @@ class _MessagesHelper {
   const _MessagesHelper._();
   static const _MessagesHelper instance = _MessagesHelper._();
 
-  void showSuccess(BuildContext context, String message) => Flushbar(
+  void showSuccess(BuildContext context, String message) => Flushbar<void>(
         message: message,
         icon: Icon(
           Icons.check_circle,

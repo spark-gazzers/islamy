@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RoundedIcon extends StatelessWidget {
-  final IconData icon;
   const RoundedIcon(this.icon, {Key? key}) : super(key: key);
+
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {

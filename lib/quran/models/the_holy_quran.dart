@@ -9,17 +9,29 @@ part 'text_quran.g.dart';
 
 @HiveType(typeId: 5)
 class TheHolyQuran {
+  TheHolyQuran({
+    required this.surahs,
+    required this.edition,
+  });
+
+  factory TheHolyQuran.fromRawJson(String str) =>
+      TheHolyQuran.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory TheHolyQuran.fromJson(Map<String, dynamic> json) => TheHolyQuran(
+        surahs: List<Surah>.from(
+          (json['surahs'] as List<Map<String, dynamic>>)
+              .map<Surah>(Surah.fromJson),
+        ),
+        edition: Edition.fromJson(json['edition'] as Map<String, dynamic>),
+      );
+
   @override
-  operator ==(Object other) =>
+  bool operator ==(Object other) =>
       other is TheHolyQuran && other.edition == edition;
 
   @override
   int get hashCode => edition.hashCode;
 
-  TheHolyQuran({
-    required this.surahs,
-    required this.edition,
-  });
   List<QuranPage> get pages {
     _pages ??= QuranPage.formatQuran(surahs);
     return _pages!;
@@ -40,18 +52,12 @@ class TheHolyQuran {
         edition: edition ?? this.edition,
       );
 
-  factory TheHolyQuran.fromRawJson(String str) =>
-      TheHolyQuran.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory TheHolyQuran.fromJson(Map<String, dynamic> json) => TheHolyQuran(
-        surahs: List<Surah>.from(json["surahs"].map((x) => Surah.fromJson(x))),
-        edition: Edition.fromJson(json["edition"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "surahs": List<dynamic>.from(surahs.map((x) => x.toJson())),
-        "edition": edition.toJson(),
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'surahs': List<dynamic>.from(
+          surahs.map<Map<String, dynamic>>((Surah x) => x.toJson()),
+        ),
+        'edition': edition.toJson(),
       };
 }

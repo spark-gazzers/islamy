@@ -21,12 +21,12 @@ class ThemeBuilder {
         cupertinoOverrideTheme: toCupertino(theme),
         textTheme: theme.textTheme.copyWith(
           bodyText2: theme.textTheme.bodyText2?.copyWith(
-            fontSize: 14.0,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: const Color(0xff778790),
           ),
           subtitle1: theme.textTheme.subtitle1?.copyWith(
-            fontSize: 18.0,
+            fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
@@ -34,7 +34,7 @@ class ThemeBuilder {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+              borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
             minimumSize: const Size(double.infinity, 60),
             padding: EdgeInsets.zero,
@@ -42,19 +42,19 @@ class ThemeBuilder {
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
-            elevation: 10.0,
+            elevation: 10,
             shadowColor: theme.primaryColor.withAlpha(100),
           ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(
               color: Color(0xffDFE0E5),
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(
               color: Color(0xffDFE0E5),
             ),
@@ -63,7 +63,7 @@ class ThemeBuilder {
       );
 
   static CupertinoThemeData toCupertino(ThemeData theme) {
-    CupertinoThemeData data =
+    final CupertinoThemeData data =
         MaterialBasedCupertinoThemeData(materialTheme: theme);
     return data.copyWith(
       primaryColor: theme.primaryColor,
@@ -78,7 +78,7 @@ class ThemeBuilder {
           color: Colors.white,
         ),
         navActionTextStyle: const TextStyle(
-          fontSize: 18.0,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: Colors.white70,
         ),

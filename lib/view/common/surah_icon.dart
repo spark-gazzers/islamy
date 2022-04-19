@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SurahIcon extends StatelessWidget {
-  final int number;
-  final Color? color;
   const SurahIcon({Key? key, required this.number, this.color})
       : super(key: key);
+
+  final int number;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return IntrinsicWidth(
       child: Stack(
-        children: [
+        children: <Align>[
           Align(
             alignment: Alignment.center,
             child: SvgPicture.asset(

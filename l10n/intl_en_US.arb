@@ -75,5 +75,21 @@
     "order": "Order",
     "ayahs_count": "Ayahs Count",
     "downloaded_count_ayah_out_of_total": "Downloaded {count} ayah out of {total} ayah.",
-    "number_in_quran": "Number in quran"
+    "number_in_quran": "Number in quran",
+    "hamza_wasl": "Hamzat ul Wasl",
+    "silent": "Silent",
+    "laam_shamsiyah": "Lam Shamsiyyah",
+    "madda_normal": "Normal Prolongation: 2 Vowels",
+    "madda_permissible": "Permissible Prolongation: 2, 4, 6 Vowels",
+    "madda_necessary": "Necessary Prolongation: 6 Vowels",
+    "qalaqah": "Qalaqah",
+    "madda_obligatory": "Obligatory Prolongation: 4-5 Vowels",
+    "ikhafa_shafawi": "Ikhafa' Shafawi - With Meem",
+    "ikhafa": "Ikhafa'",
+    "idgham_shafawi": "Idgham Shafawi - With Meem",
+    "iqlab": "Iqlab",
+    "idgham_without_ghunnah": "Idgham - Without Ghunnah",
+    "idgham_mutajanisayn": "Idgham - Mutajanisayn",
+    "idgham_mutaqaribayn": "Idgham - Mutaqaribayn",
+    "ghunnah": "Ghunnah: 2 Vowels"
 }

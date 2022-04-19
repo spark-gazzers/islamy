@@ -12,7 +12,7 @@ import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/routes.dart';
 import 'package:islamy/utils/store.dart';
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   // return live.main();
@@ -25,7 +25,8 @@ Future<void> init() async {
   await QuranManager.init();
   await Helper.init();
   FFmpegKitConfig.setLogRedirectionStrategy(
-      LogRedirectionStrategy.neverPrintLogs);
+    LogRedirectionStrategy.neverPrintLogs,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,19 +36,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Islamy App',
-      builder: (context, child) => ScrollConfiguration(
+      builder: (BuildContext context, Widget? child) => ScrollConfiguration(
         behavior: const CupertinoScrollBehavior(),
         child: CupertinoTheme(
           data: ThemeBuilder.toCupertino(Theme.of(context)),
           child: Material(
             color: Colors.transparent,
             type: MaterialType.canvas,
-            elevation: 0.0,
+            elevation: 0,
             child: child,
           ),
         ),
       ),
-      localizationsDelegates: const [
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         S.delegate,
         CountryLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

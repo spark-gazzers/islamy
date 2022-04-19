@@ -5,22 +5,27 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart' as perms;
 
-class EnableLocation extends StatelessWidget {
+class EnableLocation extends StatefulWidget {
   const EnableLocation({Key? key}) : super(key: key);
 
+  @override
+  State<EnableLocation> createState() => _EnableLocationState();
+}
+
+class _EnableLocationState extends State<EnableLocation> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 const SizedBox(height: 109),
                 Padding(
-                  padding: const EdgeInsets.all(32.0),
+                  padding: const EdgeInsets.all(32),
                   child: Text(
                     S.of(context).manage_your_daily_islamic_habits,
                     textAlign: TextAlign.center,
@@ -38,11 +43,12 @@ class EnableLocation extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 69.5,
-                    vertical: 32.0,
+                    vertical: 32,
                   ),
                   child: Text(
                     S
                         .of(context)
+                        // ignore: lines_longer_than_80_chars
                         .you_can_skip_this_now_but_if_you_do_some_feature_wont_work,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -54,17 +60,17 @@ class EnableLocation extends StatelessWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60.0),
+              padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Hero(
                       transitionOnUserGestures: true,
                       tag: 'sign_in_with_server',
                       child: ElevatedButton(
                         onPressed: () async {
-                          Location location = Location();
+                          final Location location = Location();
                           PermissionStatus _permissionGranted;
                           _permissionGranted = await location.hasPermission();
 
@@ -75,16 +81,18 @@ class EnableLocation extends StatelessWidget {
                           switch (_permissionGranted) {
                             case PermissionStatus.granted:
                             case PermissionStatus.grantedLimited:
-                              Navigator.pushReplacementNamed(context, 'main');
+                              if (mounted) {
+                                Navigator.pushReplacementNamed(context, 'main');
+                              }
                               break;
                             case PermissionStatus.denied:
-                              showCupertinoModalPopup(
+                              showCupertinoModalPopup<void>(
                                 context: context,
                                 builder: (_) => const _AssuringLater(),
                               );
                               break;
                             case PermissionStatus.deniedForever:
-                              showCupertinoModalPopup(
+                              showCupertinoModalPopup<void>(
                                 context: context,
                                 builder: (_) => const _PermenantlyDenied(),
                               );
@@ -97,11 +105,14 @@ class EnableLocation extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 8),
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
-                          context, 'main', (route) => false);
+                        context,
+                        'main',
+                        (_) => false,
+                      );
                     },
                     child: Text(S.of(context).skip.toUpperCase()),
                   ),
@@ -122,10 +133,12 @@ class _AssuringLater extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: Text(S.of(context).enable_location),
-      message: Text(S
-          .of(context)
-          .you_can_skip_this_now_but_if_you_do_some_feature_wont_work),
-      actions: [
+      message: Text(
+        S
+            .of(context)
+            .you_can_skip_this_now_but_if_you_do_some_feature_wont_work,
+      ),
+      actions: <CupertinoActionSheetAction>[
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pop(context);
@@ -135,10 +148,13 @@ class _AssuringLater extends StatelessWidget {
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, 'main', (route) => false);
+              context,
+              'main',
+              (_) => false,
+            );
           },
-          child: Text(S.of(context).skip),
           isDestructiveAction: true,
+          child: Text(S.of(context).skip),
         ),
       ],
     );
@@ -152,25 +168,31 @@ class _PermenantlyDenied extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: Text(S.of(context).permanently_denied),
-      message: Text(S
-          .of(context)
-          .the_permisiion_permanently_denied_which_can_cause_some_features_to_malfunction),
-      actions: [
+      message: Text(
+        S
+            .of(context)
+            // ignore: lines_longer_than_80_chars
+            .the_permisiion_permanently_denied_which_can_cause_some_features_to_malfunction,
+      ),
+      actions: <CupertinoActionSheetAction>[
         CupertinoActionSheetAction(
           onPressed: () {
             perms.openAppSettings();
             Navigator.pop(context);
           },
-          child: Text(S.of(context).open_settings),
           isDefaultAction: true,
+          child: Text(S.of(context).open_settings),
         ),
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, 'main', (route) => false);
+              context,
+              'main',
+              (_) => false,
+            );
           },
-          child: Text(S.of(context).skip),
           isDestructiveAction: true,
+          child: Text(S.of(context).skip),
         ),
       ],
     );

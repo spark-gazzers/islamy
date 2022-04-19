@@ -18,13 +18,13 @@ enum QuranContentType {
   versebyverse,
 }
 
-final typeValues = EnumValues(
+final EnumValues typeValues = EnumValues(
   <String, QuranContentType>{
-    "quran": QuranContentType.quran,
-    "tafsir": QuranContentType.tafsir,
-    "translation": QuranContentType.translation,
-    "transliteration": QuranContentType.transliteration,
-    "versebyverse": QuranContentType.versebyverse
+    'quran': QuranContentType.quran,
+    'tafsir': QuranContentType.tafsir,
+    'translation': QuranContentType.translation,
+    'transliteration': QuranContentType.transliteration,
+    'versebyverse': QuranContentType.versebyverse
   },
 );
 
@@ -36,10 +36,10 @@ enum Format {
   audio,
 }
 
-final formatValues = EnumValues(
+final EnumValues formatValues = EnumValues(
   <String, Format>{
-    "audio": Format.audio,
-    "text": Format.text,
+    'audio': Format.audio,
+    'text': Format.text,
   },
 );
 
@@ -56,10 +56,10 @@ extension DirectionParser on Direction {
       this == Direction.ltr ? TextDirection.ltr : TextDirection.rtl;
 }
 
-final directionValues = EnumValues(
+final EnumValues directionValues = EnumValues(
   <String, Direction>{
-    "ltr": Direction.ltr,
-    "rtl": Direction.rtl,
+    'ltr': Direction.ltr,
+    'rtl': Direction.rtl,
   },
 );
 
@@ -77,5 +77,7 @@ extension Stringfier on RevelationType {
   }
 }
 
-final revelationTypeValues = EnumValues(
-    {"Meccan": RevelationType.meccan, "Medinan": RevelationType.medinan});
+final EnumValues revelationTypeValues = EnumValues(<String, RevelationType>{
+  'Meccan': RevelationType.meccan,
+  'Medinan': RevelationType.medinan
+});

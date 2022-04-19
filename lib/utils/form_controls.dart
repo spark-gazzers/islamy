@@ -5,16 +5,24 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 
-mixin FormControls<T extends StatefulWidget> on State<T> {
+mixin FormControls on State {
   final Map<String, TextEditingController> controllers =
-      _Controllers(<String, TextEditingController>{});
+      _ObjectMap<TextEditingController>(
+    map: <String, TextEditingController>{},
+    create: TextEditingController.new,
+  );
+
+  final Map<String, FocusNode> nodes = _ObjectMap<FocusNode>(
+    map: <String, FocusNode>{},
+    create: FocusNode.new,
+  );
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? _emptyValidator(String? str, String name) {
     if (str?.isEmpty ?? true) return S.of(context).required_field(name);
   }
 
   String? otpValidator(String? str) {
-    String? empty = _emptyValidator(str, S.of(context).otp_code);
+    final String? empty = _emptyValidator(str, S.of(context).otp_code);
     if (empty != null) return empty;
     if (int.tryParse(str!) == null) {
       return S.current.invalid_field(S.of(context).otp_code);
@@ -25,7 +33,7 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
   }
 
   String? nameValidator(String? str) {
-    String? empty = _emptyValidator(str, S.of(context).full_name);
+    final String? empty = _emptyValidator(str, S.of(context).full_name);
     if (empty != null) return empty;
     if (str!.length < 8) {
       return S.of(context).field_not_less(S.of(context).full_name, 8);
@@ -33,7 +41,7 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
   }
 
   String? phoneValidator(String? str) {
-    String? empty = _emptyValidator(str, S.of(context).phone_number);
+    final String? empty = _emptyValidator(str, S.of(context).phone_number);
     if (empty != null) return empty;
     if (str!.length != 10) {
       return S.of(context).field_unlengthed(S.of(context).phone_number, 10);
@@ -44,7 +52,7 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
   }
 
   String? passwordValidator(String? str) {
-    String? empty = _emptyValidator(str, S.of(context).password);
+    final String? empty = _emptyValidator(str, S.of(context).password);
     if (empty != null) return empty;
     if (str!.length < 8) {
       return S.of(context).field_not_less(S.of(context).password, 8);
@@ -52,7 +60,7 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
   }
 
   String? passwordConfirmationValidator(String? str, String password) {
-    String? empty = _emptyValidator(str, S.of(context).password);
+    final String? empty = _emptyValidator(str, S.of(context).password);
     if (empty != null) return empty;
     if (str!.length < 8) {
       return S.of(context).field_not_less(S.of(context).password, 8);
@@ -62,21 +70,28 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
 
   @override
   void dispose() {
-    for (var entry in controllers.entries) {
-      entry.value.dispose();
-    }
+    (controllers as _ObjectMap<TextEditingController>).dispose();
+    (nodes as _ObjectMap<FocusNode>).dispose();
     super.dispose();
   }
 }
 
-class _Controllers extends MapView<String, TextEditingController> {
-  _Controllers(Map<String, TextEditingController> map) : super(map);
+class _ObjectMap<T extends ChangeNotifier> extends MapView<String, T> {
+  _ObjectMap({required Map<String, T> map, required this.create}) : super(map);
+
+  final T Function() create;
 
   @override
-  TextEditingController operator [](Object? name) {
+  T operator [](Object? name) {
     if (!containsKey(name)) {
-      super[name as String] = TextEditingController();
+      super[name! as String] = create();
     }
     return super[name]!;
+  }
+
+  void dispose() {
+    for (final T object in values) {
+      object.dispose();
+    }
   }
 }

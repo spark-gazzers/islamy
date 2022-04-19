@@ -7,11 +7,6 @@ import 'package:islamy/utils/helper.dart';
 import 'package:islamy/view/profile/screens/download_quran.dart';
 
 class SelectEditionDelegate extends StatelessWidget {
-  final Edition? selected;
-  final String title;
-  final String propertyName;
-  final List<Edition> choices;
-  final void Function(Edition) onSelected;
   const SelectEditionDelegate({
     Key? key,
     required this.selected,
@@ -20,6 +15,12 @@ class SelectEditionDelegate extends StatelessWidget {
     required this.title,
     required this.propertyName,
   }) : super(key: key);
+
+  final Edition? selected;
+  final String title;
+  final String propertyName;
+  final List<Edition> choices;
+  final void Function(Edition) onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class SelectEditionDelegate extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       child: ListView.separated(
-        itemBuilder: (_, index) => _EditionListTile(
+        itemBuilder: (_, int index) => _EditionListTile(
           propertyName: propertyName,
           edition: choices[index],
           onSelected: onSelected,
@@ -44,11 +45,6 @@ class SelectEditionDelegate extends StatelessWidget {
 }
 
 class _EditionListTile extends StatelessWidget {
-  final Edition edition;
-  final bool isSelected;
-  final void Function(Edition) onSelected;
-  final String propertyName;
-
   const _EditionListTile({
     Key? key,
     required this.edition,
@@ -56,6 +52,11 @@ class _EditionListTile extends StatelessWidget {
     required this.onSelected,
     required this.propertyName,
   }) : super(key: key);
+
+  final Edition edition;
+  final bool isSelected;
+  final void Function(Edition) onSelected;
+  final String propertyName;
 
   @override
   Widget build(BuildContext context) {
@@ -69,19 +70,27 @@ class _EditionListTile extends StatelessWidget {
       trailing:
           isSelected ? const Icon(CupertinoIcons.check_mark_circled) : null,
       onTap: () async {
+        final NavigatorState navigator = Navigator.of(context);
         if (!QuranManager.isQuranDownloaded(edition)) {
-          Edition? ret = await showCupertinoModalPopup<Edition>(
-              context: context,
-              builder: (_) => DownloadQuranEditionSheet(edition: edition));
+          final Edition? ret = await showCupertinoModalPopup<Edition>(
+            context: context,
+            builder: (_) => DownloadQuranEditionSheet(edition: edition),
+          );
           if (ret != null) {
-            NavigatorState navigator = Navigator.of(context);
             onSelected(edition);
             navigator.pop();
+            // ignoring here cause there is no possible way to close the screen
+            // after disposing the sheet without completing this method body
+            // ignore: use_build_context_synchronously
             Helper.messages.showSuccess(
-                navigator.context,
-                S.current
-                    .edition_was_downloaded_succefully_and_selected_for_edition_type(
-                        edition.localizedName, propertyName));
+              navigator.context,
+              S.current
+                  // ignore: lines_longer_than_80_chars
+                  .edition_was_downloaded_succefully_and_selected_for_edition_type(
+                edition.localizedName,
+                propertyName,
+              ),
+            );
             return;
           }
         } else {

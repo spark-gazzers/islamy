@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:islamy/bases/json_models.dart';
 import 'package:islamy/quran/models/enums.dart';
 
 class QuranMeta {
@@ -13,6 +14,21 @@ class QuranMeta {
     required this.hizbQuarters,
     required this.juzs,
   });
+
+  factory QuranMeta.fromRawJson(String str) =>
+      QuranMeta.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory QuranMeta.fromJson(Map<String, dynamic> json) => QuranMeta(
+        ayahs: Ayahs.fromJson(json['ayahs'] as Map<String, dynamic>),
+        surahs: Surahs.fromJson(json['surahs'] as Map<String, dynamic>),
+        sajdas: Sajdas.fromJson(json['sajdas'] as Map<String, dynamic>),
+        rukus: HizbQuarters.fromJson(json['rukus'] as Map<String, dynamic>),
+        pages: HizbQuarters.fromJson(json['pages'] as Map<String, dynamic>),
+        manzils: HizbQuarters.fromJson(json['manzils'] as Map<String, dynamic>),
+        hizbQuarters:
+            HizbQuarters.fromJson(json['hizbQuarters'] as Map<String, dynamic>),
+        juzs: HizbQuarters.fromJson(json['juzs'] as Map<String, dynamic>),
+      );
 
   final Ayahs ayahs;
   final Surahs surahs;
@@ -43,32 +59,17 @@ class QuranMeta {
         hizbQuarters: hizbQuarters ?? this.hizbQuarters,
         juzs: juzs ?? this.juzs,
       );
-
-  factory QuranMeta.fromRawJson(String str) =>
-      QuranMeta.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory QuranMeta.fromJson(Map<String, dynamic> json) => QuranMeta(
-        ayahs: Ayahs.fromJson(json["ayahs"]),
-        surahs: Surahs.fromJson(json["surahs"]),
-        sajdas: Sajdas.fromJson(json["sajdas"]),
-        rukus: HizbQuarters.fromJson(json["rukus"]),
-        pages: HizbQuarters.fromJson(json["pages"]),
-        manzils: HizbQuarters.fromJson(json["manzils"]),
-        hizbQuarters: HizbQuarters.fromJson(json["hizbQuarters"]),
-        juzs: HizbQuarters.fromJson(json["juzs"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "ayahs": ayahs.toJson(),
-        "surahs": surahs.toJson(),
-        "sajdas": sajdas.toJson(),
-        "rukus": rukus.toJson(),
-        "pages": pages.toJson(),
-        "manzils": manzils.toJson(),
-        "hizbQuarters": hizbQuarters.toJson(),
-        "juzs": juzs.toJson(),
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'ayahs': ayahs.toJson(),
+        'surahs': surahs.toJson(),
+        'sajdas': sajdas.toJson(),
+        'rukus': rukus.toJson(),
+        'pages': pages.toJson(),
+        'manzils': manzils.toJson(),
+        'hizbQuarters': hizbQuarters.toJson(),
+        'juzs': juzs.toJson(),
       };
 }
 
@@ -76,6 +77,13 @@ class Ayahs {
   Ayahs({
     required this.count,
   });
+
+  factory Ayahs.fromRawJson(String str) =>
+      Ayahs.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Ayahs.fromJson(Map<String, dynamic> json) => Ayahs(
+        count: json['count'] as int,
+      );
 
   final int count;
 
@@ -85,17 +93,10 @@ class Ayahs {
       Ayahs(
         count: count ?? this.count,
       );
-
-  factory Ayahs.fromRawJson(String str) => Ayahs.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory Ayahs.fromJson(Map<String, dynamic> json) => Ayahs(
-        count: json["count"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'count': count,
       };
 }
 
@@ -104,6 +105,17 @@ class HizbQuarters {
     required this.count,
     required this.references,
   });
+
+  factory HizbQuarters.fromRawJson(String str) =>
+      HizbQuarters.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory HizbQuarters.fromJson(Map<String, dynamic> json) => HizbQuarters(
+        count: json['count'] as int,
+        references: List<HizbQuartersReference>.from(
+          (json['references'] as List<Map<String, dynamic>>)
+              .map<HizbQuartersReference>(HizbQuartersReference.fromJson),
+        ),
+      );
 
   final int count;
   final List<HizbQuartersReference> references;
@@ -117,20 +129,14 @@ class HizbQuarters {
         references: references ?? this.references,
       );
 
-  factory HizbQuarters.fromRawJson(String str) =>
-      HizbQuarters.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
-
-  factory HizbQuarters.fromJson(Map<String, dynamic> json) => HizbQuarters(
-        count: json["count"],
-        references: List<HizbQuartersReference>.from(
-            json["references"].map((x) => HizbQuartersReference.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "references": List<dynamic>.from(references.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'count': count,
+        'references': List<dynamic>.from(
+          references.map<Map<String, dynamic>>(
+            (HizbQuartersReference x) => x.toJson(),
+          ),
+        ),
       };
 }
 
@@ -139,6 +145,15 @@ class HizbQuartersReference {
     required this.surah,
     required this.ayah,
   });
+
+  factory HizbQuartersReference.fromRawJson(String str) =>
+      HizbQuartersReference.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory HizbQuartersReference.fromJson(Map<String, dynamic> json) =>
+      HizbQuartersReference(
+        surah: json['surah'] as int,
+        ayah: json['ayah'] as int,
+      );
 
   final int surah;
   final int ayah;
@@ -152,20 +167,10 @@ class HizbQuartersReference {
         ayah: ayah ?? this.ayah,
       );
 
-  factory HizbQuartersReference.fromRawJson(String str) =>
-      HizbQuartersReference.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
-
-  factory HizbQuartersReference.fromJson(Map<String, dynamic> json) =>
-      HizbQuartersReference(
-        surah: json["surah"],
-        ayah: json["ayah"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "surah": surah,
-        "ayah": ayah,
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'surah': surah,
+        'ayah': ayah,
       };
 }
 
@@ -174,6 +179,17 @@ class Sajdas {
     required this.count,
     required this.references,
   });
+
+  factory Sajdas.fromRawJson(String str) =>
+      Sajdas.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Sajdas.fromJson(Map<String, dynamic> json) => Sajdas(
+        count: json['count'] as int,
+        references: List<SajdasReference>.from(
+          (json['references'] as List<Map<String, dynamic>>)
+              .map<SajdasReference>(SajdasReference.fromJson),
+        ),
+      );
 
   final int count;
   final List<SajdasReference> references;
@@ -187,19 +203,14 @@ class Sajdas {
         references: references ?? this.references,
       );
 
-  factory Sajdas.fromRawJson(String str) => Sajdas.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory Sajdas.fromJson(Map<String, dynamic> json) => Sajdas(
-        count: json["count"],
-        references: List<SajdasReference>.from(
-            json["references"].map((x) => SajdasReference.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "references": List<dynamic>.from(references.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'count': count,
+        'references': List<dynamic>.from(
+          references
+              .map<Map<String, dynamic>>((SajdasReference x) => x.toJson()),
+        ),
       };
 }
 
@@ -210,6 +221,17 @@ class SajdasReference {
     required this.recommended,
     required this.obligatory,
   });
+
+  factory SajdasReference.fromRawJson(String str) =>
+      SajdasReference.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory SajdasReference.fromJson(Map<String, dynamic> json) =>
+      SajdasReference(
+        surah: json['surah'] as int,
+        ayah: json['ayah'] as int,
+        recommended: json['recommended'] as bool,
+        obligatory: json['obligatory'] as bool,
+      );
 
   final int surah;
   final int ayah;
@@ -229,32 +251,31 @@ class SajdasReference {
         obligatory: obligatory ?? this.obligatory,
       );
 
-  factory SajdasReference.fromRawJson(String str) =>
-      SajdasReference.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
-
-  factory SajdasReference.fromJson(Map<String, dynamic> json) =>
-      SajdasReference(
-        surah: json["surah"],
-        ayah: json["ayah"],
-        recommended: json["recommended"],
-        obligatory: json["obligatory"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "surah": surah,
-        "ayah": ayah,
-        "recommended": recommended,
-        "obligatory": obligatory,
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'surah': surah,
+        'ayah': ayah,
+        'recommended': recommended,
+        'obligatory': obligatory,
       };
 }
 
-class Surahs {
+class Surahs extends JsonModel {
   Surahs({
     required this.count,
     required this.references,
   });
+
+  factory Surahs.fromRawJson(String str) =>
+      Surahs.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Surahs.fromJson(Map<String, dynamic> json) => Surahs(
+        count: json['count'] as int,
+        references: List<SurahsReference>.from(
+          (json['references'] as List<Map<String, dynamic>>)
+              .map<SurahsReference>(SurahsReference.fromJson),
+        ),
+      );
 
   final int count;
   final List<SurahsReference> references;
@@ -268,19 +289,16 @@ class Surahs {
         references: references ?? this.references,
       );
 
-  factory Surahs.fromRawJson(String str) => Surahs.fromJson(json.decode(str));
-
+  @override
   String toRawJson() => json.encode(toJson());
 
-  factory Surahs.fromJson(Map<String, dynamic> json) => Surahs(
-        count: json["count"],
-        references: List<SurahsReference>.from(
-            json["references"].map((x) => SurahsReference.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "references": List<dynamic>.from(references.map((x) => x.toJson())),
+  @override
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'count': count,
+        'references': List<Map<String, dynamic>>.from(
+          references
+              .map<Map<String, dynamic>>((SurahsReference x) => x.toJson()),
+        ),
       };
 }
 
@@ -293,6 +311,20 @@ class SurahsReference {
     required this.numberOfAyahs,
     required this.revelationType,
   });
+
+  factory SurahsReference.fromRawJson(String str) =>
+      SurahsReference.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory SurahsReference.fromJson(Map<String, dynamic> json) =>
+      SurahsReference(
+        number: json['number'] as int,
+        name: json['name'] as String,
+        englishName: json['englishName'] as String,
+        englishNameTranslation: json['englishNameTranslation'] as String,
+        numberOfAyahs: json['numberOfAyahs'] as int,
+        revelationType:
+            revelationTypeValues.map[json['revelationType']] as RevelationType,
+      );
 
   final int number;
   final String name;
@@ -319,27 +351,14 @@ class SurahsReference {
         revelationType: revelationType ?? this.revelationType,
       );
 
-  factory SurahsReference.fromRawJson(String str) =>
-      SurahsReference.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory SurahsReference.fromJson(Map<String, dynamic> json) =>
-      SurahsReference(
-        number: json["number"],
-        name: json["name"],
-        englishName: json["englishName"],
-        englishNameTranslation: json["englishNameTranslation"],
-        numberOfAyahs: json["numberOfAyahs"],
-        revelationType: revelationTypeValues.map[json["revelationType"]]!,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "number": number,
-        "name": name,
-        "englishName": englishName,
-        "englishNameTranslation": englishNameTranslation,
-        "numberOfAyahs": numberOfAyahs,
-        "revelationType": revelationTypeValues.reverse[revelationType],
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'number': number,
+        'name': name,
+        'englishName': englishName,
+        'englishNameTranslation': englishNameTranslation,
+        'numberOfAyahs': numberOfAyahs,
+        'revelationType': revelationTypeValues.reverse[revelationType],
       };
 }

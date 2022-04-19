@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of quran;
 
 class QuranStore {
@@ -16,35 +18,36 @@ class QuranStore {
   static void _registerAdapters() {
     // Quran adapters typeId should start from 0
 
-    // typeId == 0
-    Hive.registerAdapter(EditionAdapter());
+    Hive
+      // typeId == 0
+      ..registerAdapter(EditionAdapter())
 
-    // typeId == 1
-    Hive.registerAdapter(EnumValuesAdapter());
+      // typeId == 1
+      ..registerAdapter(EnumValuesAdapter())
 
-    // typeId == 2
-    Hive.registerAdapter(QuranContentTypeAdapter());
+      // typeId == 2
+      ..registerAdapter(QuranContentTypeAdapter())
 
-    // typeId == 3
-    Hive.registerAdapter(FormatAdapter());
+      // typeId == 3
+      ..registerAdapter(FormatAdapter())
 
-    // typeId == 4
-    Hive.registerAdapter(DirectionAdapter());
+      // typeId == 4
+      ..registerAdapter(DirectionAdapter())
 
-    // typeId == 5
-    Hive.registerAdapter(TheHolyQuranAdapter());
+      // typeId == 5
+      ..registerAdapter(TheHolyQuranAdapter())
 
-    // typeId == 6
-    Hive.registerAdapter(SurahAdapter());
+      // typeId == 6
+      ..registerAdapter(SurahAdapter())
 
-    // typeId == 7
-    Hive.registerAdapter(AyahAdapter());
+      // typeId == 7
+      ..registerAdapter(AyahAdapter())
 
-    // typeId == 8
-    Hive.registerAdapter(SajdaAdapter());
+      // typeId == 8
+      ..registerAdapter(SajdaAdapter())
 
-    // typeId == 9
-    Hive.registerAdapter(RevelationTypeAdapter());
+      // typeId == 9
+      ..registerAdapter(RevelationTypeAdapter());
   }
 
   static Future<Box<T>> _getBox<T>(String boxName) async {
@@ -56,40 +59,51 @@ class QuranStore {
     }
 
     if (!box.isOpen) {
-      await Hive.openBox(box.name);
+      await Hive.openBox<T>(box.name);
     }
     return box;
   }
 
   static List<Edition> _listEditions() => _editionsBox.values.toList();
   static List<Edition> listTextEditions() => _editionsBox.values
-      .where((element) =>
-          element.format == Format.text &&
-          element.type == QuranContentType.quran)
+      .where(
+        (Edition element) =>
+            element.format == Format.text &&
+            element.type == QuranContentType.quran,
+      )
       .toList();
   static List<Edition> listAudioEditions() => _editionsBox.values
-      .where((element) =>
-          element.format == Format.audio &&
-          element.type == QuranContentType.versebyverse)
+      .where(
+        (Edition element) =>
+            element.format == Format.audio &&
+            element.type == QuranContentType.versebyverse,
+      )
       .toList();
   static List<Edition> listInterpretationEditions() => _editionsBox.values
-      .where((element) =>
-          element.format == Format.text &&
-          element.type == QuranContentType.tafsir)
+      .where(
+        (Edition element) =>
+            element.format == Format.text &&
+            element.type == QuranContentType.tafsir,
+      )
       .toList();
   static List<Edition> listTranslationEditions() => _editionsBox.values
-      .where((element) =>
-          element.format == Format.text &&
-          element.type == QuranContentType.translation)
+      .where(
+        (Edition element) =>
+            element.format == Format.text &&
+            element.type == QuranContentType.translation,
+      )
       .toList();
   static List<Edition> listTransliterationEditions() => _editionsBox.values
-      .where((element) => element.type == QuranContentType.transliteration)
+      .where(
+        (Edition element) => element.type == QuranContentType.transliteration,
+      )
       .toList();
   static Future<void> _addEditions(List<Edition> editions) =>
       _addAll(values: editions, box: _editionsBox);
 
   static Future<bool> _isSurahDownloaded(Edition edition, Surah surah) async {
-    Directory surahDirectory = await _getDirectoryForSurah(edition, surah);
+    final Directory surahDirectory =
+        await _getDirectoryForSurah(edition, surah);
 
     return surahDirectory.listSync().length ==
         surah.ayahs.length +
@@ -102,16 +116,19 @@ class QuranStore {
   }
 
   static Future<Directory> _getDirectoryForSurah(
-      Edition edition, Surah surah) async {
-    Directory docDirectory = await getApplicationDocumentsDirectory();
-    Directory quranDirectory = _getDescendant(docDirectory, edition.identifier);
-    Directory surahDirectory =
+    Edition edition,
+    Surah surah,
+  ) async {
+    final Directory docDirectory = await getApplicationDocumentsDirectory();
+    final Directory quranDirectory =
+        _getDescendant(docDirectory, edition.identifier);
+    final Directory surahDirectory =
         _getDescendant(quranDirectory, surah.number.toString());
     return surahDirectory;
   }
 
   static Future<File> _fileIn(Edition edition, Surah surah, String name) async {
-    Directory directory = await _getDirectoryForSurah(edition, surah);
+    final Directory directory = await _getDirectoryForSurah(edition, surah);
     File file;
     if (directory.path.endsWith(Platform.pathSeparator)) {
       file = File(directory.path + name);
@@ -133,7 +150,7 @@ class QuranStore {
     if (!directory.existsSync()) directory.createSync();
     String path = directory.path;
     if (!path.endsWith(Platform.pathSeparator)) path += Platform.pathSeparator;
-    Directory descendant = Directory(path + child);
+    final Directory descendant = Directory(path + child);
     if (!descendant.existsSync()) descendant.createSync();
     return descendant;
   }
@@ -144,7 +161,10 @@ class QuranStore {
 
   static Future<void> _addQuran(Edition edition, TheHolyQuran quran) async {
     await _saveValue(
-        name: edition.identifier, value: quran, box: _textQuranBox);
+      name: edition.identifier,
+      value: quran,
+      box: _textQuranBox,
+    );
   }
 
   static Future<void> _saveValue<T>({
@@ -174,7 +194,7 @@ class QuranStore {
     required String name,
     required Box<T> box,
   }) {
-    T? results = box.get(name);
+    final T? results = box.get(name);
     return results;
   }
 }
@@ -200,7 +220,7 @@ class _QuranSettings {
   ////// Editions Selections
   Edition get defaultTextEdition {
     return QuranStore.listTextEditions().singleWhere(
-      (element) =>
+      (Edition element) =>
           element.identifier ==
           (_settingsBox.get('default_text_edition') ?? 'quran-uthmani'),
     );
@@ -215,10 +235,10 @@ class _QuranSettings {
   }
 
   Edition get defaultAudioEdition {
-    List<Edition> editions = QuranStore.listAudioEditions().toList();
+    final List<Edition> editions = QuranStore.listAudioEditions().toList();
 
     return editions.singleWhere(
-      (element) =>
+      (Edition element) =>
           element.identifier ==
           (_settingsBox.get('default_audio_edition') ??
               editions.first.identifier),
@@ -227,16 +247,18 @@ class _QuranSettings {
 
   set defaultAudioEdition(Edition edition) {
     QuranStore._saveValue(
-        name: 'default_audio_edition',
-        value: edition.identifier,
-        box: _settingsBox);
+      name: 'default_audio_edition',
+      value: edition.identifier,
+      box: _settingsBox,
+    );
   }
 
   Edition get defaultInterpretationEdition {
-    List<Edition> editions = QuranStore.listInterpretationEditions().toList();
+    final List<Edition> editions =
+        QuranStore.listInterpretationEditions().toList();
 
     return editions.singleWhere(
-      (element) =>
+      (Edition element) =>
           element.identifier ==
           (_settingsBox.get('default_interpretation_edition') ??
               editions.first.identifier),
@@ -245,16 +267,18 @@ class _QuranSettings {
 
   set defaultInterpretationEdition(Edition edition) {
     QuranStore._saveValue(
-        name: 'default_interpretation_edition',
-        value: edition.identifier,
-        box: _settingsBox);
+      name: 'default_interpretation_edition',
+      value: edition.identifier,
+      box: _settingsBox,
+    );
   }
 
   Edition get defaultTranslationEdition {
-    List<Edition> editions = QuranStore.listTranslationEditions().toList();
+    final List<Edition> editions =
+        QuranStore.listTranslationEditions().toList();
 
     return editions.singleWhere(
-      (element) =>
+      (Edition element) =>
           element.identifier ==
           (_settingsBox.get('default_translation_edition') ??
               editions.first.identifier),
@@ -263,8 +287,9 @@ class _QuranSettings {
 
   set defaultTranslationEdition(Edition edition) {
     QuranStore._saveValue(
-        name: 'default_translation_edition',
-        value: edition.identifier,
-        box: _settingsBox);
+      name: 'default_translation_edition',
+      value: edition.identifier,
+      box: _settingsBox,
+    );
   }
 }

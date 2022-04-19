@@ -4,11 +4,12 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/utils/form_controls.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  final String? phone;
   const ForgotPasswordScreen({
     Key? key,
     required this.phone,
   }) : super(key: key);
+
+  final String? phone;
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();

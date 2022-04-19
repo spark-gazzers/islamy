@@ -11,6 +11,16 @@ class Sajda {
     required this.recommended,
     required this.obligatory,
   });
+
+  factory Sajda.fromRawJson(String str) =>
+      Sajda.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Sajda.fromJson(Map<String, dynamic> json) => Sajda(
+        id: json['id'] as int,
+        recommended: json['recommended'] as bool,
+        obligatory: json['obligatory'] as bool,
+      );
+
   @HiveField(0)
   final int id;
   @HiveField(1)
@@ -29,19 +39,11 @@ class Sajda {
         obligatory: obligatory ?? this.obligatory,
       );
 
-  factory Sajda.fromRawJson(String str) => Sajda.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory Sajda.fromJson(Map<String, dynamic> json) => Sajda(
-        id: json["id"],
-        recommended: json["recommended"],
-        obligatory: json["obligatory"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "recommended": recommended,
-        "obligatory": obligatory,
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'recommended': recommended,
+        'obligatory': obligatory,
       };
 }

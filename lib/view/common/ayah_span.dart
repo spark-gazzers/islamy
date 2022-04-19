@@ -9,7 +9,6 @@ import 'package:islamy/utils/helper.dart';
 class AyahSpan extends TextSpan {
   AyahSpan({
     required Ayah ayah,
-    required TextDirection direction,
     VoidCallback? onTap,
     VoidCallback? onLongTap,
     bool isSelected = false,
@@ -18,8 +17,9 @@ class AyahSpan extends TextSpan {
             ...AyahTajweedSplitter.formatAyah(ayah),
             TextSpan(
               recognizer: MultiTapGestureRecognizer(
-                  longTapDelay: const Duration(milliseconds: 300))
-                ..onLongTapDown = (pointer, details) {
+                longTapDelay: const Duration(milliseconds: 300),
+              )
+                ..onLongTapDown = (int pointer, TapDownDetails details) {
                   if (onLongTap != null) {
                     HapticFeedback.heavyImpact();
                     onLongTap();
@@ -35,7 +35,7 @@ class AyahSpan extends TextSpan {
                     isSelected ? TextDecoration.underline : TextDecoration.none,
               ),
             ),
-            AyahsNumberSpan(ayah: ayah, direction: direction),
+            AyahsNumberSpan(ayah: ayah),
           ],
         );
 }
@@ -43,7 +43,6 @@ class AyahSpan extends TextSpan {
 class AyahsNumberSpan extends TextSpan {
   AyahsNumberSpan({
     required Ayah ayah,
-    required TextDirection direction,
   }) : super(
           text: Helper.localization
               .getVerseEndSymbol(ayah.numberInSurah, TextDirection.ltr),

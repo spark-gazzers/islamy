@@ -1,23 +1,14 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
+import 'package:islamy/quran/models/alquran_cloud_object.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/enums.dart';
-import 'package:islamy/quran/models/alquran_cloud_object.dart';
 
 part 'surah.g.dart';
 
 @HiveType(typeId: 6)
 class Surah extends AlquranCloudObject {
-  @override
-  String toString() {
-    return number.toString();
-  }
-
-  @override
-  operator ==(Object other) => other is Surah && other.number == number;
-  @override
-  int get hashCode => number.hashCode;
   Surah({
     required this.number,
     required this.name,
@@ -26,6 +17,23 @@ class Surah extends AlquranCloudObject {
     required this.revelationType,
     required this.ayahs,
   });
+
+  factory Surah.fromRawJson(String str) =>
+      Surah.fromJson(json.decode(str) as Map<String, dynamic>);
+
+  factory Surah.fromJson(Map<String, dynamic> json) => Surah(
+        number: json['number'] as int,
+        name: json['name'] as String,
+        englishName: json['englishName'] as String,
+        englishNameTranslation: json['englishNameTranslation'] as String,
+        revelationType:
+            revelationTypeValues.map[json['revelationType']] as RevelationType,
+        ayahs: List<Ayah>.from(
+          (json['ayahs'] as List<Map<String, dynamic>>)
+              .map<Ayah>(Ayah.fromJson),
+        ),
+      );
+
   @HiveField(0)
   final int number;
   @override
@@ -40,6 +48,11 @@ class Surah extends AlquranCloudObject {
   final RevelationType revelationType;
   @HiveField(5)
   final List<Ayah> ayahs;
+
+  @override
+  bool operator ==(Object other) => other is Surah && other.number == number;
+  @override
+  int get hashCode => number.hashCode;
 
   Surah copyWith({
     int? number,
@@ -59,25 +72,16 @@ class Surah extends AlquranCloudObject {
         ayahs: ayahs ?? this.ayahs,
       );
 
-  factory Surah.fromRawJson(String str) => Surah.fromJson(json.decode(str));
-
   String toRawJson() => json.encode(toJson());
 
-  factory Surah.fromJson(Map<String, dynamic> json) => Surah(
-        number: json["number"],
-        name: json["name"],
-        englishName: json["englishName"],
-        englishNameTranslation: json["englishNameTranslation"],
-        revelationType: revelationTypeValues.map[json["revelationType"]]!,
-        ayahs: List<Ayah>.from(json["ayahs"].map((x) => Ayah.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "number": number,
-        "name": name,
-        "englishName": englishName,
-        "englishNameTranslation": englishNameTranslation,
-        "revelationType": revelationTypeValues.reverse[revelationType]!,
-        "ayahs": List<dynamic>.from(ayahs.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'number': number,
+        'name': name,
+        'englishName': englishName,
+        'englishNameTranslation': englishNameTranslation,
+        'revelationType': revelationTypeValues.reverse[revelationType]!,
+        'ayahs': List<Map<String, dynamic>>.from(
+          ayahs.map<Map<String, dynamic>>((Ayah x) => x.toJson()),
+        ),
       };
 }

@@ -27,27 +27,26 @@ class _MainPageState extends State<MainPage>
       body: TabBarView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: const <Widget>[
           HomeScreen(),
           QuranScreen(),
           HomeScreen(),
           ProfileScreen(),
         ],
       ),
-      bottomNavigationBar: Builder(builder: (context) {
-        return AnimatedBuilder(
+      bottomNavigationBar: Builder(
+        builder: (BuildContext context) {
+          return AnimatedBuilder(
             animation: _controller,
-            builder: (context, _) {
+            builder: (BuildContext context, _) {
               return BottomNavigationBar(
                 currentIndex: _controller.index,
                 selectedItemColor: Theme.of(context).primaryColor,
                 unselectedItemColor: const Color(0xffbababa),
                 type: BottomNavigationBarType.fixed,
                 showUnselectedLabels: true,
-                onTap: (index) {
-                  _controller.animateTo(index);
-                },
-                items: [
+                onTap: _controller.animateTo,
+                items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     label: S.of(context).home,
                     activeIcon: const Icon(Iconsax.home_15),
@@ -70,8 +69,10 @@ class _MainPageState extends State<MainPage>
                   ),
                 ],
               );
-            });
-      }),
+            },
+          );
+        },
+      ),
     );
   }
 }

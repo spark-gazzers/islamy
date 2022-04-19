@@ -23,12 +23,12 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
       backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            children: [
+            children: <Widget>[
               CupertinoFormSection(
                 header: Text(S.of(context).quran_editions),
-                children: [
+                children: <Widget>[
                   ListTile(
                     onTap: () {
                       Navigator.pushNamed(context, 'select_text_quran');
@@ -46,7 +46,9 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                   ListTile(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, 'select_interpretation_quran');
+                        context,
+                        'select_interpretation_quran',
+                      );
                     },
                     title: Text(S.of(context).interpretation_edition),
                     trailing: const Icon(CupertinoIcons.forward),
@@ -55,7 +57,9 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                     child: ListTile(
                       onTap: () {
                         Navigator.pushNamed(
-                            context, 'select_translation_quran');
+                          context,
+                          'select_translation_quran',
+                        );
                       },
                       title: Text(S.of(context).translation_edition),
                       trailing: const Icon(CupertinoIcons.forward),
@@ -65,7 +69,9 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                     child: ListTile(
                       onTap: () {
                         Navigator.pushNamed(
-                            context, 'select_transliteration_quran');
+                          context,
+                          'select_transliteration_quran',
+                        );
                       },
                       title: Text(S.of(context).transliteration_edition),
                       trailing: const Icon(CupertinoIcons.forward),
@@ -75,16 +81,19 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
               ),
               CupertinoFormSection(
                 header: Text(S.of(context).quran_reader),
-                children: [
-                  ValueListenableBuilder(
+                children: <Widget>[
+                  ValueListenableBuilder<dynamic>(
                     valueListenable: Store.shouldReadBasmlaOnSelectionListner,
                     builder: (_, __, ___) {
                       return ListTile(
                         title:
                             Text(S.of(context).should_read_basmla_on_selection),
-                        subtitle: Text(S
-                            .of(context)
-                            .note_this_will_not_stop_the_reader_from_reading_the_basmala_on_the_start_of_the_surah),
+                        subtitle: Text(
+                          S
+                              .of(context)
+                              // ignore: lines_longer_than_80_chars
+                              .note_this_will_not_stop_the_reader_from_reading_the_basmala_on_the_start_of_the_surah,
+                        ),
                         onTap: () {
                           HapticFeedback.lightImpact();
                           Store.shouldReadBasmlaOnSelection =

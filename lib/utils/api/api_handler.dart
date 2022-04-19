@@ -9,14 +9,14 @@ class ApiHandler {
     _dio.options.headers['Content-Type'] = 'application/json';
   }
 
-  static Future<Response> _call({
+  static Future<Response<dynamic>> _call({
     required String path,
     Map<String, String> headers = const <String, String>{},
     Map<String, dynamic> query = const <String, dynamic>{},
     Map<String, dynamic> body = const <String, dynamic>{},
     String method = 'POST',
   }) {
-    return _dio.request(
+    return _dio.request<dynamic>(
       path,
       data: body,
       queryParameters: query,

@@ -11,6 +11,14 @@ class Juz extends AlquranCloudObject {
     required this.surahsRange,
   });
 
+  factory Juz.fromJson(Map<String, dynamic> json) => Juz(
+        index: json['index'] as int,
+        name: json['name'] as String,
+        englishName: json['englishName'] as String,
+        surahsRange:
+            SurahsRange.fromJson(json['surahs_range'] as Map<String, dynamic>),
+      );
+
   final int index;
   @override
   final String name;
@@ -21,14 +29,10 @@ class Juz extends AlquranCloudObject {
   String get otherName =>
       !Store.locale.languageCode.startsWith('ar') ? name : englishName;
   static List<Juz> listFromRawJson(String str) =>
-      (json.decode(str) as List).map((e) => Juz.fromJson(e)).toList();
+      (json.decode(str) as List<Map<String, dynamic>>)
+          .map(Juz.fromJson)
+          .toList();
 
-  factory Juz.fromJson(Map<String, dynamic> json) => Juz(
-        index: json["index"],
-        name: json["name"],
-        englishName: json["englishName"],
-        surahsRange: SurahsRange.fromJson(json["surahs_range"]),
-      );
   bool containsSurah(int number) =>
       number >= surahsRange.start && number <= surahsRange.end;
 }
@@ -39,11 +43,11 @@ class SurahsRange {
     required this.end,
   });
 
+  factory SurahsRange.fromJson(Map<String, dynamic> json) => SurahsRange(
+        start: json['start'] as int,
+        end: json['end'] as int,
+      );
+
   final int start;
   final int end;
-
-  factory SurahsRange.fromJson(Map<String, dynamic> json) => SurahsRange(
-        start: json["start"],
-        end: json["end"],
-      );
 }

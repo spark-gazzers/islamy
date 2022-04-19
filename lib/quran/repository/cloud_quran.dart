@@ -9,7 +9,7 @@ class CloudQuran {
     _dio.options.headers['Content-Type'] = 'application/json';
   }
 
-  static Future<Response> _call({
+  static Future<Response<T>> _call<T>({
     required String path,
     Map<String, String> headers = const <String, String>{},
     Map<String, dynamic> query = const <String, dynamic>{},
@@ -17,7 +17,7 @@ class CloudQuran {
     void Function(int, int)? onReceiveProgress,
     String method = 'GET',
   }) {
-    return _dio.request(
+    return _dio.request<T>(
       path,
       data: body,
       queryParameters: query,
@@ -33,32 +33,42 @@ class CloudQuran {
   }
 
   static Future<List<Edition>> listEditions() async {
-    Response response = await _call(path: 'edition');
-    return Edition.listFrom(response.data['data']);
+    final Response<Map<String, dynamic>> response =
+        await _call(path: 'edition');
+    return Edition.listFrom(
+      response.data!['data'] as List<Map<String, dynamic>>,
+    );
   }
 
   static Future<TheHolyQuran> getQuran({
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    Response response = await _call(
-        path: 'quran/${edition.identifier}',
-        onReceiveProgress: onReceiveProgress);
-    return TheHolyQuran.fromJson(response.data['data']);
+    final Response<Map<String, dynamic>> response =
+        await _call<Map<String, dynamic>>(
+      path: 'quran/${edition.identifier}',
+      onReceiveProgress: onReceiveProgress,
+    );
+    return TheHolyQuran.fromJson(
+      response.data!['data'] as Map<String, dynamic>,
+    );
   }
 
   static Future<QuranMeta> getQuranMeta({
     void Function(int, int)? onReceiveProgress,
   }) async {
-    Response response =
-        await _call(path: 'meta', onReceiveProgress: onReceiveProgress);
-    return QuranMeta.fromJson(response.data['data']);
+    final Response<Map<String, dynamic>> response =
+        await _call<Map<String, dynamic>>(
+      path: 'meta',
+      onReceiveProgress: onReceiveProgress,
+    );
+    return QuranMeta.fromJson(response.data!['data'] as Map<String, dynamic>);
   }
 
   static Future<void> downloadAyah(Directory directory, Ayah ayah) async {
     String path = directory.path;
     if (!path.endsWith(Platform.pathSeparator)) path += Platform.pathSeparator;
-    path += ayah.numberInSurah.toString() + '.mp3';
+    path += '${ayah.numberInSurah}.mp3';
     await _dio.downloadUri(
       Uri.parse(ayah.audio!),
       path,
@@ -82,32 +92,39 @@ class CloudQuran {
     Function(int index)? onAyahDownloaded,
   }) async {
     // the surah directory
-    Directory surahDirectory =
+    final Directory surahDirectory =
         await QuranStore._getDirectoryForSurah(edition, surah);
-    // if there is a fault and this method is called even id the surah is downloaded before for this edition then delete the old one.
-    // better safe than sorry.
-    for (var file in surahDirectory.listSync()) {
+    // if there is a fault and this method is called even id the surah is
+    // downloaded before for this edition then delete the old one.
+    //better safe than sorry.
+    for (final FileSystemEntity file in surahDirectory.listSync()) {
       await file.delete(recursive: true);
     }
     // download each ayah
-    for (var i = 0; i < surah.ayahs.length; i++) {
+    for (int i = 0; i < surah.ayahs.length; i++) {
       await CloudQuran.downloadAyah(surahDirectory, surah.ayahs[i]);
       onAyahDownloaded?.call(i);
     }
-    final files = surahDirectory.listSync();
-    // sort the ayahs files by number
-    files.sort((f1, f2) => f1.path.compareTo(f2.path));
+    final List<FileSystemEntity> files = surahDirectory.listSync()
+      // sort the ayahs files by number
+      ..sort(
+        (FileSystemEntity f1, FileSystemEntity f2) =>
+            f1.path.compareTo(f2.path),
+      );
     // creating the merged surah file
-    final File merged = File(surahDirectory.path +
-        Platform.pathSeparator +
-        QuranManager.mergedSurahFileName);
+    final File merged = File(
+      surahDirectory.path +
+          Platform.pathSeparator +
+          QuranManager.mergedSurahFileName,
+    );
 
     // the duration map to be later a json which will be used in the player
     final Map<String, String> durations = <String, String>{};
     // making a seperate list to use later on the merger
-    List<File> ayahsFiles = <File>[];
-    // iterating for each file in the directory append it to the merged surah list
-    for (var item in files) {
+    final List<File> ayahsFiles = <File>[];
+    // iterating for each file in the directory append it
+    // to the merged surah list
+    for (final FileSystemEntity item in files) {
       // item is file && is audio but not the merged file
       if (item is File &&
           item.path.split('.').last == 'mp3' &&
@@ -124,46 +141,53 @@ class CloudQuran {
       }
     }
     // start by calculating if the surah needs basmala
-    // add basmala at the start only if the surah is not ٱلْفَاتِحَة cause it's already included at the first
+    // add basmala at the start only if the surah is not
+    // ٱلْفَاتِحَة cause it's already included at the first
     // neither ٱلتَّوْبَة cause it's starts without it.
-    TheHolyQuran quran = QuranStore._getQuran(edition)!;
-    bool needsBasmala = surah.number != 1 && surah.number == 9;
-    File basmala = await QuranStore._basmalaFileFor(quran);
+    final TheHolyQuran quran = QuranStore._getQuran(edition)!;
+    final bool needsBasmala = surah.number != 1 && surah.number == 9;
+    final File basmala = await QuranStore._basmalaFileFor(quran);
     if (needsBasmala) {
       ayahsFiles.insert(0, basmala);
     }
     await concatenate(ayahsFiles, merged);
     // the duration json file
-    File durationsJson = File(surahDirectory.path +
-        Platform.pathSeparator +
-        QuranManager.durationJsonFileName);
+    final File durationsJson = File(
+      surahDirectory.path +
+          Platform.pathSeparator +
+          QuranManager.durationJsonFileName,
+    );
     // adding the basmala duration if it was added before
     if (needsBasmala) {
       durations['0'] =
           _formatDuration(await QuranPlayerContoller.lengthOf(basmala.path));
     }
     // write the durations map to the json file
-    durationsJson.writeAsStringSync(json.encode(durations),
-        mode: FileMode.write, flush: true);
+    durationsJson.writeAsStringSync(
+      json.encode(durations),
+      mode: FileMode.write,
+      flush: true,
+    );
     // if the platform supports no media file append it
     if (QuranManager.noMediaPlatforms.contains(Platform.operatingSystem)) {
-      File(surahDirectory.path + Platform.pathSeparator + '.nomedia')
+      File('${surahDirectory.path}${Platform.pathSeparator}.nomedia')
           .createSync();
     }
   }
 
   /// coppied from SO [answer](https://stackoverflow.com/a/66528374/18150607) and modifed to seperated files instead of assets
   static Future<File> concatenate(List<File> ayahs, File output) async {
-    final list = File(
-      output.path.substring(
-              0, output.path.lastIndexOf(Platform.pathSeparator) + 1) +
-          'list.txt',
+    final File list = File(
+      '${output.path.substring(
+        0,
+        output.path.lastIndexOf(Platform.pathSeparator) + 1,
+      )}list.txt',
     );
-    for (var ayah in ayahs) {
-      list.writeAsStringSync('file ' + ayah.path + '\n', mode: FileMode.append);
+    for (final File ayah in ayahs) {
+      list.writeAsStringSync('file ${ayah.path}\n', mode: FileMode.append);
     }
 
-    final cmd = <String>[
+    final List<String> cmd = <String>[
       '-f',
       'concat',
       '-safe',
@@ -172,13 +196,15 @@ class CloudQuran {
       '-i',
       list.path,
       '-codec',
-      "copy",
+      'copy',
       output.path
     ];
-    FFmpegSession session = await FFmpegKit.executeWithArguments(cmd);
-    ReturnCode? code = await session.getReturnCode();
+    final FFmpegSession session = await FFmpegKit.executeWithArguments(cmd);
+    final ReturnCode? code = await session.getReturnCode();
     list.deleteSync();
-    if (!(code?.isValueSuccess() ?? false)) throw 'error';
+    if (!(code?.isValueSuccess() ?? false)) {
+      throw StateError('FFmpegKit failed to ayahs');
+    }
     return output;
   }
 }

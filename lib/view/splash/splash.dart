@@ -7,10 +7,11 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    Future.delayed(const Duration(seconds: 2)).then(
-        (value) => Navigator.pushReplacementNamed(context, 'on_boarding'));
+    Future<void>.delayed(const Duration(seconds: 2)).then(
+      (_) => Navigator.pushReplacementNamed(context, 'on_boarding'),
+    );
     return const Material(
-      elevation: 0.0,
+      elevation: 0,
       child: Center(
         child: Hero(
           transitionOnUserGestures: true,
