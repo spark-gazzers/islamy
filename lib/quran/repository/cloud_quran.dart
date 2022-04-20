@@ -47,6 +47,9 @@ class CloudQuran {
 
   /// Fetches specified [TheHolyQuran] using the uniqe
   /// [Edition] id from the host.
+  ///
+  /// Note this will also download the the basmala of this quran
+  /// if the [Edition.format] equal [Format.audio].
   static Future<TheHolyQuran> getQuran({
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
@@ -56,9 +59,15 @@ class CloudQuran {
       path: 'quran/${edition.identifier}',
       onReceiveProgress: onReceiveProgress,
     );
-    return TheHolyQuran.fromJson(
+    final TheHolyQuran quran = TheHolyQuran.fromJson(
       response.data!['data'] as Map<String, dynamic>,
     );
+    if (edition.format == Format.audio) {
+      final Directory directory =
+          await QuranStore._getDirectoryForSurah(edition, quran.surahs.first);
+      await downloadAyah(directory, quran.surahs.first.ayahs.first);
+    }
+    return quran;
   }
 
   /// Fetches all of the quran meta.
