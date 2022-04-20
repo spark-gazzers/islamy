@@ -28,10 +28,11 @@ class Juz extends AlquranCloudObject {
 
   String get otherName =>
       !Store.locale.languageCode.startsWith('ar') ? name : englishName;
-  static List<Juz> listFromRawJson(String str) =>
-      (json.decode(str) as List<Map<String, dynamic>>)
-          .map(Juz.fromJson)
-          .toList();
+  static List<Juz> listFromRawJson(String str) {
+    List<dynamic> maps = json.decode(str) as List<dynamic>;
+
+    return maps.map((e) => Juz.fromJson(e as Map<String, dynamic>)).toList();
+  }
 
   bool containsSurah(int number) =>
       number >= surahsRange.start && number <= surahsRange.end;

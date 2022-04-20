@@ -9,7 +9,7 @@ import 'package:islamy/generated/l10n/l10n.dart';
 /// and automation for necessary properties.
 ///
 /// All of the validators here starts by checking if the text is null or empty.
-mixin FormControls on State {
+mixin FormControls<T extends StatefulWidget> on State<T> {
   /// All of the current [TextEditingController]s.
   ///
   /// Note calling the [] on this map will always return not

@@ -6,9 +6,10 @@ class _Localization {
   static late Map<String, String> _localeNames;
   Future<void> init() async {
     _localeNames = Map<String, String>.from(
-      json.decode(
+      (json.decode(
         await rootBundle.loadString('assets/config/locale_names.json'),
-      ) as Map<String, String>,
+      ) as Map<dynamic, dynamic>)
+          .cast<String, String>(),
     );
   }
 
