@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:islamy/quran/quran_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Utility to store all of the user preferences in the local DB
 ///
@@ -14,7 +17,9 @@ class Store {
 
   /// Intializer for the class which calls [HiveX.initFlutter].
   static Future<void> init() async {
-    await Hive.initFlutter();
+    String subDirForHive = (await getApplicationDocumentsDirectory()).path;
+    subDirForHive += '${Platform.pathSeparator}HiveDB';
+    await Hive.initFlutter(subDirForHive);
     if (Hive.isBoxOpen('settings')) {
       _settingsBox = Hive.box<String>('settings');
     } else {
