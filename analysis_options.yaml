@@ -38,7 +38,8 @@ linter:
     unawaited_futures: false
     sort_pub_dependencies: false
     one_member_abstracts: true
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
+    public_member_api_docs: false
+    avoid_print: true  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
 # Additional information about this file can be found at
