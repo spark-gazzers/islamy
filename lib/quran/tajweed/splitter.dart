@@ -1,11 +1,12 @@
 part of quran;
 
+/// Sole method class that's splits [Ayah] text into [List<TextSpan>].
 class AyahTajweedSplitter {
   /// Splits the  [Ayah.text] and returns [List<TextSpan>] compined represents
   /// the respective ayah script, colored with the tajweed rules
   ///
   /// Coloring and identifying the tajweed rules comes for specific [Edition]
-  /// and The rules are stored at [TajweedRules].
+  /// and The rules are stored at [TajweedRule.id].
   ///
   /// Thus added as plane spans or colored spans will not modify any other
   /// property from the [TextStyle] besides the color
@@ -36,7 +37,7 @@ class AyahTajweedSplitter {
         // Exracting the [TajweedRule] id
         final String id = text.substring(newIndex, newIndex + 2);
         // Respected tajweed rule from the id
-        final TajweedRule rule = TajweedRules.ids
+        final TajweedRule rule = TajweedRule.rules
             .singleWhere((TajweedRule element) => element.id == id);
         final String letterToPatch = text.substring(
           text.indexOf('[', newIndex + 1) + 1,

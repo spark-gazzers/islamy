@@ -5,33 +5,53 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 
+/// Mixin that contains all of the needed [TextFormField] validators
+/// and automation for necessary properties.
+///
+/// All of the validators here starts by checking if the text is null or empty.
 mixin FormControls on State {
+  /// All of the current [TextEditingController]s.
+  ///
+  /// Note calling the [] on this map will always return not
+  /// null [TextEditingController] and will dispose them all
+  /// in the [dispose] method.
   final Map<String, TextEditingController> controllers =
       _ObjectMap<TextEditingController>(
     map: <String, TextEditingController>{},
     create: TextEditingController.new,
   );
 
+  /// All of the current [FocusNode]s.
+  ///
+  /// Note calling the [] on this map will always return not
+  /// null [FocusNode] and will dispose them all
+  /// in the [dispose] method.
   final Map<String, FocusNode> nodes = _ObjectMap<FocusNode>(
     map: <String, FocusNode>{},
     create: FocusNode.new,
   );
+
+  /// The [Form] key premade.
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   String? _emptyValidator(String? str, String name) {
     if (str?.isEmpty ?? true) return S.of(context).required_field(name);
   }
 
-  String? otpValidator(String? str) {
+  /// Starting validator only validates against nullability and
+  /// if it's [int.parse]able and the length of the otp.
+  String? otpValidator(String? str, [int length = 4]) {
     final String? empty = _emptyValidator(str, S.of(context).otp_code);
     if (empty != null) return empty;
     if (int.tryParse(str!) == null) {
       return S.current.invalid_field(S.of(context).otp_code);
     }
-    if (str.length < 4) {
-      return S.current.field_unlengthed(S.of(context).otp_code, 4);
+    if (str.length < length) {
+      return S.current.field_unlengthed(S.of(context).otp_code, length);
     }
   }
 
+  /// Validated the length of the name, must be not less than 8.
   String? nameValidator(String? str) {
     final String? empty = _emptyValidator(str, S.of(context).full_name);
     if (empty != null) return empty;
@@ -40,6 +60,10 @@ mixin FormControls on State {
     }
   }
 
+  /// Validated the given phone [str] that must match
+  /// a valid 10 digits phone number.
+  // TODO(psyonixFx): support for global phone numbers
+  // EMPHASIS ON BEFORE LAUNCH.
   String? phoneValidator(String? str) {
     final String? empty = _emptyValidator(str, S.of(context).phone_number);
     if (empty != null) return empty;
@@ -51,6 +75,7 @@ mixin FormControls on State {
     }
   }
 
+  /// Validated the length of the password, must be not less than 8.
   String? passwordValidator(String? str) {
     final String? empty = _emptyValidator(str, S.of(context).password);
     if (empty != null) return empty;
@@ -59,6 +84,8 @@ mixin FormControls on State {
     }
   }
 
+  /// Validated the length of the password, must be not less than 8 and
+  /// it must be equal to the provided paddword.
   String? passwordConfirmationValidator(String? str, String password) {
     final String? empty = _emptyValidator(str, S.of(context).password);
     if (empty != null) return empty;

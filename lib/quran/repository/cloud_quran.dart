@@ -1,8 +1,12 @@
 part of quran;
 
+/// The only handler of requests to the host [alquran cloud](https://alquran.cloud/).
+
 class CloudQuran {
   const CloudQuran._();
   static late final Dio _dio = Dio();
+
+  ///Intilizer that creates intlizes the needed properties on the [Dio] object.
   static void init() {
     _dio.options.baseUrl = 'https://api.alquran.cloud/v1/';
     _dio.options.headers['Accept'] = 'application/json';
@@ -32,6 +36,7 @@ class CloudQuran {
     );
   }
 
+  /// Fetches all the available [Edition] from the host.
   static Future<List<Edition>> listEditions() async {
     final Response<Map<String, dynamic>> response =
         await _call(path: 'edition');
@@ -40,6 +45,8 @@ class CloudQuran {
     );
   }
 
+  /// Fetches specified [TheHolyQuran] using the uniqe
+  /// [Edition] id from the host.
   static Future<TheHolyQuran> getQuran({
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
@@ -54,6 +61,7 @@ class CloudQuran {
     );
   }
 
+  /// Fetches all of the quran meta.
   static Future<QuranMeta> getQuranMeta({
     void Function(int, int)? onReceiveProgress,
   }) async {
@@ -65,6 +73,8 @@ class CloudQuran {
     return QuranMeta.fromJson(response.data!['data'] as Map<String, dynamic>);
   }
 
+  /// Downloads the specified [Ayah] main audio file and store it in the
+  /// provided [directory] using the [Ayah.numberInSurah].mp3 for the file name.
   static Future<void> downloadAyah(Directory directory, Ayah ayah) async {
     String path = directory.path;
     if (!path.endsWith(Platform.pathSeparator)) path += Platform.pathSeparator;
@@ -85,7 +95,20 @@ class CloudQuran {
         spacer: '',
       );
 
-  /// Downloads surahs ayahs and prepare it's meta for the player
+  /// Downloads surahs ayahs and prepare it's meta for the player.
+  ///
+  ///
+  /// ## Preperations
+  ///
+  ///   - Merging all of the audio files into one merged file.
+  ///
+  ///   - Add basmala to the start if needed.
+  ///
+  ///   - Creating a positions json file storing all of the ayahs
+  ///      audio length as [Duration].
+  ///
+  ///   - Create a .nomedia file if the device platform supports it.
+  ///
   static Future<void> downloadSurah({
     required Edition edition,
     required Surah surah,

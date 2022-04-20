@@ -30,12 +30,16 @@ class Edition extends HiveObject with AlquranCloudObject {
         language: json['language'] as String,
         name: json['name'] as String,
         englishName: json['englishName'] as String,
-        format: formatValues.map[json['format'] as String] as Format,
-        type: typeValues.map[json['type']] as QuranContentType,
-        direction: directionValues.map[json['direction']] as Direction? ??
-            (intl.Bidi.isRtlLanguage(json['language'].toString())
-                ? Direction.rtl
-                : Direction.ltr),
+        format: Format.values.byName(json['format'] as String),
+        type: QuranContentType.values.byName(json['type'] as String),
+        direction: Direction.values.byName(
+          json['direction'] as String? ??
+              // if the [direction] is not specified try and get it
+              // from the language property
+              (intl.Bidi.isRtlLanguage(json['language'].toString())
+                  ? Direction.rtl.toString()
+                  : Direction.ltr.toString()),
+        ),
       );
 
   static List<Edition> listFrom(List<Map<String, dynamic>> json) =>
@@ -90,8 +94,8 @@ class Edition extends HiveObject with AlquranCloudObject {
         'language': language,
         'name': name,
         'englishName': englishName,
-        'format': formatValues.reverse[format],
-        'type': typeValues.reverse[type],
-        'direction': directionValues.reverse[direction],
+        'format': format.name,
+        'type': type.name,
+        'direction': direction.name,
       };
 }

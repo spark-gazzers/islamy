@@ -18,8 +18,14 @@ import 'package:islamy/view/profile/screens/select_edition.dart';
 import 'package:islamy/view/quran/screens/quran_reader.dart';
 import 'package:islamy/view/splash/splash.dart';
 
+/// The sole manager of the app [Route<T>]s.
 class Routes {
   const Routes._();
+
+  /// Builds the necessary route from the [settings].
+  ///
+  /// Throws [TypeError] for casting null if the the [RouteSettings.name]
+  /// is not registered.
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WidgetBuilder? builder;
     final Map<String, dynamic> args = <String, dynamic>{};

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:islamy/quran/models/juz.dart';
+import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+/// List Screen that shows all of the quran [Juz] and navigates to
+/// the first [Surah] of [Juz] upon selecting.
 class JuzsListScreen extends StatefulWidget {
   const JuzsListScreen({
     Key? key,
@@ -25,7 +29,8 @@ class _JuzsListScreenState extends State<JuzsListScreen>
     return ScrollablePositionedList.separated(
       itemScrollController: _controller,
       itemBuilder: (_, int index) => ListTile(
-        leading: SurahIcon(number: QuranStore.settings.juzData[index].index),
+        leading:
+            IslamicStarIcon(number: QuranStore.settings.juzData[index].index),
         title: Text(QuranStore.settings.juzData[index].localizedName),
         trailing: Text(
           QuranStore.settings.juzData[index].otherName,

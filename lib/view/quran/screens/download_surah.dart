@@ -7,6 +7,8 @@ import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 
+/// A dialog that request to download the specified
+/// [Surah] using [QuranManager.downloadSurah].
 class DownloadSurahDialog extends StatefulWidget {
   const DownloadSurahDialog({
     Key? key,

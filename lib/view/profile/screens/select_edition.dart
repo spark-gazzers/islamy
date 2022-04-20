@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/helper.dart';
+import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/profile/screens/download_quran.dart';
 
+/// A screen to select a default [Edition] for specific [Format]
+/// and store it the new prefrence.
 class SelectEditionDelegate extends StatelessWidget {
   const SelectEditionDelegate({
     Key? key,
@@ -16,10 +20,23 @@ class SelectEditionDelegate extends StatelessWidget {
     required this.propertyName,
   }) : super(key: key);
 
-  final Edition? selected;
+  /// The currently selected [Edition] for the [Format]
+  final Edition selected;
+
+  /// The text that would show in [CupertinoNavigationBar.middle].
   final String title;
+
+  /// The human readable name of the [Edition.format]
+  ///
+  /// eg. for [Format.audio] and the current [Store.locale] is
+  /// english the propery should  'Audio Edition'.
   final String propertyName;
+
+  /// List containing all of the valid choices of the format.
   final List<Edition> choices;
+
+  /// Callback that should store the new selected [Edition] in
+  /// the proper record in the DB.
   final void Function(Edition) onSelected;
 
   @override
@@ -74,7 +91,7 @@ class _EditionListTile extends StatelessWidget {
         if (!QuranManager.isQuranDownloaded(edition)) {
           final Edition? ret = await showCupertinoModalPopup<Edition>(
             context: context,
-            builder: (_) => DownloadQuranEditionSheet(edition: edition),
+            builder: (_) => DownloadQuranEditionDialog(edition: edition),
           );
           if (ret != null) {
             onSelected(edition);

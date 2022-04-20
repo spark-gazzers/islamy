@@ -7,6 +7,8 @@ import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+/// A screen that lists all of the quran [Surah] and let the user open
+/// and read the [Surah] upon selecting.
 class SurahsListScreen extends StatefulWidget {
   const SurahsListScreen({
     Key? key,
@@ -31,6 +33,7 @@ class SurahsListScreenState extends State<SurahsListScreen>
     return quran;
   }
 
+  /// Animate the scrollable widget to selected [Surah] index.
   void animateTo(int index) {
     _controller.scrollTo(
       index: index,
@@ -93,7 +96,7 @@ class _SurahListTile extends StatelessWidget {
           },
         );
       },
-      leading: SurahIcon(
+      leading: IslamicStarIcon(
         color: Theme.of(context).primaryColor,
         number: surah.number,
       ),

@@ -3,13 +3,19 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:proper_filesize/proper_filesize.dart';
 
-class DownloadQuranEditionSheet extends StatefulWidget {
-  const DownloadQuranEditionSheet({
+/// A Dialog that request permission to download a specific [TheHolyQuran].
+///
+///
+/// Note this class is also responsible of downloading the first [Ayah] of
+/// Al-fatiha if the [Edition.format] is audio.
+class DownloadQuranEditionDialog extends StatefulWidget {
+  const DownloadQuranEditionDialog({
     Key? key,
     required this.edition,
   }) : super(key: key);
@@ -17,11 +23,12 @@ class DownloadQuranEditionSheet extends StatefulWidget {
   final Edition edition;
 
   @override
-  State<DownloadQuranEditionSheet> createState() =>
-      _DownloadQuranEditionSheetState();
+  State<DownloadQuranEditionDialog> createState() =>
+      _DownloadQuranEditionDialogState();
 }
 
-class _DownloadQuranEditionSheetState extends State<DownloadQuranEditionSheet> {
+class _DownloadQuranEditionDialogState
+    extends State<DownloadQuranEditionDialog> {
   Future<TheHolyQuran>? download;
   final StreamController<_DownloadUpdate> _downloadMeterController =
       StreamController<_DownloadUpdate>();

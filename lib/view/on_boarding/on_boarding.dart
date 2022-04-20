@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 
+/// The first timer welcoming scrreen that explains the essence of the app.
 class OnBoarding extends StatelessWidget {
   const OnBoarding({Key? key}) : super(key: key);
 

@@ -5,6 +5,8 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart' as perms;
 
+/// This screen is for asking for [perms.Permission.locationWhenInUse]
+/// after the onboarding.
 class EnableLocation extends StatefulWidget {
   const EnableLocation({Key? key}) : super(key: key);
 

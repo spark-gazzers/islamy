@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:islamy/bases/json_models.dart';
 import 'package:islamy/quran/models/enums.dart';
 
+// A meta that holds the most important data of the [TheHolyQuran] meta's.
 class QuranMeta {
   QuranMeta({
     required this.ayahs,
@@ -260,7 +260,7 @@ class SajdasReference {
       };
 }
 
-class Surahs extends JsonModel {
+class Surahs {
   Surahs({
     required this.count,
     required this.references,
@@ -289,10 +289,8 @@ class Surahs extends JsonModel {
         references: references ?? this.references,
       );
 
-  @override
   String toRawJson() => json.encode(toJson());
 
-  @override
   Map<String, dynamic> toJson() => <String, dynamic>{
         'count': count,
         'references': List<Map<String, dynamic>>.from(
@@ -323,7 +321,7 @@ class SurahsReference {
         englishNameTranslation: json['englishNameTranslation'] as String,
         numberOfAyahs: json['numberOfAyahs'] as int,
         revelationType:
-            revelationTypeValues.map[json['revelationType']] as RevelationType,
+            RevelationType.values.byName(json['revelationType'] as String),
       );
 
   final int number;
@@ -359,6 +357,6 @@ class SurahsReference {
         'englishName': englishName,
         'englishNameTranslation': englishNameTranslation,
         'numberOfAyahs': numberOfAyahs,
-        'revelationType': revelationTypeValues.reverse[revelationType],
+        'revelationType': revelationType.name,
       };
 }

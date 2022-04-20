@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart' show CupertinoSlidingSegmentedControl;
 import 'package:flutter/material.dart';
 
+/// Wrapper around [TabBar] to create [CupertinoSlidingSegmentedControl]
+/// like in the design below
+/// using [ThemeData.primaryColor] selected color.
+// TODO(psyonixFx): add the doc design assets
 class SlidingSegmentedControl extends StatelessWidget {
   const SlidingSegmentedControl({
     Key? key,

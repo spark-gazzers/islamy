@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// Utility to create and fix on-the-fly the [ThemeData]s of the app.
 class ThemeBuilder {
   const ThemeBuilder._();
   static final ThemeData _lightBase = ThemeData.from(
@@ -18,7 +19,7 @@ class ThemeBuilder {
   );
 
   static ThemeData _adapt(ThemeData theme) => theme.copyWith(
-        cupertinoOverrideTheme: toCupertino(theme),
+        cupertinoOverrideTheme: _toCupertino(theme),
         textTheme: theme.textTheme.copyWith(
           bodyText2: theme.textTheme.bodyText2?.copyWith(
             fontSize: 14,
@@ -62,7 +63,7 @@ class ThemeBuilder {
         ),
       );
 
-  static CupertinoThemeData toCupertino(ThemeData theme) {
+  static CupertinoThemeData _toCupertino(ThemeData theme) {
     final CupertinoThemeData data =
         MaterialBasedCupertinoThemeData(materialTheme: theme);
     return data.copyWith(
@@ -86,5 +87,6 @@ class ThemeBuilder {
     );
   }
 
+  /// The app light theme.
   static ThemeData get lightTheme => _adapt(_lightBase);
 }

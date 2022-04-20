@@ -15,6 +15,12 @@ import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 
+/// The main quran reader screen.
+///
+/// This screen should contain sections for all enabled [Format] and
+/// it's selected [Edition] with it's respective features and an audio players
+/// controller that would ask the user to download the [Surah]
+/// if it's not downloaded yet .
 class QuranSurahReader extends StatefulWidget {
   const QuranSurahReader({
     Key? key,
@@ -85,6 +91,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   }
 }
 
+/// A widget that should render the [QuranPage] as it is in the original quran.
 class PageReader extends StatelessWidget {
   const PageReader({
     Key? key,
@@ -125,6 +132,8 @@ class PageReader extends StatelessWidget {
   }
 }
 
+/// This widget divides the UI into widget for every inline, part for the surah
+/// header if applicaple and a part for the [SurahInline.ayahs].
 class SurahInlineReader extends StatelessWidget {
   const SurahInlineReader({
     Key? key,
@@ -310,6 +319,8 @@ class _SurahTitle extends StatelessWidget {
   }
 }
 
+/// This part of the UI is the responsible controlling the played audio
+/// and notifying the screen if the [QuranPlayerContoller] surah is changed.
 class SurahAudioPlayer extends StatefulWidget {
   const SurahAudioPlayer({
     Key? key,
@@ -375,7 +386,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const AudioSlider(),
+          const _AudioSlider(),
           IconTheme.merge(
             data: const IconThemeData(color: Colors.white),
             child: Padding(
@@ -461,14 +472,14 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
   }
 }
 
-class AudioSlider extends StatefulWidget {
-  const AudioSlider({Key? key}) : super(key: key);
+class _AudioSlider extends StatefulWidget {
+  const _AudioSlider({Key? key}) : super(key: key);
 
   @override
-  State<AudioSlider> createState() => _AudioSliderState();
+  State<_AudioSlider> createState() => _AudioSliderState();
 }
 
-class _AudioSliderState extends State<AudioSlider> {
+class _AudioSliderState extends State<_AudioSlider> {
   double? _value;
   @override
   Widget build(BuildContext context) {

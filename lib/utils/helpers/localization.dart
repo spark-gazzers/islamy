@@ -1,8 +1,8 @@
 part of helper;
 
-class _LocalizationHelper {
-  const _LocalizationHelper._();
-  static const _LocalizationHelper instance = _LocalizationHelper._();
+class _Localization {
+  const _Localization._();
+  static const _Localization instance = _Localization._();
   static late Map<String, String> _localeNames;
   Future<void> init() async {
     _localeNames = Map<String, String>.from(

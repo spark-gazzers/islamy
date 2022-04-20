@@ -1,12 +1,15 @@
 part of quran;
 
+/// Curated [MediaItem] that fills it's property from the [surah]
+/// and restores the [TheHolyQuran] and [Surah] property from the
+/// [id] property.
 class SurahMediaItem extends MediaItem {
   SurahMediaItem({
     required this.quran,
     required this.surah,
     required Duration? duration,
   }) : super(
-          id: idOd(quran, surah),
+          id: idOf(quran, surah),
           title: surah.localizedName,
           album: quran.edition.localizedName,
           artist: S.current.app_name,
@@ -25,6 +28,8 @@ class SurahMediaItem extends MediaItem {
           },
         );
 
+  /// Creates the [SurahMediaItem] from normal [MediaItem] or
+  /// just cast it if it fits.
   factory SurahMediaItem.fromMedia(MediaItem item) {
     if (item is SurahMediaItem) {
       return item;
@@ -46,14 +51,20 @@ class SurahMediaItem extends MediaItem {
   final TheHolyQuran quran;
   final Surah surah;
 
-  static String idOd(
+  /// Create the propriate [id] for [SurahMediaItem].
+  static String idOf(
     TheHolyQuran quran,
     Surah surah,
   ) =>
       '${quran.edition.identifier}#${surah.number}';
 
+  /// Retrieve the [TheHolyQuran] from a valid
+  /// [SurahMediaItem] [MediaItem.id]
   static TheHolyQuran quranFromID(String id) =>
       QuranManager.getQuranByID(id.split('#').first);
+
+  /// Retrieve the [Surah] from a valid
+  /// [SurahMediaItem] [MediaItem.id]
   static Surah surahFromID(String id) => quranFromID(id).surahs.singleWhere(
         (Surah element) => element.number == int.parse(id.split('#')[1]),
       );

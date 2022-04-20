@@ -1,11 +1,18 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
+import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/sajda.dart';
+import 'package:islamy/quran/models/the_holy_quran.dart';
 
 part 'ayah.g.dart';
 
 @HiveType(typeId: 7)
+
+/// A class that represents data associated with an ayah in the quran
+///
+/// the properies [audio] and [audioSecondary] will not be null only if
+/// the parent [TheHolyQuran] format is [Format.audio]
 class Ayah {
   Ayah({
     required this.audio,

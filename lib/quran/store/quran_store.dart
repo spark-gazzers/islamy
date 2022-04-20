@@ -2,12 +2,21 @@
 
 part of quran;
 
+/// Storage handler for most of the requests made with [CloudQuran].
+///
+/// This store uses [Hive] DB to store everyting.
 class QuranStore {
   const QuranStore._();
+
+  /// static instance that provides the necessary meta about [Juz]
+  /// and getters/setters for the default edition for each type.
   static const _QuranSettings settings = _QuranSettings.instance;
 
   static late final Box<Edition> _editionsBox;
   static late final Box<TheHolyQuran> _textQuranBox;
+
+  /// initializer for the [QuranStore] [Box]s and register
+  /// every [TypeAdapter<T>] for each type needed.
   static Future<void> init() async {
     await _QuranSettings._init();
     _registerAdapters();
@@ -23,8 +32,8 @@ class QuranStore {
       ..registerAdapter(EditionAdapter())
 
       // typeId == 1
-      ..registerAdapter(EnumValuesAdapter())
-
+      // TODO(psyonixFx): rearange the typeId's.
+      // The type id 1 is now released.
       // typeId == 2
       ..registerAdapter(QuranContentTypeAdapter())
 
@@ -65,6 +74,7 @@ class QuranStore {
   }
 
   static List<Edition> _listEditions() => _editionsBox.values.toList();
+
   static List<Edition> listTextEditions() => _editionsBox.values
       .where(
         (Edition element) =>
@@ -138,8 +148,11 @@ class QuranStore {
     return file;
   }
 
+  /// Convinient method to get the merged [Surah] [File].
   static Future<File> mergedSurahFile(Edition edition, Surah surah) =>
       _fileIn(edition, surah, QuranManager.mergedSurahFileName);
+
+  /// Convinient method to get the durations json  [File] of the [Surah].
   static Future<File> surahDurationsFile(Edition edition, Surah surah) =>
       _fileIn(edition, surah, QuranManager.durationJsonFileName);
 
@@ -174,13 +187,6 @@ class QuranStore {
   }) async {
     await box.delete(name);
     await box.put(name, value);
-  }
-
-  static Future<void> _addValue<T>({
-    required T value,
-    required Box<T> box,
-  }) async {
-    await box.add(value);
   }
 
   static Future<void> _addAll<T>({

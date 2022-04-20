@@ -6,6 +6,7 @@ import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
 
+/// This span handles the proper formatting of [Ayah.text].
 class AyahSpan extends TextSpan {
   AyahSpan({
     required Ayah ayah,
@@ -40,6 +41,10 @@ class AyahSpan extends TextSpan {
         );
 }
 
+/// The span to show [Ayah.numberInSurah].
+///
+/// The class changes the interprets the number as arabic number to
+/// parse in the uthmanic font as ayah rounded icon.
 class AyahsNumberSpan extends TextSpan {
   AyahsNumberSpan({
     required Ayah ayah,

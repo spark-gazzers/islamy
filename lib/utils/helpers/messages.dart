@@ -1,8 +1,8 @@
 part of helper;
 
-class _MessagesHelper {
-  const _MessagesHelper._();
-  static const _MessagesHelper instance = _MessagesHelper._();
+class _Messages {
+  const _Messages._();
+  static const _Messages instance = _Messages._();
 
   void showSuccess(BuildContext context, String message) => Flushbar<void>(
         message: message,

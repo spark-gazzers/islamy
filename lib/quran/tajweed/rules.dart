@@ -1,8 +1,21 @@
 part of quran;
 
-class TajweedRules {
-  const TajweedRules._();
-  static const List<TajweedRule> ids = <TajweedRule>[
+/// The rules as mentioned in [Alquran Cloud: Tajweed Guide](https://alquran.cloud/tajweed-guide).
+class TajweedRule {
+  const TajweedRule._(this.id, this.color, this.nameIdentifier);
+
+  /// The uniqe rule id.
+  final String id;
+
+  /// The color used in UI view.
+  final Color color;
+
+  /// The name identifier of the rule in the localization .arb file.
+  final String nameIdentifier;
+
+  /// All of the rules mentioned in
+  /// the [Alquran Cloud: Tajweed Guide](https://alquran.cloud/tajweed-guide).
+  static const List<TajweedRule> rules = <TajweedRule>[
     TajweedRule._('[h', Color(0xffAAAAAA), 'hamza_wasl'),
     TajweedRule._('[s', Color(0xffAAAAAA), 'silent'),
     TajweedRule._('[l', Color(0xffAAAAAA), 'laam_shamsiyah'),
@@ -21,12 +34,4 @@ class TajweedRules {
     TajweedRule._('[b', Color(0xffA1A1A1), 'idgham_mutaqaribayn'),
     TajweedRule._('[g', Color(0xffFF7E1E), 'ghunnah'),
   ];
-}
-
-class TajweedRule {
-  const TajweedRule._(this.id, this.color, this.nameIdentifier);
-
-  final String id;
-  final Color color;
-  final String nameIdentifier;
 }

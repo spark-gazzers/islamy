@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SurahIcon extends StatelessWidget {
-  const SurahIcon({Key? key, required this.number, this.color})
+/// Widget that shows [int] as icons to provide as the specified
+///  in the design below using [ThemeData.primaryColor] as the icon color and
+/// the [number] text.
+// TODO(psyonixFx): add the doc design asset
+class IslamicStarIcon extends StatelessWidget {
+  const IslamicStarIcon({Key? key, required this.number, this.color})
       : super(key: key);
 
   final int number;

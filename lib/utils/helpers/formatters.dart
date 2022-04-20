@@ -14,12 +14,23 @@ class _Formatters {
   }
 }
 
+/// Formatter for audio length and position.
+///
+/// The reason behind the class is to have identic format properties
+/// for both the position and the length.
 class FormattedLengthDuration {
   const FormattedLengthDuration._(this.duration, this.total);
 
+  /// The current position of theplayer in the audio.
   final Duration duration;
+
+  /// The total length of the audio file.
   final Duration total;
+
+  /// The [duration] formatted text.
   String get start => _format(duration);
+
+  /// The [total] formatted text.
   String get end => _format(total);
   bool get _shouldIncludHour => total >= const Duration(hours: 1);
   String _format(Duration duration) {

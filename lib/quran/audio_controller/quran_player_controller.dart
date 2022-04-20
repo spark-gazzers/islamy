@@ -1,5 +1,9 @@
 part of quran;
 
+/// The main audio player class with ability to control native audio services
+///
+/// to use this class you must always use the [QuranPlayerContoller.instance]
+/// then call [prepareForSurah] on it before starting anything else.
 class QuranPlayerContoller extends BaseAudioHandler
     with QueueHandler, SeekHandler {
   /// This constuctor must only be called once and that should
@@ -35,6 +39,12 @@ class QuranPlayerContoller extends BaseAudioHandler
   ValueNotifier<int>? _currentAyah;
 
   ValueNotifier<bool>? _isPlaying;
+
+  /// Easy access Notifier to tell wether the player i currently playing or not
+  ///
+  ///
+  /// Will throw [TypeError] for casting [Null]
+  /// if [prepareForSurah] is not called yet
   ValueNotifier<bool> get isPlaying => _isPlaying!;
 
   /// The current playing ayah number.
@@ -62,6 +72,7 @@ class QuranPlayerContoller extends BaseAudioHandler
   ///The value stream of the current played duration in 0.0 to 1.0 value
   Stream<double>? get valueStream => _valueStream;
 
+  /// The init method which should be only called once during the app startup
   static Future<void> init() async {
     instance = await AudioService.init<QuranPlayerContoller>(
       builder: QuranPlayerContoller._,
@@ -69,6 +80,11 @@ class QuranPlayerContoller extends BaseAudioHandler
   }
 
   Duration? _total;
+
+  /// The total audio length in [Duration].
+  ///
+  /// Will return [Duration.zero] if the player is not associated
+  /// with a [Surah] yet
   Duration get total => _total ?? Duration.zero;
   Future<void> _loadPositions() async {
     final Directory directory =
@@ -109,6 +125,8 @@ class QuranPlayerContoller extends BaseAudioHandler
       ..addAll(positions);
   }
 
+  /// Check wether the current state of this player is meant
+  /// for this [quran] & [surah]
   bool isForSurah(TheHolyQuran quran, Surah surah) =>
       quran == _quran && surah == _surah;
 
@@ -213,8 +231,17 @@ class QuranPlayerContoller extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) => _player.seek(position);
-  Future<void> seekToAyah(Ayah ayah) => seek(_positions[ayah.numberInSurah]!);
 
+  /// Convenient method to seek to a specific [ayah] in the surah
+  ///
+  ///
+  /// The player reads the position of the ayah from the
+  /// [QuranManager.durationJsonFileName] associated with
+  /// the surah directory made during the build
+  Future<void> seekToAyah(Ayah ayah) => seek(_positions[ayah.number]!);
+
+  /// Convenient method to seek to a [double] value that represents
+  /// a percentage of the total audio file length
   Future<void> seekToValue(double value) =>
       seek(Duration(microseconds: (value * total.inMicroseconds).toInt()));
 

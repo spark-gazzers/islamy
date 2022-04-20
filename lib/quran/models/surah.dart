@@ -4,9 +4,12 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/alquran_cloud_object.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/quran/models/the_holy_quran.dart';
 
 part 'surah.g.dart';
 
+/// [TheHolyQuran] surah with it's ayahs ,the revelation type
+/// and it's number in [TheHolyQuran].
 @HiveType(typeId: 6)
 class Surah extends AlquranCloudObject {
   Surah({
@@ -27,7 +30,7 @@ class Surah extends AlquranCloudObject {
         englishName: json['englishName'] as String,
         englishNameTranslation: json['englishNameTranslation'] as String,
         revelationType:
-            revelationTypeValues.map[json['revelationType']] as RevelationType,
+            RevelationType.values.byName(json['revelationType'] as String),
         ayahs: List<Ayah>.from(
           (json['ayahs'] as List<Map<String, dynamic>>)
               .map<Ayah>(Ayah.fromJson),
@@ -79,7 +82,7 @@ class Surah extends AlquranCloudObject {
         'name': name,
         'englishName': englishName,
         'englishNameTranslation': englishNameTranslation,
-        'revelationType': revelationTypeValues.reverse[revelationType]!,
+        'revelationType': revelationType.name,
         'ayahs': List<Map<String, dynamic>>.from(
           ayahs.map<Map<String, dynamic>>((Ayah x) => x.toJson()),
         ),

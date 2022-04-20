@@ -2,8 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/quran/models/edition.dart';
+import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/store.dart';
 
+/// This screen is responsible of changing a all of the preferences of the
+/// [QuranPlayerContoller] and the default [Edition] for each [Format].
 class QuranSettingsScreen extends StatefulWidget {
   const QuranSettingsScreen({Key? key}) : super(key: key);
 
