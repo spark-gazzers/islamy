@@ -116,7 +116,7 @@ class Routes {
       case 'select_transliteration_quran':
         builder = (BuildContext context) => SelectEditionDelegate(
               propertyName: S.current.transliteration_edition,
-              selected: QuranStore.settings.defaultTranslationEdition,
+              selected: QuranStore.settings.defaultTransliterationEdition,
               choices: QuranStore.listTransliterationEditions(),
               onSelected: (Edition edition) {
                 QuranStore.settings.defaultTranslationEdition = edition;
