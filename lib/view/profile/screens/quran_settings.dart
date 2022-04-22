@@ -34,53 +34,33 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
               CupertinoFormSection(
                 header: Text(S.of(context).quran_editions),
                 children: <Widget>[
-                  ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'select_text_quran');
-                    },
-                    title: Text(S.of(context).text_edition),
-                    trailing: const Icon(CupertinoIcons.forward),
+                  _SelectEditionTile(
+                    delegate: 'select_text_quran',
+                    title: S.of(context).text_edition,
+                    edition: () => QuranStore.settings.defaultTextEdition,
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'select_audio_quran');
-                    },
-                    title: Text(S.of(context).audio_edition),
-                    trailing: const Icon(CupertinoIcons.forward),
+                  _SelectEditionTile(
+                    delegate: 'select_audio_quran',
+                    title: S.of(context).audio_edition,
+                    edition: () => QuranStore.settings.defaultAudioEdition,
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        'select_interpretation_quran',
-                      );
-                    },
-                    title: Text(S.of(context).interpretation_edition),
-                    trailing: const Icon(CupertinoIcons.forward),
+                  _SelectEditionTile(
+                    delegate: 'select_interpretation_quran',
+                    title: S.of(context).interpretation_edition,
+                    edition: () =>
+                        QuranStore.settings.defaultInterpretationEdition,
                   ),
-                  GestureDetector(
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          'select_translation_quran',
-                        );
-                      },
-                      title: Text(S.of(context).translation_edition),
-                      trailing: const Icon(CupertinoIcons.forward),
-                    ),
+                  _SelectEditionTile(
+                    delegate: 'select_translation_quran',
+                    title: S.of(context).translation_edition,
+                    edition: () =>
+                        QuranStore.settings.defaultTranslationEdition,
                   ),
-                  GestureDetector(
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          'select_transliteration_quran',
-                        );
-                      },
-                      title: Text(S.of(context).transliteration_edition),
-                      trailing: const Icon(CupertinoIcons.forward),
-                    ),
+                  _SelectEditionTile(
+                    delegate: 'select_transliteration_quran',
+                    title: S.of(context).transliteration_edition,
+                    edition: () =>
+                        QuranStore.settings.defaultTransliterationEdition,
                   ),
                 ],
               ),
@@ -120,6 +100,56 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SelectEditionTile extends StatefulWidget {
+  const _SelectEditionTile({
+    Key? key,
+    required this.delegate,
+    required this.title,
+    required this.edition,
+  }) : super(key: key);
+
+  final Edition? Function() edition;
+  final String delegate;
+  final String title;
+
+  @override
+  State<_SelectEditionTile> createState() => _SelectEditionTileState();
+}
+
+class _SelectEditionTileState extends State<_SelectEditionTile> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(widget.title),
+          if (widget.edition() == null)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(start: 8),
+              child: Chip(
+                label: Text(S.of(context).disabled),
+                padding: EdgeInsets.zero,
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
+      trailing: const Icon(CupertinoIcons.forward),
+      onTap: () async {
+        await Navigator.pushNamed(context, widget.delegate);
+        setState(() {});
+      },
     );
   }
 }
