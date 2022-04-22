@@ -99,6 +99,10 @@ class QuranManager {
 
   /// Download [TheHolyQuran] of the specified [Edition]
   /// from [alquran cloud](https://alquran.cloud/) and store it in the local DB.
+  ///
+  ///
+  /// Note this will also download the the basmala of this quran
+  /// if the [Edition.format] equal [Format.audio].
   static Future<TheHolyQuran> downloadQuran({
     required Edition edition,
     void Function(int, int)? onReceiveProgress,
