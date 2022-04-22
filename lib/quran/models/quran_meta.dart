@@ -112,7 +112,8 @@ class HizbQuarters {
   factory HizbQuarters.fromJson(Map<String, dynamic> json) => HizbQuarters(
         count: json['count'] as int,
         references: List<HizbQuartersReference>.from(
-          (json['references'] as List<Map<String, dynamic>>)
+          (json['references'] as List<dynamic>)
+              .whereType<Map<String, dynamic>>()
               .map<HizbQuartersReference>(HizbQuartersReference.fromJson),
         ),
       );
@@ -186,7 +187,8 @@ class Sajdas {
   factory Sajdas.fromJson(Map<String, dynamic> json) => Sajdas(
         count: json['count'] as int,
         references: List<SajdasReference>.from(
-          (json['references'] as List<Map<String, dynamic>>)
+          (json['references'] as List<dynamic>)
+              .whereType<Map<String, dynamic>>()
               .map<SajdasReference>(SajdasReference.fromJson),
         ),
       );
@@ -272,8 +274,11 @@ class Surahs {
   factory Surahs.fromJson(Map<String, dynamic> json) => Surahs(
         count: json['count'] as int,
         references: List<SurahsReference>.from(
-          (json['references'] as List<Map<String, dynamic>>)
-              .map<SurahsReference>(SurahsReference.fromJson),
+          (json['references'] as List<dynamic>)
+              .whereType<Map<String, dynamic>>()
+              .map<SurahsReference>(
+                SurahsReference.fromJson,
+              ),
         ),
       );
 
@@ -320,8 +325,8 @@ class SurahsReference {
         englishName: json['englishName'] as String,
         englishNameTranslation: json['englishNameTranslation'] as String,
         numberOfAyahs: json['numberOfAyahs'] as int,
-        revelationType:
-            RevelationType.values.byName(json['revelationType'] as String),
+        revelationType: RevelationType.values
+            .byName((json['revelationType'] as String).toLowerCase()),
       );
 
   final int number;

@@ -41,7 +41,7 @@ class CloudQuran {
     final Response<Map<String, dynamic>> response =
         await _call(path: 'edition');
     return Edition.listFrom(
-      response.data!['data'] as List<Map<String, dynamic>>,
+      (response.data!['data'] as List<dynamic>).cast<Map<String, dynamic>>(),
     );
   }
 

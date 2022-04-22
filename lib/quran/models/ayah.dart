@@ -43,12 +43,11 @@ class Ayah {
         sajda: json['sajda'] == false
             ? null
             : Sajda.fromJson(json['sajda'] as Map<String, dynamic>),
-        audio: json['audio'] as String,
+        audio: json['audio'] as String?,
         audioSecondary: json['audioSecondary'] == null
             ? null
             : List<String>.from(
-                (json['audioSecondary'] as List<String>)
-                    .map<String>((String x) => x),
+                (json['audioSecondary'] as List<dynamic>).whereType<String>(),
               ),
       );
 

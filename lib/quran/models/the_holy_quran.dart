@@ -19,8 +19,12 @@ class TheHolyQuran {
 
   factory TheHolyQuran.fromJson(Map<String, dynamic> json) => TheHolyQuran(
         surahs: List<Surah>.from(
-          (json['surahs'] as List<Map<String, dynamic>>)
-              .map<Surah>(Surah.fromJson),
+          (json['surahs'] as List<dynamic>)
+              .whereType<Map<dynamic, dynamic>>()
+              .map<Surah>(
+                (Map<dynamic, dynamic> e) =>
+                    Surah.fromJson(e.cast<String, dynamic>()),
+              ),
         ),
         edition: Edition.fromJson(json['edition'] as Map<String, dynamic>),
       );

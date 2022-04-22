@@ -29,10 +29,11 @@ class Surah extends AlquranCloudObject {
         name: json['name'] as String,
         englishName: json['englishName'] as String,
         englishNameTranslation: json['englishNameTranslation'] as String,
-        revelationType:
-            RevelationType.values.byName(json['revelationType'] as String),
+        revelationType: RevelationType.values
+            .byName((json['revelationType'] as String).toLowerCase()),
         ayahs: List<Ayah>.from(
-          (json['ayahs'] as List<Map<String, dynamic>>)
+          (json['ayahs'] as List<dynamic>)
+              .whereType<Map<String, dynamic>>()
               .map<Ayah>(Ayah.fromJson),
         ),
       );
