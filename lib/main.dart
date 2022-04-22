@@ -7,7 +7,6 @@ import 'package:islamy/theme.dart';
 import 'package:islamy/utils/routes.dart';
 
 Future<void> main(List<String> args) async {
-  // return live.main();
   runApp(const IslamyApp());
 }
 
