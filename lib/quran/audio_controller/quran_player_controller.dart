@@ -54,16 +54,21 @@ class QuranPlayerContoller extends BaseAudioHandler
   /// Note if this [ValueNotifier.value] points to 0 then this means
   /// it's on the basmala part
   ///
-  /// Will throw [TypeError] for casting [Null]
-  /// if [prepareForSurah] is not called yet
-  ValueNotifier<int> get currentAyah => _currentAyah!;
+  /// Will be null if not prepared for a surah yet
+  ValueNotifier<int>? get currentAyah => _currentAyah;
 
   /// The current position of the player.
   Duration get duration => _player.position;
 
   /// The current position of the player as value from 0 .. 1.0.
   double get durationValue {
-      total.inMicroseconds.toDouble();
+    if (total != Duration.zero) {
+      return _player.position.inMicroseconds.toDouble() /
+          total.inMicroseconds.toDouble();
+    } else {
+      return 0;
+    }
+  }
 
   ///The value stream of the current played duration in 0.0 to 1.0 value
   Stream<double>? _valueStream;
@@ -216,11 +221,11 @@ class QuranPlayerContoller extends BaseAudioHandler
   }
 
   @override
-  Future<void> skipToNext() => _player.seek(_positions[currentAyah.value + 1]);
+  Future<void> skipToNext() => _player.seek(_positions[currentAyah!.value + 1]);
 
   @override
   Future<void> skipToPrevious() =>
-      _player.seek(_positions[currentAyah.value - 1]);
+      _player.seek(_positions[currentAyah!.value - 1]);
 
   @override
   Future<void> play() => _player.play();

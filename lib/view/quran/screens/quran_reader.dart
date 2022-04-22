@@ -149,7 +149,8 @@ class SurahInlineReader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget child = ValueListenableBuilder<int>(
-      valueListenable: QuranPlayerContoller.instance.currentAyah,
+      valueListenable:
+          QuranPlayerContoller.instance.currentAyah ?? ValueNotifier<int>(0),
       builder: (BuildContext context, int value, Widget? child) => Column(
         children: <Widget>[
           if (inline.start) _SurahTitle(surah: inline.surah),
@@ -175,10 +176,12 @@ class SurahInlineReader extends StatelessWidget {
   List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
     for (final Ayah ayah in inline.ayahs) {
-      final bool isSelected = ayah.numberInSurah ==
-              QuranPlayerContoller.instance.currentAyah.value &&
-          Store.highlightAyahOnPlayer &&
-          selected;
+      final bool isSelected =
+          QuranPlayerContoller.instance.currentAyah != null &&
+              ayah.numberInSurah ==
+                  QuranPlayerContoller.instance.currentAyah!.value &&
+              Store.highlightAyahOnPlayer &&
+              selected;
       // ignore: prefer_function_declarations_over_variables
       final VoidCallback? onTap = selected
           ? () async {
