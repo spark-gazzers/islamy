@@ -16,7 +16,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
-    with FormControls {
+    with FormControls<ForgotPasswordScreen> {
   @override
   void initState() {
     super.initState();
@@ -34,14 +34,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(height: 109),
               const Image(
                 width: 96.46,
                 image: AssetImage('assets/images/logo.png'),
               ),
               Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32),
                 child: Text(
                   S.of(context).enter_your_phone_number,
                   textAlign: TextAlign.center,
@@ -54,29 +54,30 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 46.0,
+                  horizontal: 46,
                 ),
                 child: Text(
                   S
                       .of(context)
+                      // ignore: lines_longer_than_80_chars
                       .we_will_send_you_a_verification_code_to_reset_your_password,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff6E6E6E),
                   ),
                 ),
               ),
-              const SizedBox(height: 25.0),
+              const SizedBox(height: 25),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Form(
                   key: formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
+                    children: <Widget>[
                       TextFormField(
                         controller: controllers[S.of(context).phone_number],
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -98,7 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                             Navigator.pushNamed(
                               context,
                               'otp',
-                              arguments: {
+                              arguments: <String, dynamic>{
                                 'phone':
                                     controllers[S.of(context).phone_number]!
                                         .text,

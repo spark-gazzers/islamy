@@ -4,18 +4,19 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/utils/form_controls.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  final String? phone;
   const ResetPasswordScreen({
     Key? key,
     required this.phone,
   }) : super(key: key);
+
+  final String? phone;
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen>
-    with FormControls {
+    with FormControls<ResetPasswordScreen> {
   final ValueNotifier<bool> _obscurePassword = ValueNotifier<bool>(true);
   final ValueNotifier<bool> _obscurePasswordConfirmation =
       ValueNotifier<bool>(true);
@@ -30,14 +31,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(height: 109),
               const Image(
                 width: 96.46,
                 image: AssetImage('assets/images/logo.png'),
               ),
               Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32),
                 child: Text(
                   S.of(context).reset_password,
                   textAlign: TextAlign.center,
@@ -50,30 +51,30 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 46.0,
+                  horizontal: 46,
                 ),
                 child: Text(
                   S.of(context).please_enter_a_new_password,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff6E6E6E),
                   ),
                 ),
               ),
-              const SizedBox(height: 25.0),
+              const SizedBox(height: 25),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Form(
                   key: formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
+                    children: <Widget>[
                       ValueListenableBuilder<bool>(
                         valueListenable: _obscurePassword,
-                        builder: (context, visible, _) {
+                        builder: (BuildContext context, bool visible, _) {
                           return TextFormField(
                             controller: controllers[S.of(context).password],
                             autovalidateMode:
@@ -94,16 +95,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                           );
                         },
                       ),
-                      const SizedBox(height: 24.0),
+                      const SizedBox(height: 24),
                       ValueListenableBuilder<bool>(
                         valueListenable: _obscurePasswordConfirmation,
-                        builder: (context, visible, _) {
+                        builder: (BuildContext context, bool visible, _) {
                           return TextFormField(
                             controller: controllers[
                                 S.of(context).password_confirmation],
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (str) => passwordConfirmationValidator(
+                            validator: (String? str) =>
+                                passwordConfirmationValidator(
                               str,
                               controllers[S.of(context).password]!.text,
                             ),

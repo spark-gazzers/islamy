@@ -5,17 +5,18 @@ import 'package:islamy/utils/form_controls.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
-  final String phone;
   const OTPScreen({
     Key? key,
     required this.phone,
   }) : super(key: key);
 
+  final String phone;
+
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
 
-class _OTPScreenState extends State<OTPScreen> with FormControls {
+class _OTPScreenState extends State<OTPScreen> with FormControls<OTPScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -27,14 +28,14 @@ class _OTPScreenState extends State<OTPScreen> with FormControls {
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(height: 109),
               const Image(
                 width: 96.46,
                 image: AssetImage('assets/images/logo.png'),
               ),
               Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32),
                 child: Text(
                   S.of(context).enter_the_code_sent_to_you,
                   textAlign: TextAlign.center,
@@ -47,33 +48,33 @@ class _OTPScreenState extends State<OTPScreen> with FormControls {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 46.0,
+                  horizontal: 46,
                 ),
                 child: Text(
-                  S.of(context).phone_number + ' : ' + widget.phone,
+                  '${S.of(context).phone_number} : ${widget.phone}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff6E6E6E),
                   ),
                 ),
               ),
-              const SizedBox(height: 25.0),
+              const SizedBox(height: 25),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Form(
                   key: formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Pinput(
                         controller: controllers['otp'],
                         autofocus: true,
                         validator: otpValidator,
                         pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                        onCompleted: (str) => _checkOtp(),
+                        onCompleted: (String str) => _checkOtp(),
                       ),
                       const SizedBox(height: 48.28),
                       Hero(
@@ -98,10 +99,13 @@ class _OTPScreenState extends State<OTPScreen> with FormControls {
   void _checkOtp() {
     if (formKey.currentState!.validate()) {
       Navigator.pushNamedAndRemoveUntil(
-          context, 'reset_password', (route) => false,
-          arguments: {
-            'phone': widget.phone,
-          });
+        context,
+        'reset_password',
+        (Route<dynamic> route) => false,
+        arguments: <String, dynamic>{
+          'phone': widget.phone,
+        },
+      );
     }
   }
 }

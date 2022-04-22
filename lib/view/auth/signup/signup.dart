@@ -6,19 +6,21 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/utils/form_controls.dart';
 
 class SignupScreen extends StatefulWidget {
-  final String? phone;
-  final String? password;
   const SignupScreen({
     Key? key,
     required this.phone,
     required this.password,
   }) : super(key: key);
 
+  final String? phone;
+  final String? password;
+
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> with FormControls {
+class _SignupScreenState extends State<SignupScreen>
+    with FormControls<SignupScreen> {
   final ValueNotifier<bool> _passwordVisible = ValueNotifier<bool>(true);
   @override
   void initState() {
@@ -33,18 +35,18 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
     return CupertinoPageScaffold(
       child: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     const SizedBox(height: 109),
                     const Image(
                       width: 96.46,
                       image: AssetImage('assets/images/logo.png'),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(32.0),
+                      padding: const EdgeInsets.all(32),
                       child: Text(
                         S.of(context).create_a_new_account,
                         textAlign: TextAlign.center,
@@ -56,13 +58,13 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
                       child: Form(
                         key: formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             TextFormField(
                               controller: controllers[S.of(context).full_name],
                               autovalidateMode:
@@ -77,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                                 labelText: S.of(context).full_name,
                               ),
                             ),
-                            const SizedBox(height: 24.0),
+                            const SizedBox(height: 24),
                             TextFormField(
                               controller:
                                   controllers[S.of(context).phone_number],
@@ -92,33 +94,36 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                                 labelText: S.of(context).phone_number,
                               ),
                             ),
-                            const SizedBox(height: 24.0),
+                            const SizedBox(height: 24),
                             ValueListenableBuilder<bool>(
-                                valueListenable: _passwordVisible,
-                                builder: (context, visible, _) {
-                                  return TextFormField(
-                                    controller:
-                                        controllers[S.of(context).password],
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: passwordValidator,
-                                    obscureText: visible,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    textInputAction: TextInputAction.done,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Iconsax.lock),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(visible
+                              valueListenable: _passwordVisible,
+                              builder: (BuildContext context, bool visible, _) {
+                                return TextFormField(
+                                  controller:
+                                      controllers[S.of(context).password],
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: passwordValidator,
+                                  obscureText: visible,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Iconsax.lock),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        visible
                                             ? Icons.visibility
-                                            : Icons.visibility_off),
-                                        onPressed: () {
-                                          _passwordVisible.value = !visible;
-                                        },
+                                            : Icons.visibility_off,
                                       ),
-                                      labelText: S.of(context).password,
+                                      onPressed: () {
+                                        _passwordVisible.value = !visible;
+                                      },
                                     ),
-                                  );
-                                }),
+                                    labelText: S.of(context).password,
+                                  ),
+                                );
+                              },
+                            ),
                             const SizedBox(height: 48.28),
                             Hero(
                               transitionOnUserGestures: true,
@@ -126,7 +131,9 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, 'login');
+                                    context,
+                                    'login',
+                                  );
                                 },
                                 child: Text(
                                   S.of(context).sign_up_with_ +
@@ -141,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                                 S.of(context).or_continue_with,
                                 style: const TextStyle(
                                   color: Color(0xff89909A),
-                                  fontSize: 16.0,
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
@@ -156,7 +163,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                                 onPressed: () {},
                                 icon: const Image(
                                   image: AssetImage('assets/images/google.png'),
-                                  width: 21.0,
+                                  width: 21,
                                 ),
                                 label: Text(
                                   S.of(context).sign_up_with_ +
@@ -180,7 +187,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                 Navigator.pushReplacementNamed(
                   context,
                   'login',
-                  arguments: {
+                  arguments: <String, dynamic>{
                     'phone': controllers[S.of(context).phone_number]!.text,
                     'password': controllers[S.of(context).password]!.text,
                   },
@@ -188,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
               },
               child: Text.rich(
                 TextSpan(
-                  children: [
+                  children: <InlineSpan>[
                     TextSpan(
                       text: S.of(context).already_have_account,
                     ),
@@ -200,7 +207,7 @@ class _SignupScreenState extends State<SignupScreen> with FormControls {
                 ),
                 style: const TextStyle(
                   color: Color(0xff89909A),
-                  fontSize: 16.0,
+                  fontSize: 16,
                 ),
               ),
             ),

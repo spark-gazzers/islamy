@@ -5,19 +5,21 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/utils/form_controls.dart';
 
 class LoginScreen extends StatefulWidget {
-  final String? phone;
-  final String? password;
   const LoginScreen({
     Key? key,
     required this.phone,
     required this.password,
   }) : super(key: key);
 
+  final String? phone;
+  final String? password;
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with FormControls {
+class _LoginScreenState extends State<LoginScreen>
+    with FormControls<LoginScreen> {
   final ValueNotifier<bool> _passwordVisible = ValueNotifier<bool>(true);
   @override
   void initState() {
@@ -32,18 +34,18 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     const SizedBox(height: 109),
                     const Image(
                       width: 96.46,
                       image: AssetImage('assets/images/logo.png'),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(32.0),
+                      padding: const EdgeInsets.all(32),
                       child: Text(
                         S.of(context).log_in_to_your_account,
                         textAlign: TextAlign.center,
@@ -55,13 +57,13 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
                       child: Form(
                         key: formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
+                          children: <Widget>[
                             TextFormField(
                               controller:
                                   controllers[S.of(context).phone_number],
@@ -76,40 +78,43 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                                 labelText: S.of(context).phone_number,
                               ),
                             ),
-                            const SizedBox(height: 24.0),
+                            const SizedBox(height: 24),
                             ValueListenableBuilder<bool>(
-                                valueListenable: _passwordVisible,
-                                builder: (context, visible, _) {
-                                  return TextFormField(
-                                    controller:
-                                        controllers[S.of(context).password],
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: passwordValidator,
-                                    obscureText: visible,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    textInputAction: TextInputAction.done,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Iconsax.lock),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(visible
+                              valueListenable: _passwordVisible,
+                              builder: (BuildContext context, bool visible, _) {
+                                return TextFormField(
+                                  controller:
+                                      controllers[S.of(context).password],
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: passwordValidator,
+                                  obscureText: visible,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Iconsax.lock),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        visible
                                             ? Icons.visibility
-                                            : Icons.visibility_off),
-                                        onPressed: () {
-                                          _passwordVisible.value = !visible;
-                                        },
+                                            : Icons.visibility_off,
                                       ),
-                                      labelText: S.of(context).password,
+                                      onPressed: () {
+                                        _passwordVisible.value = !visible;
+                                      },
                                     ),
-                                  );
-                                }),
-                            const SizedBox(height: 24.0),
+                                    labelText: S.of(context).password,
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 24),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(
                                   context,
                                   'forgot_password',
-                                  arguments: {
+                                  arguments: <String, dynamic>{
                                     'phone':
                                         controllers[S.of(context).phone_number]!
                                             .text,
@@ -120,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                                 S.of(context).forgot_password,
                                 style: const TextStyle(
                                   color: Color(0xff89909A),
-                                  fontSize: 16.0,
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
@@ -131,7 +136,9 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, 'enable_location');
+                                    context,
+                                    'enable_location',
+                                  );
                                 },
                                 child: Text(
                                   S.of(context).sign_in_with_ +
@@ -139,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 24.0),
+                            const SizedBox(height: 24),
                             Hero(
                               transitionOnUserGestures: true,
                               tag: 'sign_in_with_google',
@@ -151,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                                 onPressed: () {},
                                 icon: const Image(
                                   image: AssetImage('assets/images/google.png'),
-                                  width: 21.0,
+                                  width: 21,
                                 ),
                                 label: Text(
                                   S.of(context).sign_in_with_ +
@@ -172,14 +179,18 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, 'signup', arguments: {
-                  'phone': controllers[S.of(context).phone_number]!.text,
-                  'password': controllers[S.of(context).password]!.text,
-                });
+                Navigator.pushReplacementNamed(
+                  context,
+                  'signup',
+                  arguments: <String, dynamic>{
+                    'phone': controllers[S.of(context).phone_number]!.text,
+                    'password': controllers[S.of(context).password]!.text,
+                  },
+                );
               },
               child: Text.rich(
                 TextSpan(
-                  children: [
+                  children: <InlineSpan>[
                     TextSpan(
                       text: S.of(context).dont_have_an_account,
                     ),
@@ -191,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> with FormControls {
                 ),
                 style: const TextStyle(
                   color: Color(0xff89909A),
-                  fontSize: 16.0,
+                  fontSize: 16,
                 ),
               ),
             ),
