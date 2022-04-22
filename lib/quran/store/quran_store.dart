@@ -210,7 +210,7 @@ class QuranStore {
 class _QuranSettings {
   const _QuranSettings._();
   static const _QuranSettings instance = _QuranSettings._();
-  static late final Box<String> _settingsBox;
+  static late final Box<String?> _settingsBox;
   static late final List<Juz> _juzData;
   static Future<void> _init() async {
     _settingsBox = await QuranStore._getBox<String>('quran_settings');
@@ -300,11 +300,10 @@ class _QuranSettings {
   }
 
   Edition? get defaultTransliterationEdition {
-    // QuranStore.listTransliterationEditions()
     final String? id = _settingsBox.get('default_transliteration_edition');
     if (id == null) return null;
     final List<Edition> editions =
-        QuranStore.listTranslationEditions().toList();
+        QuranStore.listTransliterationEditions().toList();
 
     return editions.singleWhere(
       (Edition element) => element.identifier == id,
