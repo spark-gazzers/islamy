@@ -128,7 +128,7 @@ class Routes {
         builder = (BuildContext context) => QuranSurahReader(
               surah: args['surah'] as Surah,
               edition: args['edition'] as Edition,
-              ayah: args['ayah'] as Ayah,
+              ayah: args['ayah'] as Ayah?,
             );
         break;
       default:
