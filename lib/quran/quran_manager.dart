@@ -65,6 +65,30 @@ class QuranManager {
     CloudQuran.init();
     await QuranStore.init();
     await QuranPlayerContoller.init();
+
+    // Start download the necessary models to start
+
+    // Download the editions
+    if (QuranStore._listEditions().isEmpty) {
+      await QuranManager.downloadEditions();
+      // Download quran meta too
+    }
+    // Download the default text quran
+    if (!QuranManager.isQuranDownloaded(
+      QuranStore.settings.defaultTextEdition,
+    )) {
+      await QuranManager.downloadQuran(
+        edition: QuranStore.settings.defaultTextEdition,
+      );
+    }
+    // Download the default audio quran
+    if (!QuranManager.isQuranDownloaded(
+      QuranStore.settings.defaultAudioEdition,
+    )) {
+      await QuranManager.downloadQuran(
+        edition: QuranStore.settings.defaultAudioEdition,
+      );
+    }
   }
 
   static Future<void> _initDefaultArtImage() async {
