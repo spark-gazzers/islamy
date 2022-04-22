@@ -39,6 +39,15 @@ part 'tajweed/splitter.dart';
 class QuranManager {
   const QuranManager._();
 
+  static const List<String> _unsupportedTextEditions = <String>[
+    'quran-wordbyword',
+    'quran-kids',
+    'quran-corpus-qd',
+    'quran-wordbyword-2',
+    'quran-unicode',
+    'quran-uthmani-quran-academy'
+  ];
+
   /// This file is a copy from the app logo copied to the
   /// [getApplicationDocumentsDirectory] as stored file to pass into the native
   /// audio services.
@@ -116,7 +125,14 @@ class QuranManager {
     List<Edition> editions = QuranStore._listEditions();
     if (editions.isEmpty) {
       editions = await CloudQuran.listEditions();
-      await QuranStore._addEditions(editions);
+      await QuranStore._addEditions(
+        editions
+            .where(
+              (Edition element) =>
+                  !_unsupportedTextEditions.contains(element.identifier),
+            )
+            .toList(),
+      );
     }
     return editions;
   }
