@@ -130,8 +130,10 @@ class QuranStore {
     Surah surah,
   ) async {
     final Directory docDirectory = await getApplicationDocumentsDirectory();
-    final Directory quranDirectory =
-        _getDescendant(docDirectory, edition.identifier);
+    final Directory quranDirectory = _getDescendant(
+      _getDescendant(docDirectory, 'quran'),
+      edition.identifier,
+    );
     final Directory surahDirectory =
         _getDescendant(quranDirectory, surah.number.toString());
     return surahDirectory;
