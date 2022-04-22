@@ -81,6 +81,7 @@ class QuranManager {
     if (QuranStore._listEditions().isEmpty) {
       await QuranManager.downloadEditions();
       // Download quran meta too
+      await QuranManager.downloadQuranMeta();
     }
     // Download the default text quran
     if (!QuranManager.isQuranDownloaded(
