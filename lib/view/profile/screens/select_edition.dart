@@ -21,7 +21,7 @@ class SelectEditionDelegate extends StatelessWidget {
   }) : super(key: key);
 
   /// The currently selected [Edition] for the [Format]
-  final Edition selected;
+  final Edition? selected;
 
   /// The text that would show in [CupertinoNavigationBar.middle].
   final String title;
