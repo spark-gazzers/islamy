@@ -37,8 +37,8 @@ class Edition extends HiveObject with AlquranCloudObject {
               // if the [direction] is not specified try and get it
               // from the language property
               (intl.Bidi.isRtlLanguage(json['language'].toString())
-                  ? Direction.rtl.toString()
-                  : Direction.ltr.toString()),
+                  ? Direction.rtl.name
+                  : Direction.ltr.name),
         ),
       );
 
