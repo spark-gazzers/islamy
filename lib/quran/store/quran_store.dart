@@ -261,42 +261,60 @@ class _QuranSettings {
     );
   }
 
-  Edition get defaultInterpretationEdition {
+  Edition? get defaultInterpretationEdition {
+    final String? id = _settingsBox.get('default_interpretation_edition');
+    if (id == null) return null;
     final List<Edition> editions =
         QuranStore.listInterpretationEditions().toList();
 
     return editions.singleWhere(
-      (Edition element) =>
-          element.identifier ==
-          (_settingsBox.get('default_interpretation_edition') ??
-              editions.first.identifier),
+      (Edition element) => element.identifier == id,
     );
   }
 
-  set defaultInterpretationEdition(Edition edition) {
-    QuranStore._saveValue(
+  set defaultInterpretationEdition(Edition? edition) {
+    QuranStore._saveValue<String?>(
       name: 'default_interpretation_edition',
-      value: edition.identifier,
+      value: edition?.identifier,
       box: _settingsBox,
     );
   }
 
-  Edition get defaultTranslationEdition {
+  Edition? get defaultTranslationEdition {
+    final String? id = _settingsBox.get('default_translation_edition');
+    if (id == null) return null;
     final List<Edition> editions =
         QuranStore.listTranslationEditions().toList();
 
     return editions.singleWhere(
-      (Edition element) =>
-          element.identifier ==
-          (_settingsBox.get('default_translation_edition') ??
-              editions.first.identifier),
+      (Edition element) => element.identifier == id,
     );
   }
 
-  set defaultTranslationEdition(Edition edition) {
+  set defaultTranslationEdition(Edition? edition) {
     QuranStore._saveValue(
       name: 'default_translation_edition',
-      value: edition.identifier,
+      value: edition?.identifier,
+      box: _settingsBox,
+    );
+  }
+
+  Edition? get defaultTransliterationEdition {
+    // QuranStore.listTransliterationEditions()
+    final String? id = _settingsBox.get('default_transliteration_edition');
+    if (id == null) return null;
+    final List<Edition> editions =
+        QuranStore.listTranslationEditions().toList();
+
+    return editions.singleWhere(
+      (Edition element) => element.identifier == id,
+    );
+  }
+
+  set defaultTransliterationEdition(Edition? edition) {
+    QuranStore._saveValue(
+      name: 'default_transliteration_edition',
+      value: edition?.identifier,
       box: _settingsBox,
     );
   }
