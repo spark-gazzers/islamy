@@ -62,8 +62,7 @@ class QuranPlayerContoller extends BaseAudioHandler
   Duration get duration => _player.position;
 
   /// The current position of the player as value from 0 .. 1.0.
-  double get durationValue =>
-      _player.position.inMicroseconds.toDouble() /
+  double get durationValue {
       total.inMicroseconds.toDouble();
 
   ///The value stream of the current played duration in 0.0 to 1.0 value
