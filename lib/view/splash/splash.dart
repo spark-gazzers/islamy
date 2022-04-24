@@ -44,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    // testSplitter();
     return const Material(
       elevation: 0,
       child: Center(
