@@ -20,6 +20,13 @@ class ThemeBuilder {
 
   static ThemeData _adapt(ThemeData theme) => theme.copyWith(
         cupertinoOverrideTheme: _toCupertino(theme),
+        platform: TargetPlatform.iOS,
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+            TargetPlatform.values,
+            value: (_) => const CupertinoPageTransitionsBuilder(),
+          ),
+        ),
         textTheme: theme.textTheme.copyWith(
           bodyText2: theme.textTheme.bodyText2?.copyWith(
             fontSize: 14,
