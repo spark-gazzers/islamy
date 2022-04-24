@@ -71,10 +71,11 @@ class Routes {
               propertyName: S.current.text_edition,
               selected: QuranStore.settings.defaultTextEdition,
               choices: QuranStore.listTextEditions(),
-              onSelected: (Edition edition) {
-                QuranStore.settings.defaultTextEdition = edition;
+              onSelected: (Edition? edition) {
+                QuranStore.settings.defaultTextEdition = edition!;
               },
               title: S.current.select_text_edition,
+              allowToDisable: false,
             );
         break;
 
@@ -83,10 +84,11 @@ class Routes {
               propertyName: S.current.audio_edition,
               selected: QuranStore.settings.defaultAudioEdition,
               choices: QuranStore.listAudioEditions(),
-              onSelected: (Edition edition) {
-                QuranStore.settings.defaultAudioEdition = edition;
+              onSelected: (Edition? edition) {
+                QuranStore.settings.defaultAudioEdition = edition!;
               },
               title: S.current.select_audio_edition,
+              allowToDisable: false,
             );
         break;
 
@@ -95,7 +97,7 @@ class Routes {
               propertyName: S.current.interpretation_edition,
               selected: QuranStore.settings.defaultInterpretationEdition,
               choices: QuranStore.listInterpretationEditions(),
-              onSelected: (Edition edition) {
+              onSelected: (Edition? edition) {
                 QuranStore.settings.defaultInterpretationEdition = edition;
               },
               title: S.current.select_interpretation_edition,
@@ -107,7 +109,7 @@ class Routes {
               propertyName: S.current.translation_edition,
               selected: QuranStore.settings.defaultTranslationEdition,
               choices: QuranStore.listTranslationEditions(),
-              onSelected: (Edition edition) {
+              onSelected: (Edition? edition) {
                 QuranStore.settings.defaultTranslationEdition = edition;
               },
               title: S.current.select_translation_edition,
@@ -118,8 +120,8 @@ class Routes {
               propertyName: S.current.transliteration_edition,
               selected: QuranStore.settings.defaultTransliterationEdition,
               choices: QuranStore.listTransliterationEditions(),
-              onSelected: (Edition edition) {
-                QuranStore.settings.defaultTranslationEdition = edition;
+              onSelected: (Edition? edition) {
+                QuranStore.settings.defaultTransliterationEdition = edition;
               },
               title: S.current.select_translation_edition,
             );

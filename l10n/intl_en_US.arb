@@ -91,5 +91,8 @@
     "idgham_without_ghunnah": "Idgham - Without Ghunnah",
     "idgham_mutajanisayn": "Idgham - Mutajanisayn",
     "idgham_mutaqaribayn": "Idgham - Mutaqaribayn",
-    "ghunnah": "Ghunnah: 2 Vowels"
+    "ghunnah": "Ghunnah: 2 Vowels",
+    "disabled": "Disabled",
+    "disable": "Disable",
+    "disable_this_edition_type_line_break_select_another_edition_to_enable_again": "Disable this edition type.\nSelect another edition and it will be enabled again"
 }
