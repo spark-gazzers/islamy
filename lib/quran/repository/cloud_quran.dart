@@ -177,7 +177,7 @@ class CloudQuran {
     // ٱلْفَاتِحَة cause it's already included at the first
     // neither ٱلتَّوْبَة cause it's starts without it.
     final TheHolyQuran quran = QuranStore._getQuran(edition)!;
-    final bool needsBasmala = surah.number != 1 && surah.number == 9;
+    final bool needsBasmala = surah.number != 1 && surah.number != 9;
     final File basmala = await QuranStore._basmalaFileFor(quran);
     int ayahNumer(File file) {
       String name = file.path.split(Platform.pathSeparator).last;
