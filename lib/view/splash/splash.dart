@@ -2,9 +2,6 @@ import 'package:ffmpeg_kit_flutter_min/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_min/log_redirection_strategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/api/api_handler.dart';
@@ -29,8 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
   /// The main app initializer which loads every static service in the app.
   ///
   /// Note.
-  /// Depending on the user this can take from 3 seconds upto 7 in somecase
-  /// cause of the load and the proccess of many [TheHolyQuran] objects.
+  /// Depending on what user downloaded this can take from 3
+  /// seconds upto 7 in somecase  cause of the load and the
+  /// proccess of many [TheHolyQuran] objects.
   /// So UX wise, those initializer should never be called outside splash screen
   Future<void> init() async {
     await Store.init();
