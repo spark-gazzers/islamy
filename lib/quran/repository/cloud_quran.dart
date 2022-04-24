@@ -179,10 +179,18 @@ class CloudQuran {
     final TheHolyQuran quran = QuranStore._getQuran(edition)!;
     final bool needsBasmala = surah.number != 1 && surah.number == 9;
     final File basmala = await QuranStore._basmalaFileFor(quran);
+    int ayahNumer(File file) {
+      String name = file.path.split(Platform.pathSeparator).last;
+      name = name.split('.').first;
+      return int.parse(name);
+    }
+
+    ayahsFiles
+        .sort((File f1, File f2) => ayahNumer(f1).compareTo(ayahNumer(f2)));
     if (needsBasmala) {
       ayahsFiles.insert(0, basmala);
     }
-    await concatenate(ayahsFiles, merged);
+    await _concatenate(ayahsFiles, merged);
     // the duration json file
     final File durationsJson = File(
       surahDirectory.path +
@@ -208,7 +216,7 @@ class CloudQuran {
   }
 
   /// coppied from SO [answer](https://stackoverflow.com/a/66528374/18150607) and modifed to seperated files instead of assets
-  static Future<File> concatenate(List<File> ayahs, File output) async {
+  static Future<File> _concatenate(List<File> ayahs, File output) async {
     final File list = File(
       '${output.path.substring(
         0,
