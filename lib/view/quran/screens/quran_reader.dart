@@ -425,7 +425,9 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const _AudioSlider(),
+          _AudioSlider(
+            surah: widget.surah,
+          ),
           IconTheme.merge(
             data: const IconThemeData(color: Colors.white),
             child: Padding(
@@ -512,60 +514,74 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
 }
 
 class _AudioSlider extends StatefulWidget {
-  const _AudioSlider({Key? key}) : super(key: key);
+  const _AudioSlider({Key? key, required this.surah}) : super(key: key);
 
+  final Surah surah;
   @override
   State<_AudioSlider> createState() => _AudioSliderState();
 }
 
 class _AudioSliderState extends State<_AudioSlider> {
-  double? _value;
+  double? _dragValue;
+  bool get isForThisSurah {
+    final TheHolyQuran quran =
+        QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
+    return QuranPlayerContoller.instance.isForSurah(quran, widget.surah);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<double>(
-      stream: QuranPlayerContoller.instance.valueStream,
+      stream: isForThisSurah ? QuranPlayerContoller.instance.valueStream : null,
       builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+        double position = _dragValue ??
+            snapshot.data ??
+            (isForThisSurah
+                ? QuranPlayerContoller.instance.durationValue
+                : 0.0);
         final FormattedLengthDuration formatter =
             Helper.formatters.formatLengthDuration(
-          QuranPlayerContoller.instance.duration,
-          QuranPlayerContoller.instance.total,
+          isForThisSurah
+              ? QuranPlayerContoller.instance.duration
+              : Duration.zero,
+          isForThisSurah ? QuranPlayerContoller.instance.total : Duration.zero,
         );
         return Column(
           children: <Widget>[
             Slider.adaptive(
-              value: _value ??
-                  snapshot.data ??
-                  QuranPlayerContoller.instance.durationValue,
+              value: position,
               // snapshot.data ?? controller?.playedPercentage ?? 0.0,
               onChanged: (double value) {
                 // making the _value not null means it's currently active
                 setState(() {
-                  _value = value;
+                  _dragValue = value;
                 });
               },
               onChangeEnd: (double value) {
                 QuranPlayerContoller.instance.seekToValue(value);
                 setState(() {
-                  _value = null;
+                  _dragValue = null;
                 });
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-              child: DefaultTextStyle.merge(
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(formatter.start),
-                    Text(formatter.end),
-                  ],
+            if (isForThisSurah)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                child: DefaultTextStyle.merge(
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(formatter.start),
+                      Text(formatter.end),
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         );
       },
