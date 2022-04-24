@@ -146,36 +146,55 @@ class SurahInlineReader extends StatelessWidget {
   final Edition edition;
   final bool selected;
 
+  int get currentIndex =>
+      isListenable ? QuranPlayerContoller.instance.currentAyah!.value : 0;
+  TheHolyQuran get quran => QuranManager.getQuran(edition);
+  bool get isListenable {
+    return QuranPlayerContoller.instance.isForSurah(quran, inline.surah) &&
+        QuranPlayerContoller.instance.currentAyah != null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget child = ValueListenableBuilder<int>(
-      valueListenable:
-          QuranPlayerContoller.instance.currentAyah ?? ValueNotifier<int>(0),
-      builder: (BuildContext context, int value, Widget? child) => Column(
-        children: <Widget>[
-          if (inline.start)
-            _SurahTitle(
-              surah: inline.surah,
-              selected:
-                  // if the current ayah equals 0
-                  value == 0
-                      // and the highlight option is enabled
-                      &&
-                      Store.highlightAyahOnPlayer
-                      // and this is the selected surah
-                      &&
-                      selected,
-            ),
-          Text.rich(
-            TextSpan(
-              children: _buildAyahsSpans(context),
-              locale: Locale(edition.language),
-            ),
-            textAlign: TextAlign.center,
+    Widget child = Column(
+      children: <Widget>[
+        if (inline.start)
+          _SurahTitle(
+            surah: inline.surah,
+            selected:
+                // if the current ayah equals 0
+                currentIndex == 0
+                    // and the highlight option is enabled
+                    &&
+                    Store.highlightAyahOnPlayer
+                    // and this is the selected surah
+                    &&
+                    selected,
           ),
-        ],
-      ),
+        Text.rich(
+          TextSpan(
+            children: _buildAyahsSpans(context),
+            locale: Locale(edition.language),
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
+    if (isListenable) {
+      final ValueNotifier<int> listenable =
+          QuranPlayerContoller.instance.currentAyah!;
+      child = ValueListenableBuilder<int>(
+        // why using the notifier as key? flutter doesn't provide a way to
+        // obtain the state of the [ValueNotifier<T>] yet! And when
+        // the [State.didUpdateWidget] starts on the [ValueNotifier<int>] state
+        // it automatically removes the listener which will throw
+        // an assertaion error.
+        key: ValueKey<ValueNotifier<int>>(listenable),
+        valueListenable: listenable,
+        builder: (BuildContext context, int value, Widget? child) => child!,
+        child: child,
+      );
+    }
     if (!selected) {
       child = Opacity(
         opacity: .25,
@@ -188,15 +207,14 @@ class SurahInlineReader extends StatelessWidget {
   List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
     for (final Ayah ayah in inline.ayahs) {
-      final bool isSelected =
-          QuranPlayerContoller.instance.currentAyah != null &&
-              ayah.numberInSurah ==
-                  QuranPlayerContoller.instance.currentAyah!.value &&
-              Store.highlightAyahOnPlayer &&
-              selected;
+      final bool isSelected = isListenable &&
+          ayah.numberInSurah == currentIndex &&
+          Store.highlightAyahOnPlayer &&
+          selected;
       // ignore: prefer_function_declarations_over_variables
       final VoidCallback? onTap = selected
           ? () async {
+              if (!isListenable) return;
               await QuranPlayerContoller.instance.seekToAyah(ayah);
               QuranPlayerContoller.instance.play();
             }
@@ -274,6 +292,7 @@ class _SurahTitle extends StatelessWidget {
     required this.surah,
     required this.selected,
   }) : super(key: key);
+
   final Surah surah;
   final bool selected;
 
