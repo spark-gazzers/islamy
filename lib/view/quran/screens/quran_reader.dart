@@ -153,7 +153,19 @@ class SurahInlineReader extends StatelessWidget {
           QuranPlayerContoller.instance.currentAyah ?? ValueNotifier<int>(0),
       builder: (BuildContext context, int value, Widget? child) => Column(
         children: <Widget>[
-          if (inline.start) _SurahTitle(surah: inline.surah),
+          if (inline.start)
+            _SurahTitle(
+              surah: inline.surah,
+              selected:
+                  // if the current ayah equals 0
+                  value == 0
+                      // and the highlight option is enabled
+                      &&
+                      Store.highlightAyahOnPlayer
+                      // and this is the selected surah
+                      &&
+                      selected,
+            ),
           Text.rich(
             TextSpan(
               children: _buildAyahsSpans(context),
@@ -257,8 +269,13 @@ class SurahInlineReader extends StatelessWidget {
 }
 
 class _SurahTitle extends StatelessWidget {
-  const _SurahTitle({Key? key, required this.surah}) : super(key: key);
+  const _SurahTitle({
+    Key? key,
+    required this.surah,
+    required this.selected,
+  }) : super(key: key);
   final Surah surah;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
