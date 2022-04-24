@@ -77,6 +77,7 @@ class _SurahListTile extends StatelessWidget {
         if (!QuranPlayerContoller.instance.isForSurah(quran, surah)) {
           await QuranPlayerContoller.instance.stop();
           // if it's downloaed start the preperations
+          // so the user can read a real durations in the slider.
           if (await QuranManager.isSurahDownloaded(
             QuranStore.settings.defaultAudioEdition,
             surah,
