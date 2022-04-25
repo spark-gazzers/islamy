@@ -148,7 +148,8 @@ class SurahInlineReader extends StatelessWidget {
 
   int get currentIndex =>
       isListenable ? QuranPlayerContoller.instance.currentAyah!.value : 0;
-  TheHolyQuran get quran => QuranManager.getQuran(edition);
+  TheHolyQuran get quran =>
+      QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
   bool get isListenable {
     return QuranPlayerContoller.instance.isForSurah(quran, inline.surah) &&
         QuranPlayerContoller.instance.currentAyah != null;
@@ -156,30 +157,7 @@ class SurahInlineReader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Column(
-      children: <Widget>[
-        if (inline.start)
-          _SurahTitle(
-            surah: inline.surah,
-            selected:
-                // if the current ayah equals 0
-                currentIndex == 0
-                    // and the highlight option is enabled
-                    &&
-                    Store.highlightAyahOnPlayer
-                    // and this is the selected surah
-                    &&
-                    selected,
-          ),
-        Text.rich(
-          TextSpan(
-            children: _buildAyahsSpans(context),
-            locale: Locale(edition.language),
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
+    Widget child;
     if (isListenable) {
       final ValueNotifier<int> listenable =
           QuranPlayerContoller.instance.currentAyah!;
@@ -191,9 +169,11 @@ class SurahInlineReader extends StatelessWidget {
         // an assertaion error.
         key: ValueKey<ValueNotifier<int>>(listenable),
         valueListenable: listenable,
-        builder: (BuildContext context, int value, Widget? child) => child!,
-        child: child,
+        builder: (BuildContext context, int value, Widget? child) =>
+            childrenBuilder(context),
       );
+    } else {
+      child = childrenBuilder(context);
     }
     if (!selected) {
       child = Opacity(
@@ -204,8 +184,35 @@ class SurahInlineReader extends StatelessWidget {
     return child;
   }
 
+  Widget childrenBuilder(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (inline.start)
+            _SurahTitle(
+              surah: inline.surah,
+              selected:
+                  // if the current ayah equals 0
+                  currentIndex == 0
+                      // and the highlight option is enabled
+                      &&
+                      Store.highlightAyahOnPlayer
+                      // and this is the selected surah
+                      &&
+                      selected,
+            ),
+          Text.rich(
+            TextSpan(
+              children: _buildAyahsSpans(context),
+              locale: Locale(edition.language),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
+
   List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
+
     for (final Ayah ayah in inline.ayahs) {
       final bool isSelected = isListenable &&
           ayah.numberInSurah == currentIndex &&
