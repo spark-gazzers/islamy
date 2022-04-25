@@ -27,7 +27,7 @@ class QuranPlayerContoller extends BaseAudioHandler
   static final AudioPlayer _lengthCalculator = AudioPlayer();
 
   ///The current [Surah]'s ayahs positions in duration
-  final Map<int, Duration> _positions = <int, Duration>{};
+  final List<MapEntry<int, Duration>> _positions = <MapEntry<int, Duration>>[];
 
   ///The current player [TheHolyQuran]
   TheHolyQuran? _quran;
@@ -126,7 +126,12 @@ class QuranPlayerContoller extends BaseAudioHandler
     }
     _positions
       ..clear()
-      ..addAll(positions);
+      ..addAll(positions.entries)
+      ..sort(
+        (MapEntry<int, Duration> e1, MapEntry<int, Duration> e2) =>
+            e1.key.compareTo(e2.key),
+      );
+    ;
   }
 
   /// Check wether the current state of this player is meant
@@ -174,7 +179,8 @@ class QuranPlayerContoller extends BaseAudioHandler
     // listening to the new ayah change
     _player.positionStream.listen((Duration duration) {
       // get the ayah number based on the duration played from [_positions]
-      final int index = _positions.entries
+
+      final int index = _positions
           .lastWhere(
             (MapEntry<int, Duration> element) => element.value <= duration,
           )
@@ -223,11 +229,35 @@ class QuranPlayerContoller extends BaseAudioHandler
   }
 
   @override
-  Future<void> skipToNext() => _player.seek(_positions[currentAyah!.value + 1]);
+  Future<void> skipToNext() {
+    if (_currentAyah!.value == _positions.last.key) {
+      return stop();
+    }
+
+    return _player.seek(
+      _positions
+          .singleWhere(
+            (MapEntry<int, Duration> element) =>
+                element.key == currentAyah!.value + 1,
+          )
+          .value,
+    );
+  }
 
   @override
-  Future<void> skipToPrevious() =>
-      _player.seek(_positions[currentAyah!.value - 1]);
+  Future<void> skipToPrevious() {
+    if (_currentAyah!.value == _positions.first.key) {
+      return stop();
+    }
+    return _player.seek(
+      _positions
+          .singleWhere(
+            (MapEntry<int, Duration> element) =>
+                element.key == currentAyah!.value - 1,
+          )
+          .value,
+    );
+  }
 
   @override
   Future<void> play() => _player.play();
@@ -244,7 +274,13 @@ class QuranPlayerContoller extends BaseAudioHandler
   /// The player reads the position of the ayah from the
   /// [QuranManager.durationJsonFileName] associated with
   /// the surah directory made during the build
-  Future<void> seekToAyah(Ayah ayah) => seek(_positions[ayah.number]!);
+  Future<void> seekToAyah(Ayah ayah) => seek(
+        _positions
+            .singleWhere(
+              (MapEntry<int, Duration> element) => element.key == ayah.number,
+            )
+            .value,
+      );
 
   /// Convenient method to seek to a [double] value that represents
   /// a percentage of the total audio file length
