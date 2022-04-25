@@ -14,7 +14,14 @@ class AyahTajweedSplitter {
   /// throws [StateError] if it found an unsupported id
   ///
   /// source [Alquran Cloud: Tajweed Guide](https://alquran.cloud/tajweed-guide)
-  static List<TextSpan> formatAyah(Ayah ayah) {
+  static List<TextSpan> formatAyah(
+    Ayah ayah, {
+    GestureRecognizer? recognizer,
+  }) {
+    TextSpan createSpan({required String text, TextStyle? style}) => TextSpan(
+          text: text,
+          recognizer: recognizer,
+        );
     // The spans list
     final List<TextSpan> spans = <TextSpan>[];
     // The ayah text to reduce access
@@ -30,10 +37,10 @@ class AyahTajweedSplitter {
       // If there is nothing left (or nothing at all)
       if (newIndex == -1) {
         // New plane span
-        spans.add(TextSpan(text: text.substring(index)));
+        spans.add(createSpan(text: text.substring(index)));
       } else {
         // Add the preceduer as plane
-        spans.add(TextSpan(text: text.substring(index, newIndex)));
+        spans.add(createSpan(text: text.substring(index, newIndex)));
         // Using try/catch cause the letter may be in bracket without a rule arrounde it
         //
         //
@@ -54,7 +61,7 @@ class AyahTajweedSplitter {
               .singleWhere((TajweedRule element) => element.id == id);
           // Adding the extracted letter with the [TajweedRule] color
           spans.add(
-            TextSpan(
+            createSpan(
               text: letterToPatch,
               style: TextStyle(color: rule.color),
             ),
@@ -63,7 +70,7 @@ class AyahTajweedSplitter {
           // If the tajweed rule not found then just skip it and
           // add it as normal text
           spans.add(
-            TextSpan(
+            createSpan(
               text: String.fromCharCode(
                 // The letter index
                 text.codeUnitAt(text.indexOf(']', newIndex) - 1),

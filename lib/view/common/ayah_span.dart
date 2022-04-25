@@ -5,6 +5,7 @@ import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
+import 'package:islamy/utils/store.dart';
 
 /// This span handles the proper formatting of [Ayah.text].
 class AyahSpan extends TextSpan {
@@ -15,29 +16,31 @@ class AyahSpan extends TextSpan {
     bool isSelected = false,
   }) : super(
           children: <InlineSpan>[
-            ...AyahTajweedSplitter.formatAyah(ayah),
-            TextSpan(
+            ...AyahTajweedSplitter.formatAyah(
+              ayah,
               recognizer: MultiTapGestureRecognizer(
                 longTapDelay: const Duration(milliseconds: 300),
               )
                 ..onLongTapDown = (int pointer, TapDownDetails details) {
+                  print('object');
                   if (onLongTap != null) {
                     HapticFeedback.heavyImpact();
                     onLongTap();
                   }
                 }
                 ..onTap = (_) => onTap?.call(),
-              style: TextStyle(
-                background: Paint()
-                  ..color = isSelected
-                      ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
-                      : Colors.transparent,
-                decoration:
-                    isSelected ? TextDecoration.underline : TextDecoration.none,
-              ),
             ),
             AyahsNumberSpan(ayah: ayah),
           ],
+          style: TextStyle(
+            fontFamily: Store.quranFont,
+            fontSize: Store.quranFontSize,
+            color: Colors.black,
+            background: Paint()
+              ..color = isSelected
+                  ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
+                  : Colors.transparent,
+          ),
         );
 }
 
