@@ -137,4 +137,4 @@ xcuserdata/
 pubspec.lock
 ios/Podfile.lock
 
-lib/generated/l10n
+lib/generated/
