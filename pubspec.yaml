@@ -1,5 +1,5 @@
 name: islamy
-description: A new Flutter project.
+description: A new islamic project that aims to provide the holy Quran in every language and anyother resources muslims would need.
 
 publish_to: 'none' 
 
@@ -51,19 +51,7 @@ flutter:
     - assets/images/
     - assets/icons/surah_icon.svg
     - assets/config/
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  
   fonts:
     - family: QuranFont 1
       fonts:
@@ -78,15 +66,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto/Roboto-Medium.ttf
 
-
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         style: italic
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:
   arb_dir: l10n
   enabled: true
