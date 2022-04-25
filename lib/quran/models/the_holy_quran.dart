@@ -5,7 +5,7 @@ import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/quran_page.dart';
 import 'package:islamy/quran/models/surah.dart';
 
-part 'text_quran.g.dart';
+part '../../generated/adapters/quran/the_holy_quran.dart';
 
 @HiveType(typeId: 5)
 class TheHolyQuran {
