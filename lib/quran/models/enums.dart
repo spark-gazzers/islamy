@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-part 'enums.g.dart';
+
+part '../../generated/adapters/quran/enums.dart';
 
 /// The type which represents the way it should be manifested in the UI view.
 @HiveType(typeId: 2)

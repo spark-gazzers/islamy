@@ -6,7 +6,7 @@ import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 
-part 'surah.g.dart';
+part '../../generated/adapters/quran/surah.dart';
 
 /// [TheHolyQuran] surah with it's ayahs ,the revelation type
 /// and it's number in [TheHolyQuran].

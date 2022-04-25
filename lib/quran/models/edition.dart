@@ -5,7 +5,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:islamy/quran/models/alquran_cloud_object.dart';
 import 'package:islamy/quran/models/enums.dart';
 
-part 'edition.g.dart';
+part '../../generated/adapters/quran/edition.dart';
 
 /// The quran edition.
 ///

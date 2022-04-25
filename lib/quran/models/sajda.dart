@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
 
-part 'sajda.g.dart';
+part '../../generated/adapters/quran/sajda.dart';
 
 @HiveType(typeId: 8)
 class Sajda {

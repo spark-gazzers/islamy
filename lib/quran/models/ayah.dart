@@ -5,7 +5,7 @@ import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/sajda.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 
-part 'ayah.g.dart';
+part '../../generated/adapters/quran/ayah.dart';
 
 @HiveType(typeId: 7)
 
