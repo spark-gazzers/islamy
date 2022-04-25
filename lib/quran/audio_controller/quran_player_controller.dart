@@ -158,7 +158,9 @@ class QuranPlayerContoller extends BaseAudioHandler
     // creating the new current ayah notifier and disposing the old one
     _currentAyah?.dispose();
     // starting from zero means that it's on basmala
-    _currentAyah = ValueNotifier<int>(0);
+
+    _currentAyah =
+        ValueNotifier<int>(surah.number == 1 || surah.number == 9 ? 1 : 0);
     // creating the transformer for the new value stream
     final StreamTransformer<Duration, double> _durationToValueTransformer =
         StreamTransformer<Duration, double>.fromHandlers(
