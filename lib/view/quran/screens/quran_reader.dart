@@ -309,8 +309,9 @@ class _SurahTitle extends StatelessWidget {
         borderRadius: BorderRadius.zero,
       ),
       elevation: 8,
-      color: Theme.of(context).colorScheme.primaryContainer,
-      shadowColor: Colors.white54,
+      color: selected
+          ? Theme.of(context).colorScheme.secondaryContainer
+          : Theme.of(context).colorScheme.primaryContainer,
       child: DefaultTextStyle.merge(
         style: TextStyle(
           color: Theme.of(context).colorScheme.onPrimaryContainer,
