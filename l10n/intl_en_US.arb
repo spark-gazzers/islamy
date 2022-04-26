@@ -94,5 +94,11 @@
     "ghunnah": "Ghunnah: 2 Vowels",
     "disabled": "Disabled",
     "disable": "Disable",
-    "disable_this_edition_type_line_break_select_another_edition_to_enable_again": "Disable this edition type.\nSelect another edition and it will be enabled again"
+    "disable_this_edition_type_line_break_select_another_edition_to_enable_again": "Disable this edition type.\nSelect another edition and it will be enabled again",
+    "quran_font_size": "Quran Font Size",
+    "example": "Example",
+    "please_enter_a_valid_number": "Please enter a valid number",
+    "font_size_must_not_exceed_max": "Font size must not exceed {max}",
+    "font_size_must_not_be_less_than_min": "Font size must not be less than {min}",
+    "this_font_will_be_only_applied_to_script_edition_of_quran": "This font will be only applied to script edition of quran."
 }

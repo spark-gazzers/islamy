@@ -5,6 +5,9 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/utils/form_controls.dart';
+import 'package:islamy/view/common/ayah_span.dart';
+import 'package:islamy/view/common/long_pressed_icon_button.dart';
 
 /// This screen is responsible of changing a all of the preferences of the
 /// [QuranPlayerContoller] and the default [Edition] for each [Format].
@@ -96,6 +99,7 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                       );
                     },
                   ),
+                  const _FontSizeTile(),
                 ],
               )
             ],
@@ -152,6 +156,245 @@ class _SelectEditionTileState extends State<_SelectEditionTile> {
         await Navigator.pushNamed(context, widget.delegate);
         setState(() {});
       },
+    );
+  }
+}
+
+class _FontSizeTile extends StatefulWidget {
+  const _FontSizeTile({Key? key}) : super(key: key);
+
+  @override
+  State<_FontSizeTile> createState() => __FontSizeTileState();
+}
+
+class __FontSizeTileState extends State<_FontSizeTile>
+    with FormControls<_FontSizeTile> {
+  @override
+  void initState() {
+    controllers[S.current.quran_font_size]!.text =
+        QuranStore.settings.quranFontSize.toString();
+
+    QuranStore.settings.quranRenderSettingListenable.addListener(updateField);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    QuranStore.settings.quranRenderSettingListenable
+        .removeListener(updateField);
+    super.dispose();
+  }
+
+  void updateField() {
+    if (mounted) {
+      controllers[S.current.quran_font_size]!.value =
+          controllers[S.current.quran_font_size]!
+              .value
+              .copyWith(text: QuranStore.settings.quranFontSize.toString());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 4,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            '${S.of(context).quran_font_size} :',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          Center(
+            child: Card(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(45),
+                side: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                ),
+              ),
+              clipBehavior: Clip.antiAlias,
+              elevation: 0,
+              child: SizedBox(
+                width: 250,
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: TextFormField(
+                      focusNode: nodes[S.current.quran_font_size],
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.center,
+                      controller: controllers[S.of(context).quran_font_size],
+                      validator: fontSizeValidator,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      textAlignVertical: TextAlignVertical.bottom,
+                      onChanged: (String str) {
+                        const List<String> english = <String>[
+                          '1',
+                          '2',
+                          '3',
+                          '4',
+                          '5',
+                          '6',
+                          '7',
+                          '8',
+                          '9',
+                          '0'
+                        ];
+                        const List<String> arabic = <String>[
+                          '١',
+                          '٢',
+                          '٣',
+                          '٤',
+                          '٥',
+                          '٦',
+                          '٧',
+                          '٨',
+                          '٩',
+                          '٠'
+                        ];
+                        for (int i = 0; i < arabic.length; i++) {
+                          str = str.replaceAll(arabic[i], english[i]);
+                        }
+                        controllers[S.of(context).quran_font_size]!.value =
+                            controllers[S.of(context).quran_font_size]!
+                                .value
+                                .copyWith(text: str);
+                        if (fontSizeValidator(str) == null) {
+                          QuranStore.settings.quranFontSize = double.parse(str);
+                        }
+                      },
+                      textInputAction: TextInputAction.done,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        fillColor: Colors.transparent,
+                        helperText: S
+                            .of(context)
+                            // ignore: lines_longer_than_80_chars
+                            .this_font_will_be_only_applied_to_script_edition_of_quran,
+                        helperMaxLines: 2,
+                        prefixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            LongPressedIconButton(
+                              icon: Icons.text_decrease,
+                              onUpdate: () {
+                                nodes[S.current.quran_font_size]!.unfocus();
+                                QuranStore.settings.quranFontSize -= .5;
+                              },
+                            ),
+                            const VerticalDivider(),
+                          ],
+                        ),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const VerticalDivider(),
+                            LongPressedIconButton(
+                              icon: Icons.text_increase,
+                              onUpdate: () {
+                                QuranStore.settings.quranFontSize += .5;
+                                nodes[S.current.quran_font_size]!.unfocus();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const AyahExample(),
+        ],
+      ),
+    );
+  }
+}
+
+class AyahExample extends StatefulWidget {
+  const AyahExample({Key? key, this.fontFamily}) : super(key: key);
+  final String? fontFamily;
+  @override
+  State<AyahExample> createState() => _AyahExampleState();
+}
+
+class _AyahExampleState extends State<AyahExample>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+  late final Animation<double> _animationView;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animationView =
+        CurvedAnimation(parent: _animationController, curve: Curves.ease);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: <Widget>[
+            Text(
+              S.of(context).example,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            IconButton(
+              onPressed: () {
+                switch (_animationController.status) {
+                  case AnimationStatus.dismissed:
+                  case AnimationStatus.reverse:
+                    _animationController.forward();
+                    break;
+                  case AnimationStatus.forward:
+                  case AnimationStatus.completed:
+                    _animationController.reverse();
+                    break;
+                }
+              },
+              icon: AnimatedIcon(
+                icon: AnimatedIcons.menu_close,
+                progress: _animationView,
+              ),
+            ),
+          ],
+        ),
+        SizeTransition(
+          sizeFactor: _animationView,
+          child: Center(
+            child: ValueListenableBuilder<dynamic>(
+              valueListenable: QuranStore.settings.quranRenderSettingListenable,
+              builder: (BuildContext context, _, Widget? child) => Text.rich(
+                AyahSpan(
+                  includeNumber: false,
+                  ayah: QuranManager.getQuran(
+                    QuranStore.settings.defaultTextEdition,
+                  ).surahs.first.ayahs.first,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
