@@ -131,8 +131,28 @@ class QuranPlayerContoller extends BaseAudioHandler
         (MapEntry<int, Duration> e1, MapEntry<int, Duration> e2) =>
             e1.key.compareTo(e2.key),
       );
-    ;
   }
+
+  /// faking the [currentAyah] value by changing it to the [Ayah] index
+  /// of the duration equilevant from the provided [value]
+  void fakePositionFromValue(double? value) {
+    if (value != null) {
+      final Duration duration = Duration(
+        microseconds: (total.inMicroseconds.toDouble() * value).toInt(),
+      );
+      currentAyah!.value = indexFromDuration(duration);
+    } else {
+      currentAyah!.value = indexFromDuration(duration);
+    }
+  }
+
+  /// Get the current ayah index from the provided [duration] using the stored
+  /// positions json.
+  int indexFromDuration(Duration duration) => _positions
+      .lastWhere(
+        (MapEntry<int, Duration> element) => element.value <= duration,
+      )
+      .key;
 
   /// Check wether the current state of this player is meant
   /// for this [quran] & [surah]
