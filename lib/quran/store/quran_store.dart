@@ -19,7 +19,7 @@ class QuranStore {
   static const double maxFontSize = 40;
 
   /// Minnimum allowed font size for quran font
-  static const double minFontSize = 40;
+  static const double minFontSize = 15;
 
   /// initializer for the [QuranStore] [Box]s and register
   /// every [TypeAdapter<T>] for each type needed.
