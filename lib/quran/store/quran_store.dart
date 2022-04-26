@@ -15,6 +15,12 @@ class QuranStore {
   static late final Box<Edition> _editionsBox;
   static late final Box<TheHolyQuran> _textQuranBox;
 
+  /// Max allowed font size for quran font
+  static const double maxFontSize = 40;
+
+  /// Minnimum allowed font size for quran font
+  static const double minFontSize = 40;
+
   /// initializer for the [QuranStore] [Box]s and register
   /// every [TypeAdapter<T>] for each type needed.
   static Future<void> init() async {
@@ -328,7 +334,7 @@ class _QuranSettings {
       double.parse(_readValue(name: 'quran_font_size') ?? '26.0');
 
   set quranFontSize(double size) {
-    if (size <= 40 && size >= 15) {
+    if (size <= QuranStore.maxFontSize && size >= QuranStore.minFontSize) {
       _saveValue(
         name: 'quran_font_size',
         value: size.toString(),
