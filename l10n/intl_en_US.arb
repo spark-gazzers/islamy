@@ -73,7 +73,7 @@
     "medinan": "Medinan",
     "ayah": "Ayah",
     "order": "Order",
-    "ayahs_count": "Ayahs Count",
+    "count": "Count",
     "downloaded_count_ayah_out_of_total": "Downloaded {count} ayah out of {total} ayah.",
     "number_in_quran": "Number in quran",
     "hamza_wasl": "Hamzat ul Wasl",
