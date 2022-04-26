@@ -697,8 +697,9 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
           children: <Widget>[
             LongPressedIconButton(
               onUpdate: () {
-                if (QuranStore.settings.quranFontSize > 15)
+                if (QuranStore.settings.quranFontSize > 15) {
                   QuranStore.settings.quranFontSize -= .5;
+                }
               },
               icon: Icons.text_decrease,
             ),
@@ -731,8 +732,9 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
             LongPressedIconButton(
               icon: Icons.text_increase,
               onUpdate: () {
-                if (QuranStore.settings.quranFontSize < 40)
+                if (QuranStore.settings.quranFontSize < 40) {
                   QuranStore.settings.quranFontSize += .5;
+                }
               },
             ),
           ],
