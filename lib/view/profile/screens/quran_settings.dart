@@ -6,7 +6,7 @@ import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/form_controls.dart';
-import 'package:islamy/view/common/ayah_span.dart';
+import 'package:islamy/view/common/ayah_example.dart';
 import 'package:islamy/view/common/long_pressed_icon_button.dart';
 
 /// This screen is responsible of changing a all of the preferences of the
@@ -175,7 +175,6 @@ class __FontSizeTileState extends State<_FontSizeTile>
         QuranStore.settings.quranFontSize.toString();
 
     QuranStore.settings.quranRenderSettingListenable.addListener(updateField);
-
     super.initState();
   }
 
@@ -227,6 +226,7 @@ class __FontSizeTileState extends State<_FontSizeTile>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: TextFormField(
+                      autofocus: false,
                       focusNode: nodes[S.current.quran_font_size],
                       textDirection: TextDirection.ltr,
                       textAlign: TextAlign.center,
@@ -320,81 +320,6 @@ class __FontSizeTileState extends State<_FontSizeTile>
           const AyahExample(),
         ],
       ),
-    );
-  }
-}
-
-class AyahExample extends StatefulWidget {
-  const AyahExample({Key? key, this.fontFamily}) : super(key: key);
-  final String? fontFamily;
-  @override
-  State<AyahExample> createState() => _AyahExampleState();
-}
-
-class _AyahExampleState extends State<AyahExample>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
-  late final Animation<double> _animationView;
-
-  @override
-  void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animationView =
-        CurvedAnimation(parent: _animationController, curve: Curves.ease);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: <Widget>[
-            Text(
-              S.of(context).example,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            IconButton(
-              onPressed: () {
-                switch (_animationController.status) {
-                  case AnimationStatus.dismissed:
-                  case AnimationStatus.reverse:
-                    _animationController.forward();
-                    break;
-                  case AnimationStatus.forward:
-                  case AnimationStatus.completed:
-                    _animationController.reverse();
-                    break;
-                }
-              },
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.menu_close,
-                progress: _animationView,
-              ),
-            ),
-          ],
-        ),
-        SizeTransition(
-          sizeFactor: _animationView,
-          child: Center(
-            child: ValueListenableBuilder<dynamic>(
-              valueListenable: QuranStore.settings.quranRenderSettingListenable,
-              builder: (BuildContext context, _, Widget? child) => Text.rich(
-                AyahSpan(
-                  includeNumber: false,
-                  ayah: QuranManager.getQuran(
-                    QuranStore.settings.defaultTextEdition,
-                  ).surahs.first.ayahs.first,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
