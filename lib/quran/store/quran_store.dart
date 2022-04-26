@@ -309,7 +309,9 @@ class _QuranSettings {
 
   set defaultTransliterationEdition(Edition? edition) {
     _saveValue(
-        name: 'default_transliteration_edition', value: edition?.identifier);
+      name: 'default_transliteration_edition',
+      value: edition?.identifier,
+    );
   }
 
   String? _readValue({required String name}) => _settingsBox.get(name);
