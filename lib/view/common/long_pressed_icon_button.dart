@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 /// Simple button to provide as long as pressed action UI.
 ///
@@ -38,6 +39,7 @@ class _LongPressedIconButtonState extends State<LongPressedIconButton> {
       clipBehavior: Clip.hardEdge,
       child: GestureDetector(
         onLongPress: () {
+          HapticFeedback.heavyImpact();
           Duration spacer = _startingSpacer;
           _isDown = true;
           Future.doWhile(() async {
