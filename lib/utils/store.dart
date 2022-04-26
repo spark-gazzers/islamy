@@ -59,6 +59,15 @@ class Store {
         value: size.toString(),
       );
 
+  static ValueListenable<dynamic> get quranRenderSettingListenable =>
+      _settingsBox.listenable(
+        keys: <String>[
+          'quran_font_size',
+          'quran_font',
+          'highlight_ayah_on_player'
+        ],
+      );
+
   /// The app locale.
   static Locale get locale {
     final String? value = _readValue(name: 'locale');
