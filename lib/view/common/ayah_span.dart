@@ -33,7 +33,7 @@ class AyahSpan extends TextSpan {
               style: TextStyle(
                 background: Paint()
                   ..color = isSelected
-                      ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
+                      ? ThemeBuilder.lightTheme.colorScheme.secondaryContainer
                       : Colors.transparent,
               ),
             ),
