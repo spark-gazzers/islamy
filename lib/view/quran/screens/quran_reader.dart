@@ -697,11 +697,7 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             LongPressedIconButton(
-              onUpdate: () {
-                if (QuranStore.settings.quranFontSize > 15) {
-                  QuranStore.settings.quranFontSize -= .5;
-                }
-              },
+              onUpdate: () => QuranStore.settings.quranFontSize -= .5,
               icon: Icons.text_decrease,
             ),
             IconButton(
@@ -732,11 +728,7 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
             ),
             LongPressedIconButton(
               icon: Icons.text_increase,
-              onUpdate: () {
-                if (QuranStore.settings.quranFontSize < 40) {
-                  QuranStore.settings.quranFontSize += .5;
-                }
-              },
+              onUpdate: () => QuranStore.settings.quranFontSize += .5,
             ),
           ],
         ),

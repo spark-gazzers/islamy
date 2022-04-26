@@ -327,10 +327,14 @@ class _QuranSettings {
   double get quranFontSize =>
       double.parse(_readValue(name: 'quran_font_size') ?? '26.0');
 
-  set quranFontSize(double size) => _saveValue(
+  set quranFontSize(double size) {
+    if (size <= 40 && size >= 15) {
+      _saveValue(
         name: 'quran_font_size',
         value: size.toString(),
       );
+    }
+  }
 
   ValueListenable<dynamic> get quranRenderSettingListenable =>
       _settingsBox.listenable(
