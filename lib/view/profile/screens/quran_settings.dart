@@ -5,7 +5,6 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/quran_manager.dart';
-import 'package:islamy/utils/store.dart';
 
 /// This screen is responsible of changing a all of the preferences of the
 /// [QuranPlayerContoller] and the default [Edition] for each [Format].
@@ -68,7 +67,8 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                 header: Text(S.of(context).quran_reader),
                 children: <Widget>[
                   ValueListenableBuilder<dynamic>(
-                    valueListenable: Store.shouldReadBasmlaOnSelectionListner,
+                    valueListenable:
+                        QuranStore.settings.shouldReadBasmlaOnSelectionListner,
                     builder: (_, __, ___) {
                       return ListTile(
                         title:
@@ -81,14 +81,16 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                         ),
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          Store.shouldReadBasmlaOnSelection =
-                              !Store.shouldReadBasmlaOnSelection;
+                          QuranStore.settings.shouldReadBasmlaOnSelection =
+                              !QuranStore.settings.shouldReadBasmlaOnSelection;
                         },
                         trailing: CupertinoSwitch(
-                          value: Store.shouldReadBasmlaOnSelection,
+                          value:
+                              QuranStore.settings.shouldReadBasmlaOnSelection,
                           onChanged: (_) {
-                            Store.shouldReadBasmlaOnSelection =
-                                !Store.shouldReadBasmlaOnSelection;
+                            QuranStore.settings.shouldReadBasmlaOnSelection =
+                                !QuranStore
+                                    .settings.shouldReadBasmlaOnSelection;
                           },
                         ),
                       );

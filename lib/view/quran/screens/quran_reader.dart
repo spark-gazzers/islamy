@@ -10,7 +10,6 @@ import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/helper.dart';
-import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 import 'package:sliver_bottom_bar/sliver_bottom_bar.dart';
@@ -154,12 +153,12 @@ class PageReader extends StatelessWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       restorationId: '${edition.identifier}-${surah.number}-${page.pageNumber}',
       child: ValueListenableBuilder<dynamic>(
-        valueListenable: Store.quranRenderSettingListenable,
+        valueListenable: QuranStore.settings.quranRenderSettingListenable,
         builder: (_, __, ___) {
           return DefaultTextStyle(
             style: TextStyle(
-              fontFamily: Store.quranFont,
-              fontSize: Store.quranFontSize,
+              fontFamily: QuranStore.settings.quranFont,
+              fontSize: QuranStore.settings.quranFontSize,
               color: Colors.black,
             ),
             child: Column(
@@ -242,7 +241,7 @@ class SurahInlineReader extends StatelessWidget {
                   currentIndex == 0
                       // and the highlight option is enabled
                       &&
-                      Store.highlightAyahOnPlayer
+                      QuranStore.settings.highlightAyahOnPlayer
                       // and this is the selected surah
                       &&
                       selected,
@@ -262,7 +261,7 @@ class SurahInlineReader extends StatelessWidget {
     for (final Ayah ayah in inline.ayahs) {
       final bool isSelected = isListenable &&
           ayah.numberInSurah == currentIndex &&
-          Store.highlightAyahOnPlayer &&
+          QuranStore.settings.highlightAyahOnPlayer &&
           selected;
       // ignore: prefer_function_declarations_over_variables
       final VoidCallback onTap = () async {
@@ -316,8 +315,8 @@ class SurahInlineReader extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontFamily: Store.quranFont,
-            fontSize: Store.quranFontSize,
+            fontFamily: QuranStore.settings.quranFont,
+            fontSize: QuranStore.settings.quranFontSize,
           ),
         ),
         actions: <Widget>[
@@ -698,7 +697,8 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
           children: <Widget>[
             LongPressedIconButton(
               onUpdate: () {
-                if (Store.quranFontSize > 15) Store.quranFontSize -= .5;
+                if (QuranStore.settings.quranFontSize > 15)
+                  QuranStore.settings.quranFontSize -= .5;
               },
               icon: Icons.text_decrease,
             ),
@@ -731,7 +731,8 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
             LongPressedIconButton(
               icon: Icons.text_increase,
               onUpdate: () {
-                if (Store.quranFontSize < 40) Store.quranFontSize += .5;
+                if (QuranStore.settings.quranFontSize < 40)
+                  QuranStore.settings.quranFontSize += .5;
               },
             ),
           ],

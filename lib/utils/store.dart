@@ -43,31 +43,6 @@ class Store {
     return results;
   }
 
-  /// The quran font family.
-  static String get quranFont =>
-      _readValue(name: 'quran_font') ?? 'QuranFont 3';
-
-  static set quranFont(String font) =>
-      _saveValue(name: 'quran_font', value: font);
-
-  /// The quran font size.
-  static double get quranFontSize =>
-      double.parse(_readValue(name: 'quran_font_size') ?? '26.0');
-
-  static set quranFontSize(double size) => _saveValue(
-        name: 'quran_font_size',
-        value: size.toString(),
-      );
-
-  static ValueListenable<dynamic> get quranRenderSettingListenable =>
-      _settingsBox.listenable(
-        keys: <String>[
-          'quran_font_size',
-          'quran_font',
-          'highlight_ayah_on_player'
-        ],
-      );
-
   /// The app locale.
   static Locale get locale {
     final String? value = _readValue(name: 'locale');
@@ -96,30 +71,4 @@ class Store {
   /// Notifier for changes on the [muteNotfication].
   static ValueListenable<Box<dynamic>> get muteNotficationListner =>
       _settingsBox.listenable(keys: <String>['mute_notifications']);
-
-  /// Wether the [QuranPlayerContoller] should read basmala when
-  /// playing a single ayah.
-  static bool get shouldReadBasmlaOnSelection =>
-      (_readValue(name: 'should_read_basmla_on_selection') ?? '1') == '1';
-
-  static set shouldReadBasmlaOnSelection(bool value) {
-    _saveValue(
-      name: 'should_read_basmla_on_selection',
-      value: value ? '1' : '0',
-    );
-  }
-
-  /// Wether the [QuranPlayerContoller] should read basmala when
-  /// playing a single ayah.
-  static bool get highlightAyahOnPlayer =>
-      (_readValue(name: 'highlight_ayah_on_player') ?? '1') == '1';
-
-  static set highlightAyahOnPlayer(bool value) {
-    _saveValue(name: 'highlight_ayah_on_player', value: value ? '1' : '0');
-  }
-
-  /// Notifier for changes on the [highlightAyahOnPlayer].
-  static ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
-      _settingsBox
-          .listenable(keys: <String>['should_read_basmla_on_selection']);
 }

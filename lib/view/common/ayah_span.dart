@@ -40,8 +40,8 @@ class AyahSpan extends TextSpan {
             AyahsNumberSpan(ayah: ayah),
           ],
           style: TextStyle(
-            fontFamily: Store.quranFont,
-            fontSize: Store.quranFontSize,
+            fontFamily: QuranStore.settings.quranFont,
+            fontSize: QuranStore.settings.quranFontSize,
             color: Colors.black,
           ),
         );
@@ -61,7 +61,7 @@ class AyahsNumberSpan extends TextSpan {
           style: TextStyle(
             fontFamily: 'QuranFont 2',
             locale: const Locale('ar_SA'),
-            fontSize: Store.quranFontSize + 10,
+            fontSize: QuranStore.settings.quranFontSize + 10,
           ),
         );
 }

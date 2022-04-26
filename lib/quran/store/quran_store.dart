@@ -223,22 +223,22 @@ class _QuranSettings {
 
   QuranMeta get meta => QuranMeta.fromRawJson(_settingsBox.get('quran_meta')!);
 
-  set meta(QuranMeta meta) => _settingsBox.put('quran_meta', meta.toRawJson());
+  set meta(QuranMeta meta) =>
+      _saveValue(name: 'quran_meta', value: meta.toRawJson());
 
   ////// Editions Selections
   Edition get defaultTextEdition {
     return QuranStore.listTextEditions().singleWhere(
       (Edition element) =>
           element.identifier ==
-          (_settingsBox.get('default_text_edition') ?? 'quran-uthmani'),
+          (_readValue(name: 'default_text_edition') ?? 'quran-uthmani'),
     );
   }
 
   set defaultTextEdition(Edition edition) {
-    QuranStore._saveValue(
+    _saveValue(
       name: 'default_text_edition',
       value: edition.identifier,
-      box: _settingsBox,
     );
   }
 
@@ -248,21 +248,20 @@ class _QuranSettings {
     return editions.singleWhere(
       (Edition element) =>
           element.identifier ==
-          (_settingsBox.get('default_audio_edition') ??
+          (_readValue(name: 'default_audio_edition') ??
               editions.first.identifier),
     );
   }
 
   set defaultAudioEdition(Edition edition) {
-    QuranStore._saveValue(
+    _saveValue(
       name: 'default_audio_edition',
       value: edition.identifier,
-      box: _settingsBox,
     );
   }
 
   Edition? get defaultInterpretationEdition {
-    final String? id = _settingsBox.get('default_interpretation_edition');
+    final String? id = _readValue(name: 'default_interpretation_edition');
     if (id == null) return null;
     final List<Edition> editions =
         QuranStore.listInterpretationEditions().toList();
@@ -273,15 +272,14 @@ class _QuranSettings {
   }
 
   set defaultInterpretationEdition(Edition? edition) {
-    QuranStore._saveValue<String?>(
+    _saveValue(
       name: 'default_interpretation_edition',
       value: edition?.identifier,
-      box: _settingsBox,
     );
   }
 
   Edition? get defaultTranslationEdition {
-    final String? id = _settingsBox.get('default_translation_edition');
+    final String? id = _readValue(name: 'default_translation_edition');
     if (id == null) return null;
     final List<Edition> editions =
         QuranStore.listTranslationEditions().toList();
@@ -292,15 +290,14 @@ class _QuranSettings {
   }
 
   set defaultTranslationEdition(Edition? edition) {
-    QuranStore._saveValue(
+    _saveValue(
       name: 'default_translation_edition',
       value: edition?.identifier,
-      box: _settingsBox,
     );
   }
 
   Edition? get defaultTransliterationEdition {
-    final String? id = _settingsBox.get('default_transliteration_edition');
+    final String? id = _readValue(name: 'default_transliteration_edition');
     if (id == null) return null;
     final List<Edition> editions =
         QuranStore.listTransliterationEditions().toList();
@@ -311,10 +308,60 @@ class _QuranSettings {
   }
 
   set defaultTransliterationEdition(Edition? edition) {
-    QuranStore._saveValue(
-      name: 'default_transliteration_edition',
-      value: edition?.identifier,
-      box: _settingsBox,
+    _saveValue(
+        name: 'default_transliteration_edition', value: edition?.identifier);
+  }
+
+  String? _readValue({required String name}) => _settingsBox.get(name);
+  Future<void> _saveValue({required String name, required String? value}) =>
+      QuranStore._saveValue(name: name, value: value, box: _settingsBox);
+
+  /// The quran font family.
+  String get quranFont => _readValue(name: 'quran_font') ?? 'QuranFont 3';
+
+  set quranFont(String font) => _saveValue(name: 'quran_font', value: font);
+
+  /// The quran font size.
+  double get quranFontSize =>
+      double.parse(_readValue(name: 'quran_font_size') ?? '26.0');
+
+  set quranFontSize(double size) => _saveValue(
+        name: 'quran_font_size',
+        value: size.toString(),
+      );
+
+  ValueListenable<dynamic> get quranRenderSettingListenable =>
+      _settingsBox.listenable(
+        keys: <String>[
+          'quran_font_size',
+          'quran_font',
+          'highlight_ayah_on_player'
+        ],
+      );
+
+  /// Wether the [QuranPlayerContoller] should read basmala when
+  /// playing a single ayah.
+  bool get shouldReadBasmlaOnSelection =>
+      (_readValue(name: 'should_read_basmla_on_selection') ?? '1') == '1';
+
+  set shouldReadBasmlaOnSelection(bool value) {
+    _saveValue(
+      name: 'should_read_basmla_on_selection',
+      value: value ? '1' : '0',
     );
   }
+
+  /// Wether the [QuranPlayerContoller] should read basmala when
+  /// playing a single ayah.
+  bool get highlightAyahOnPlayer =>
+      (_readValue(name: 'highlight_ayah_on_player') ?? '1') == '1';
+
+  set highlightAyahOnPlayer(bool value) {
+    _saveValue(name: 'highlight_ayah_on_player', value: value ? '1' : '0');
+  }
+
+  /// Notifier for changes on the [highlightAyahOnPlayer].
+  ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
+      _settingsBox
+          .listenable(keys: <String>['should_read_basmla_on_selection']);
 }
