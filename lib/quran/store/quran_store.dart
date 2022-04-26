@@ -339,6 +339,13 @@ class _QuranSettings {
         name: 'quran_font_size',
         value: size.toString(),
       );
+      return;
+    }
+    if (size < QuranStore.minFontSize && size != QuranStore.minFontSize) {
+      quranFontSize = QuranStore.minFontSize;
+    }
+    if (size > QuranStore.maxFontSize && size != QuranStore.maxFontSize) {
+      quranFontSize = QuranStore.maxFontSize;
     }
   }
 
