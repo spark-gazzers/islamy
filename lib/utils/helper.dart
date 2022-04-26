@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart' as intl;
 
 part 'helpers/localization.dart';
 part 'helpers/messages.dart';

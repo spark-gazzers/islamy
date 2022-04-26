@@ -20,6 +20,7 @@ class _Formatters {
 /// for both the position and the length.
 class FormattedLengthDuration {
   const FormattedLengthDuration._(this.duration, this.total);
+  static final intl.NumberFormat format = intl.NumberFormat('00');
 
   /// The current position of theplayer in the audio.
   final Duration duration;
@@ -36,12 +37,12 @@ class FormattedLengthDuration {
   String _format(Duration duration) {
     String ret = '';
     // start with minutes
-    ret += '${duration.inMinutes % 60}:';
+    ret += '${format.format(duration.inMinutes % 60)}:';
     // seconds
-    ret += (duration.inSeconds % 60).toString();
+    ret += format.format(duration.inSeconds % 60);
     // include hours if needed
     if (_shouldIncludHour) {
-      ret = '${duration.inHours}:$ret';
+      ret = '${format.format(duration.inHours)}:$ret';
     }
     return ret;
   }
