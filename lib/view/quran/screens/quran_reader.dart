@@ -65,14 +65,56 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.surah.name),
-        elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-      ),
+      backgroundColor: Theme.of(context).primaryColor,
       bottomNavigationBar: SurahAudioPlayer(
         edition: widget.edition,
         surah: widget.surah,
+      ),
+      appBar: CupertinoNavigationBar(
+        brightness: Brightness.dark,
+        leading: IconButton(
+          onPressed: Navigator.of(context).pop,
+          icon: const Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        ),
+        trailing: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            IconButton(
+              onPressed: () async {
+                final Edition text = QuranStore.settings.defaultTextEdition;
+                final Edition audio = QuranStore.settings.defaultAudioEdition;
+                final NavigatorState navigator = Navigator.of(context);
+                await Navigator.pushNamed(
+                  context,
+                  'quran_settings',
+                  arguments: <String, dynamic>{
+                    'fullscreenDialog': true,
+                  },
+                );
+                if (text != QuranStore.settings.defaultTextEdition ||
+                    audio != QuranStore.settings.defaultAudioEdition) {
+                  navigator
+                    ..pop()
+                    ..pushNamed(
+                      'surah_reader_screen',
+                      arguments: <String, dynamic>{
+                        'surah': widget.surah,
+                        'edition': QuranStore.settings.defaultTextEdition,
+                        'fullscreenDialog': true,
+                      },
+                    );
+                }
+              },
+              icon: const Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
       body: Directionality(
         textDirection: widget.edition.direction.direction,
