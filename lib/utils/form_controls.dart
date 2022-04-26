@@ -4,6 +4,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/quran/quran_manager.dart';
 
 /// Mixin that contains all of the needed [TextFormField] validators
 /// and automation for necessary properties.
@@ -93,6 +94,28 @@ mixin FormControls<T extends StatefulWidget> on State<T> {
       return S.of(context).field_not_less(S.of(context).password, 8);
     }
     if (str != password) return S.current.passwords_dont_match;
+  }
+
+  /// Check whether the provided String is a valid double string
+  /// and if the value is between [QuranStore.minFontSize] and
+  /// [QuranStore.maxFontSize].
+  String? fontSizeValidator(String? str) {
+    final String? empty = _emptyValidator(str, S.of(context).password);
+    if (empty != null) return empty;
+    final double? size = double.tryParse(str!);
+    if (size == null) {
+      return S.of(context).please_enter_a_valid_number;
+    }
+    if (size > QuranStore.maxFontSize) {
+      return S
+          .of(context)
+          .font_size_must_not_exceed_max(QuranStore.maxFontSize);
+    }
+    if (size < QuranStore.minFontSize) {
+      return S
+          .of(context)
+          .font_size_must_not_be_less_than_min(QuranStore.minFontSize);
+    }
   }
 
   @override
