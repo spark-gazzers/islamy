@@ -13,6 +13,7 @@ class AyahSpan extends TextSpan {
     VoidCallback? onTap,
     VoidCallback? onLongTap,
     bool isSelected = false,
+    bool includeNumber = true,
   }) : super(
           children: <InlineSpan>[
             TextSpan(
@@ -36,7 +37,7 @@ class AyahSpan extends TextSpan {
                       : Colors.transparent,
               ),
             ),
-            AyahsNumberSpan(ayah: ayah),
+            if (includeNumber) AyahsNumberSpan(ayah: ayah),
           ],
           style: TextStyle(
             fontFamily: QuranStore.settings.quranFont,
