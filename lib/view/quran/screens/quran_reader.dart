@@ -308,47 +308,93 @@ class _SurahTitle extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
-      elevation: 8,
+      elevation: 4 + (selected ? 4 : 0),
       color: selected
           ? Theme.of(context).colorScheme.secondaryContainer
           : Theme.of(context).colorScheme.primaryContainer,
-      child: DefaultTextStyle.merge(
+      child: DefaultTextStyle(
         style: TextStyle(
           color: Theme.of(context).colorScheme.onPrimaryContainer,
+          fontSize: 15,
         ),
+        child: IntrinsicHeight(
         child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               flex: 2,
+                child: Builder(
+                  builder: (BuildContext context) {
+                    return Material(
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      color: Colors.transparent,
+                      elevation: 0,
+                      child: DefaultTextStyle.merge(
+                        style: DefaultTextStyle.of(context).style,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(S.of(context).ayahs_count),
+                            Text(S.of(context).count),
                   Text(
                     surah.ayahs.length.toString(),
                   ),
                 ],
               ),
             ),
+                    );
+                  },
+                ),
+              ),
             Expanded(
-              flex: 3,
+                flex: 5,
+                child: Card(
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      color: Theme.of(context).dividerColor,
+                    ),
+                  ),
+                  margin: EdgeInsets.zero,
+                  color: Colors.transparent,
+                  elevation: 0,
               child: Center(
                 child: Text(
                   surah.name,
                   style: DefaultTextStyle.of(context).style.copyWith(
                         fontSize:
-                            DefaultTextStyle.of(context).style.fontSize! + 4,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                DefaultTextStyle.of(context).style.fontSize! +
+                                    4,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                          ),
                       ),
                 ),
               ),
             ),
             Expanded(
               flex: 2,
+                child: Builder(
+                  builder: (BuildContext context) {
+                    return Material(
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      color: Colors.transparent,
+                      elevation: 0,
+                      child: DefaultTextStyle.merge(
+                        style: DefaultTextStyle.of(context).style,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(S.of(context).order),
                   Text(
@@ -357,7 +403,12 @@ class _SurahTitle extends StatelessWidget {
                 ],
               ),
             ),
+                    );
+                  },
+                ),
+              ),
           ],
+          ),
         ),
       ),
     );
