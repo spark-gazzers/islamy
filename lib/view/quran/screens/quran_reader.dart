@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/ayah.dart';
@@ -14,6 +13,7 @@ import 'package:islamy/utils/helper.dart';
 import 'package:islamy/utils/store.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
+import 'package:sliver_bottom_bar/sliver_bottom_bar.dart';
 
 /// The main quran reader screen.
 ///
@@ -65,7 +65,6 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       bottomNavigationBar: SurahAudioPlayer(
         edition: widget.edition,
         surah: widget.surah,
@@ -152,23 +151,29 @@ class PageReader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       primary: true,
+      physics: const AlwaysScrollableScrollPhysics(),
       restorationId: '${edition.identifier}-${surah.number}-${page.pageNumber}',
-      child: DefaultTextStyle(
-        style: TextStyle(
-          fontFamily: Store.quranFont,
-          fontSize: Store.quranFontSize,
-          color: Colors.black,
-        ),
-        child: Column(
-          children: <Widget>[
-            for (int i = 0; i < page.inlines.length; i++)
-              SurahInlineReader(
-                inline: page.inlines[i],
-                edition: edition,
-                selected: surah == page.inlines[i].surah,
-              ),
-          ],
-        ),
+      child: ValueListenableBuilder<dynamic>(
+        valueListenable: Store.quranRenderSettingListenable,
+        builder: (_, __, ___) {
+          return DefaultTextStyle(
+            style: TextStyle(
+              fontFamily: Store.quranFont,
+              fontSize: Store.quranFontSize,
+              color: Colors.black,
+            ),
+            child: Column(
+              children: <Widget>[
+                for (int i = 0; i < page.inlines.length; i++)
+                  SurahInlineReader(
+                    inline: page.inlines[i],
+                    edition: edition,
+                    selected: surah == page.inlines[i].surah,
+                  ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -248,13 +253,12 @@ class SurahInlineReader extends StatelessWidget {
               locale: Locale(edition.language),
             ),
             textAlign: TextAlign.center,
-          ),
+          )
         ],
       );
 
   List<InlineSpan> _buildAyahsSpans(BuildContext context) {
     final List<InlineSpan> spans = <InlineSpan>[];
-
     for (final Ayah ayah in inline.ayahs) {
       final bool isSelected = isListenable &&
           ayah.numberInSurah == currentIndex &&
@@ -360,11 +364,11 @@ class _SurahTitle extends StatelessWidget {
           fontSize: 15,
         ),
         child: IntrinsicHeight(
-        child: Row(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
                 child: Builder(
                   builder: (BuildContext context) {
                     return Material(
@@ -377,23 +381,23 @@ class _SurahTitle extends StatelessWidget {
                       elevation: 0,
                       child: DefaultTextStyle.merge(
                         style: DefaultTextStyle.of(context).style,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                          children: <Widget>[
                             Text(S.of(context).count),
-                  Text(
-                    surah.ayahs.length.toString(),
-                  ),
-                ],
-              ),
-            ),
+                            Text(
+                              surah.ayahs.length.toString(),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
               ),
-            Expanded(
+              Expanded(
                 flex: 5,
                 child: Card(
                   shape: StadiumBorder(
@@ -404,23 +408,23 @@ class _SurahTitle extends StatelessWidget {
                   margin: EdgeInsets.zero,
                   color: Colors.transparent,
                   elevation: 0,
-              child: Center(
-                child: Text(
-                  surah.name,
-                  style: DefaultTextStyle.of(context).style.copyWith(
-                        fontSize:
+                  child: Center(
+                    child: Text(
+                      surah.name,
+                      style: DefaultTextStyle.of(context).style.copyWith(
+                            fontSize:
                                 DefaultTextStyle.of(context).style.fontSize! +
                                     4,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
                           ),
-                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 2,
+              Expanded(
+                flex: 2,
                 child: Builder(
                   builder: (BuildContext context) {
                     return Material(
@@ -433,23 +437,23 @@ class _SurahTitle extends StatelessWidget {
                       elevation: 0,
                       child: DefaultTextStyle.merge(
                         style: DefaultTextStyle.of(context).style,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(S.of(context).order),
-                  Text(
-                    surah.number.toString(),
-                  ),
-                ],
-              ),
-            ),
+                          children: <Widget>[
+                            Text(S.of(context).order),
+                            Text(
+                              surah.number.toString(),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
               ),
-          ],
+            ],
           ),
         ),
       ),
@@ -459,7 +463,7 @@ class _SurahTitle extends StatelessWidget {
 
 /// This part of the UI is the responsible controlling the played audio
 /// and notifying the screen if the [QuranPlayerContoller] surah is changed.
-class SurahAudioPlayer extends StatefulWidget {
+class SurahAudioPlayer extends StatelessWidget {
   const SurahAudioPlayer({
     Key? key,
     required this.edition,
@@ -472,10 +476,180 @@ class SurahAudioPlayer extends StatefulWidget {
   final Ayah? ayah;
 
   @override
-  State<SurahAudioPlayer> createState() => _SurahAudioPlayerState();
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom,
+      ),
+      child: AbstractSliverBottomBar(
+        startsExpanded: true,
+        snap: true,
+        mainBody: (BuildContext context, Animation<double> animation) =>
+            _AudioSlider(
+          surah: surah,
+          transitionAnimation: animation,
+        ),
+        afterBody: (BuildContext context, Animation<double> animation) =>
+            _BottomActionsBars(
+          surah: surah,
+          scrollAnimation: animation,
+        ),
+      ),
+    );
+  }
 }
 
-class _SurahAudioPlayerState extends State<SurahAudioPlayer>
+class _AudioSlider extends StatefulWidget {
+  const _AudioSlider({
+    Key? key,
+    required this.surah,
+    required this.transitionAnimation,
+  }) : super(key: key);
+  final Animation<double> transitionAnimation;
+  final Surah surah;
+  @override
+  State<_AudioSlider> createState() => _AudioSliderState();
+}
+
+class _AudioSliderState extends State<_AudioSlider> {
+  double? _dragValue;
+  bool get isForThisSurah {
+    final TheHolyQuran quran =
+        QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
+    return QuranPlayerContoller.instance.isForSurah(quran, widget.surah);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle.merge(
+      style: Theme.of(context)
+          .textTheme
+          .bodySmall!
+          .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+      child: StreamBuilder<double>(
+        stream:
+            isForThisSurah ? QuranPlayerContoller.instance.valueStream : null,
+        builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+          final double position = _dragValue ??
+              snapshot.data ??
+              (isForThisSurah
+                  ? QuranPlayerContoller.instance.durationValue
+                  : 0.0);
+          final FormattedLengthDuration formatter =
+              Helper.formatters.formatLengthDuration(
+            isForThisSurah
+                ? QuranPlayerContoller.instance.duration
+                : Duration.zero,
+            isForThisSurah
+                ? QuranPlayerContoller.instance.total
+                : Duration.zero,
+          );
+          return AnimatedBuilder(
+            animation: widget.transitionAnimation,
+            builder: (BuildContext context, Widget? child) {
+              return Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      if (isForThisSurah)
+                        _ClippedText(
+                          label: formatter.start,
+                          value: widget.transitionAnimation.value,
+                        ),
+                      Expanded(
+                        child: Slider.adaptive(
+                          value: position,
+                          onChanged: (double value) {
+                            // making the _value not null means
+                            // it's currently active
+                            setState(() {
+                              _dragValue = value;
+                              QuranPlayerContoller.instance
+                                  .fakePositionFromValue(_dragValue);
+                            });
+                          },
+                          onChangeEnd: (double value) {
+                            QuranPlayerContoller.instance.seekToValue(value);
+                            setState(() {
+                              _dragValue = null;
+                              QuranPlayerContoller.instance
+                                  .fakePositionFromValue(_dragValue);
+                            });
+                          },
+                        ),
+                      ),
+                      if (isForThisSurah)
+                        _ClippedText(
+                          label: formatter.end,
+                          value: widget.transitionAnimation.value,
+                        ),
+                    ],
+                  ),
+                  if (isForThisSurah)
+                    ClipRect(
+                      child: Align(
+                        heightFactor: 1 - widget.transitionAnimation.value,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(formatter.start),
+                              Text(formatter.end),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ClippedText extends StatelessWidget {
+  const _ClippedText({
+    Key? key,
+    required this.value,
+    required this.label,
+  }) : super(key: key);
+  final double value;
+  final String label;
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: Align(
+        widthFactor: value,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(label),
+        ),
+      ),
+    );
+  }
+}
+
+class _BottomActionsBars extends StatefulWidget {
+  const _BottomActionsBars({
+    Key? key,
+    required this.surah,
+    required this.scrollAnimation,
+  }) : super(key: key);
+  final Surah surah;
+  final Animation<double> scrollAnimation;
+  @override
+  State<_BottomActionsBars> createState() => _BottomActionsBarsState();
+}
+
+class _BottomActionsBarsState extends State<_BottomActionsBars>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> _animationView;
@@ -511,68 +685,62 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Theme.of(context).primaryColor,
-      shape: const AutomaticNotchedShape(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(18),
-          ),
+    return IconTheme.merge(
+      data: const IconThemeData(color: Colors.white),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width *
+              .1 *
+              widget.scrollAnimation.value,
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _AudioSlider(
-            surah: widget.surah,
-          ),
-          IconTheme.merge(
-            data: const IconThemeData(color: Colors.white),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .15,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            LongPressedIconButton(
+              onUpdate: () {
+                if (Store.quranFontSize > 15) Store.quranFontSize -= .5;
+              },
+              icon: Icons.text_decrease,
+            ),
+            IconButton(
+              splashRadius: 150,
+              onPressed: QuranPlayerContoller.instance.skipToPrevious,
+              icon: const Icon(Iconsax.previous5),
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
+                shape: BoxShape.circle,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  IconButton(
-                    splashRadius: 150,
-                    onPressed: QuranPlayerContoller.instance.skipToPrevious,
-                    icon: const Icon(Iconsax.previous5),
-                  ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      splashRadius: 150,
-                      onPressed: resume,
-                      iconSize: 45,
-                      icon: AnimatedIcon(
-                        icon: AnimatedIcons.play_pause,
-                        progress: _animationView,
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    splashRadius: 150,
-                    onPressed: QuranPlayerContoller.instance.skipToNext,
-                    icon: const Icon(Iconsax.next5),
-                  ),
-                ],
+              child: IconButton(
+                splashRadius: 150,
+                onPressed: _resume,
+                iconSize: 45,
+                icon: AnimatedIcon(
+                  icon: AnimatedIcons.play_pause,
+                  progress: _animationView,
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
               ),
             ),
-          ),
-        ],
+            IconButton(
+              splashRadius: 150,
+              onPressed: QuranPlayerContoller.instance.skipToNext,
+              icon: const Icon(Iconsax.next5),
+            ),
+            LongPressedIconButton(
+              icon: Icons.text_increase,
+              onUpdate: () {
+                if (Store.quranFontSize < 40) Store.quranFontSize += .5;
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Future<void> resume() async {
+  Future<void> _resume() async {
     // if surah not downloaded, download it
     if (!(await QuranManager.isSurahDownloaded(
       audioQuran.edition,
@@ -587,7 +755,7 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
           ),
         ),
       ).then((Edition? value) {
-        if (value != null) resume();
+        if (value != null) _resume();
       });
       return;
     }
@@ -612,78 +780,49 @@ class _SurahAudioPlayerState extends State<SurahAudioPlayer>
   }
 }
 
-class _AudioSlider extends StatefulWidget {
-  const _AudioSlider({Key? key, required this.surah}) : super(key: key);
+class LongPressedIconButton extends StatefulWidget {
+  const LongPressedIconButton({
+    Key? key,
+    required this.icon,
+    required this.onUpdate,
+  }) : super(key: key);
+  final IconData icon;
+  final VoidCallback onUpdate;
 
-  final Surah surah;
   @override
-  State<_AudioSlider> createState() => _AudioSliderState();
+  State<LongPressedIconButton> createState() => _LongPressedIconButtonState();
 }
 
-class _AudioSliderState extends State<_AudioSlider> {
-  double? _dragValue;
-  bool get isForThisSurah {
-    final TheHolyQuran quran =
-        QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
-    return QuranPlayerContoller.instance.isForSurah(quran, widget.surah);
-  }
-
+class _LongPressedIconButtonState extends State<LongPressedIconButton> {
+  static const Duration _startingSpacer = Duration(milliseconds: 300);
+  bool _isDown = false;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<double>(
-      stream: isForThisSurah ? QuranPlayerContoller.instance.valueStream : null,
-      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-        double position = _dragValue ??
-            snapshot.data ??
-            (isForThisSurah
-                ? QuranPlayerContoller.instance.durationValue
-                : 0.0);
-        final FormattedLengthDuration formatter =
-            Helper.formatters.formatLengthDuration(
-          isForThisSurah
-              ? QuranPlayerContoller.instance.duration
-              : Duration.zero,
-          isForThisSurah ? QuranPlayerContoller.instance.total : Duration.zero,
-        );
-        return Column(
-          children: <Widget>[
-            Slider.adaptive(
-              value: position,
-              // snapshot.data ?? controller?.playedPercentage ?? 0.0,
-              onChanged: (double value) {
-                // making the _value not null means it's currently active
-                setState(() {
-                  _dragValue = value;
-                });
-              },
-              onChangeEnd: (double value) {
-                QuranPlayerContoller.instance.seekToValue(value);
-                setState(() {
-                  _dragValue = null;
-                });
-              },
-            ),
-            if (isForThisSurah)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                child: DefaultTextStyle.merge(
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(formatter.start),
-                      Text(formatter.end),
-                    ],
-                  ),
-                ),
-              )
-          ],
-        );
-      },
+    return Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: GestureDetector(
+        onLongPress: () {
+          Duration spacer = _startingSpacer;
+          _isDown = true;
+          Future.doWhile(() async {
+            await Future<void>.delayed(spacer);
+            if (spacer.inMilliseconds > 100) {
+              spacer =
+                  Duration(microseconds: (spacer.inMicroseconds * .9).toInt());
+            }
+            widget.onUpdate();
+            return _isDown;
+          });
+        },
+        onLongPressEnd: (_) {
+          _isDown = false;
+        },
+        onTap: widget.onUpdate,
+        child: Icon(widget.icon),
+      ),
     );
   }
 }
