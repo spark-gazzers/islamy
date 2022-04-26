@@ -16,19 +16,26 @@ class AyahSpan extends TextSpan {
     bool isSelected = false,
   }) : super(
           children: <InlineSpan>[
-            ...AyahTajweedSplitter.formatAyah(
-              ayah,
-              recognizer: MultiTapGestureRecognizer(
-                longTapDelay: const Duration(milliseconds: 300),
-              )
-                ..onLongTapDown = (int pointer, TapDownDetails details) {
-                  print('object');
-                  if (onLongTap != null) {
-                    HapticFeedback.heavyImpact();
-                    onLongTap();
+            TextSpan(
+              children: AyahTajweedSplitter.formatAyah(
+                ayah,
+                recognizer: MultiTapGestureRecognizer(
+                  longTapDelay: const Duration(milliseconds: 300),
+                )
+                  ..onLongTapDown = (int pointer, TapDownDetails details) {
+                    if (onLongTap != null) {
+                      HapticFeedback.heavyImpact();
+                      onLongTap();
+                    }
                   }
-                }
-                ..onTap = (_) => onTap?.call(),
+                  ..onTap = (_) => onTap?.call(),
+              ),
+              style: TextStyle(
+                background: Paint()
+                  ..color = isSelected
+                      ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
+                      : Colors.transparent,
+              ),
             ),
             AyahsNumberSpan(ayah: ayah),
           ],
@@ -36,10 +43,6 @@ class AyahSpan extends TextSpan {
             fontFamily: Store.quranFont,
             fontSize: Store.quranFontSize,
             color: Colors.black,
-            background: Paint()
-              ..color = isSelected
-                  ? ThemeBuilder.lightTheme.colorScheme.tertiaryContainer
-                  : Colors.transparent,
           ),
         );
 }
@@ -55,9 +58,10 @@ class AyahsNumberSpan extends TextSpan {
           text: Helper.localization
               .getVerseEndSymbol(ayah.numberInSurah, TextDirection.ltr),
           locale: const Locale('ar_SA'),
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'QuranFont 2',
-            locale: Locale('ar_SA'),
+            locale: const Locale('ar_SA'),
+            fontSize: Store.quranFontSize + 10,
           ),
         );
 }
