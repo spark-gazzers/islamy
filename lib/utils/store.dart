@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:islamy/quran/quran_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// Utility to store all of the user preferences in the local DB

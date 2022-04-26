@@ -5,7 +5,6 @@ import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/helper.dart';
-import 'package:islamy/utils/store.dart';
 
 /// This span handles the proper formatting of [Ayah.text].
 class AyahSpan extends TextSpan {
