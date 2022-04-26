@@ -111,7 +111,10 @@ class _DownloadSurahDialogState extends State<DownloadSurahDialog> {
             _downloadMeterController.add(index);
           },
         );
-        download!.then((_) => Navigator.pop(context, widget.edition));
+
+        download!.then((_) {
+          if (mounted) Navigator.pop(context, widget.edition);
+        });
       },
     );
   }
