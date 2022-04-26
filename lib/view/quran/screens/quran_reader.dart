@@ -11,6 +11,7 @@ import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/view/common/ayah_span.dart';
+import 'package:islamy/view/common/long_pressed_icon_button.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 import 'package:sliver_bottom_bar/sliver_bottom_bar.dart';
 
@@ -780,52 +781,5 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
     } else {
       QuranPlayerContoller.instance.pause();
     }
-  }
-}
-
-class LongPressedIconButton extends StatefulWidget {
-  const LongPressedIconButton({
-    Key? key,
-    required this.icon,
-    required this.onUpdate,
-  }) : super(key: key);
-  final IconData icon;
-  final VoidCallback onUpdate;
-
-  @override
-  State<LongPressedIconButton> createState() => _LongPressedIconButtonState();
-}
-
-class _LongPressedIconButtonState extends State<LongPressedIconButton> {
-  static const Duration _startingSpacer = Duration(milliseconds: 300);
-  bool _isDown = false;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: GestureDetector(
-        onLongPress: () {
-          Duration spacer = _startingSpacer;
-          _isDown = true;
-          Future.doWhile(() async {
-            await Future<void>.delayed(spacer);
-            if (spacer.inMilliseconds > 100) {
-              spacer =
-                  Duration(microseconds: (spacer.inMicroseconds * .9).toInt());
-            }
-            widget.onUpdate();
-            return _isDown;
-          });
-        },
-        onLongPressEnd: (_) {
-          _isDown = false;
-        },
-        onTap: widget.onUpdate,
-        child: Icon(widget.icon),
-      ),
-    );
   }
 }
