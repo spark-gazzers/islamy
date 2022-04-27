@@ -266,6 +266,8 @@ class _QuranSettings {
     );
   }
 
+  ValueListenable<dynamic> get _defaultAudioEditionListener =>
+      _settingsBox.listenable(keys: <String>['default_audio_edition']);
   Edition? get defaultInterpretationEdition {
     final String? id = _readValue(name: 'default_interpretation_edition');
     if (id == null) return null;

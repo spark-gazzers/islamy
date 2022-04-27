@@ -26,6 +26,10 @@ class QuranPlayerContoller extends BaseAudioHandler
   /// to calculate audio length
   static final AudioPlayer _lengthCalculator = AudioPlayer();
 
+  /// This player is meant only to play the basmala
+  /// if [QuranStore.settings.shouldReadBasmlaOnSelection] is enabeled
+  static final AudioPlayer _basmalaPlayer = AudioPlayer();
+
   ///The current [Surah]'s ayahs positions in duration
   final List<MapEntry<int, Duration>> _positions = <MapEntry<int, Duration>>[];
 
@@ -76,14 +80,27 @@ class QuranPlayerContoller extends BaseAudioHandler
   ///The value stream of the current played duration in 0.0 to 1.0 value
   Stream<double>? get valueStream => _valueStream;
 
+  Duration? _total;
+
   /// The init method which should be only called once during the app startup
   static Future<void> init() async {
+    // intilizing [_basmalaPlayer].
+    await _initBasmala();
+    // and making sure it always be updated
+    QuranStore.settings._defaultAudioEditionListener.addListener(_initBasmala);
     instance = await AudioService.init<QuranPlayerContoller>(
       builder: QuranPlayerContoller._,
     );
   }
 
-  Duration? _total;
+  static Future<void> _initBasmala() async {
+    _basmalaPlayer.setFilePath(
+      (await QuranStore._basmalaFileFor(
+        QuranManager.getQuran(QuranStore.settings.defaultAudioEdition),
+      ))
+          .path,
+    );
+  }
 
   /// The total audio length in [Duration].
   ///
@@ -302,6 +319,16 @@ class QuranPlayerContoller extends BaseAudioHandler
             .value,
       );
 
+  Future<void> playFromAyah(Ayah ayah) async {
+    await pause();
+    await seekToAyah(ayah);
+    if (QuranStore.settings.shouldReadBasmlaOnSelection) {
+      await _basmalaPlayer.seek(Duration.zero);
+      await _basmalaPlayer.play();
+    }
+    await play();
+  }
+
   /// Convenient method to seek to a [double] value that represents
   /// a percentage of the total audio file length
   Future<void> seekToValue(double value) =>
@@ -316,6 +343,9 @@ class QuranPlayerContoller extends BaseAudioHandler
   /// just_audio player will be transformed into an audio_service state so that
   /// it can be broadcast to audio_service clients.
   PlaybackState _transformEvent(PlaybackEvent event) {
+    // making sure that whenever the user tries to do anything with the player
+    // the basmala stops
+    _basmalaPlayer.stop();
     return PlaybackState(
       controls: <MediaControl>[
         MediaControl.rewind,
