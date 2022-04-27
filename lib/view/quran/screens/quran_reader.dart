@@ -25,12 +25,10 @@ class QuranSurahReader extends StatefulWidget {
   const QuranSurahReader({
     Key? key,
     required this.surah,
-    required this.edition,
     this.ayah,
   }) : super(key: key);
 
   final Surah surah;
-  final Edition edition;
   final Ayah? ayah;
 
   @override
@@ -47,7 +45,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
     // TODO(psyonixFx): should support from bookmark later
     const int start = 0;
     _pageController = PageController(initialPage: start);
-    quran = QuranManager.getQuran(widget.edition);
+    quran = QuranManager.getQuran(QuranStore.settings.defaultTextEdition);
     _pages.addAll(
       quran.pages.sublist(
         widget.surah.ayahs.first.page - 1,
@@ -66,7 +64,6 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SurahAudioPlayer(
-        edition: widget.edition,
         surah: widget.surah,
       ),
       appBar: CupertinoNavigationBar(
@@ -116,14 +113,14 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
         ),
       ),
       body: Directionality(
-        textDirection: widget.edition.direction.direction,
+        textDirection:
+            QuranStore.settings.defaultTextEdition.direction.direction,
         child: PageView.builder(
           controller: _pageController,
           itemCount: _pages.length,
           itemBuilder: (BuildContext context, int index) => PageReader(
             page: _pages[index],
             surah: widget.surah,
-            edition: widget.edition,
             playCallback: (_) {},
           ),
         ),
@@ -137,14 +134,12 @@ class PageReader extends StatelessWidget {
   const PageReader({
     Key? key,
     required this.page,
-    required this.edition,
     required this.playCallback,
     required this.surah,
   }) : super(key: key);
 
   final QuranPage page;
   final Surah surah;
-  final Edition edition;
   final void Function(Ayah ayah) playCallback;
 
   @override
@@ -152,7 +147,6 @@ class PageReader extends StatelessWidget {
     return SingleChildScrollView(
       primary: true,
       physics: const AlwaysScrollableScrollPhysics(),
-      restorationId: '${edition.identifier}-${surah.number}-${page.pageNumber}',
       child: ValueListenableBuilder<dynamic>(
         valueListenable: QuranStore.settings.quranRenderSettingListenable,
         builder: (_, __, ___) {
@@ -167,7 +161,6 @@ class PageReader extends StatelessWidget {
                 for (int i = 0; i < page.inlines.length; i++)
                   SurahInlineReader(
                     inline: page.inlines[i],
-                    edition: edition,
                     selected: surah == page.inlines[i].surah,
                   ),
               ],
@@ -185,12 +178,10 @@ class SurahInlineReader extends StatelessWidget {
   const SurahInlineReader({
     Key? key,
     required this.inline,
-    required this.edition,
     required this.selected,
   }) : super(key: key);
 
   final SurahInline inline;
-  final Edition edition;
   final bool selected;
 
   int get currentIndex =>
@@ -250,7 +241,7 @@ class SurahInlineReader extends StatelessWidget {
           Text.rich(
             TextSpan(
               children: _buildAyahsSpans(context),
-              locale: Locale(edition.language),
+              locale: Locale(QuranStore.settings.defaultTextEdition.language),
             ),
             textAlign: TextAlign.center,
           )
@@ -284,7 +275,12 @@ class SurahInlineReader extends StatelessWidget {
             onTap: onTap,
             ayah: ayah.copyWith(
               text: ayah.text.replaceFirst(
-                QuranManager.getQuran(edition).surahs.first.ayahs.first.text,
+                QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
+                    .surahs
+                    .first
+                    .ayahs
+                    .first
+                    .text,
                 '',
               ),
             ),
@@ -465,12 +461,10 @@ class _SurahTitle extends StatelessWidget {
 class SurahAudioPlayer extends StatelessWidget {
   const SurahAudioPlayer({
     Key? key,
-    required this.edition,
     required this.surah,
     this.ayah,
   }) : super(key: key);
 
-  final Edition edition;
   final Surah surah;
   final Ayah? ayah;
 

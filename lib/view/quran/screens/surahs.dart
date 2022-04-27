@@ -92,7 +92,6 @@ class _SurahListTile extends StatelessWidget {
           'surah_reader_screen',
           arguments: <String, dynamic>{
             'surah': surah,
-            'edition': QuranStore.settings.defaultTextEdition,
             'fullscreenDialog': true,
           },
         );
