@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
@@ -56,8 +57,8 @@ class _MainPageState extends State<MainPage>
                   ),
                   BottomNavigationBarItem(
                     label: S.of(context).quran,
-                    icon: const Icon(Iconsax.book_square),
-                    activeIcon: const Icon(Iconsax.book_square5),
+                    icon: const Icon(CupertinoIcons.book),
+                    activeIcon: const Icon(CupertinoIcons.book_fill),
                   ),
                   BottomNavigationBarItem(
                     label: S.of(context).prayers,
