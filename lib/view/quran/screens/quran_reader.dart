@@ -266,7 +266,7 @@ class SurahInlineReader extends StatelessWidget {
           selected;
       // ignore: prefer_function_declarations_over_variables
       final VoidCallback onTap = () async {
-        if (!isListenable || selected) return;
+        if (!isListenable || !selected) return;
         await QuranPlayerContoller.instance.playFromAyah(ayah);
       };
       // ignore: prefer_function_declarations_over_variables
