@@ -99,6 +99,35 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                       );
                     },
                   ),
+                  ValueListenableBuilder<dynamic>(
+                    valueListenable:
+                        QuranStore.settings.highlightAyahOnPlayerListner,
+                    builder: (_, __, ___) {
+                      return ListTile(
+                        title: Text(
+                          S.of(context).highlight_the_currently_played_ayah,
+                        ),
+                        subtitle: Text(
+                          S
+                              .of(context)
+                              // ignore: lines_longer_than_80_chars
+                              .enabling_this_will_highlight_the_ayah_and_change_the_page_when_the_page_changes,
+                        ),
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          QuranStore.settings.highlightAyahOnPlayer =
+                              !QuranStore.settings.highlightAyahOnPlayer;
+                        },
+                        trailing: CupertinoSwitch(
+                          value: QuranStore.settings.highlightAyahOnPlayer,
+                          onChanged: (_) {
+                            QuranStore.settings.highlightAyahOnPlayer =
+                                !QuranStore.settings.highlightAyahOnPlayer;
+                          },
+                        ),
+                      );
+                    },
+                  ),
                   const _FontSizeTile(),
                 ],
               )

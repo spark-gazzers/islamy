@@ -100,5 +100,7 @@
     "please_enter_a_valid_number": "Please enter a valid number",
     "font_size_must_not_exceed_max": "Font size must not exceed {max}",
     "font_size_must_not_be_less_than_min": "Font size must not be less than {min}",
-    "this_font_will_be_only_applied_to_script_edition_of_quran": "This font will be only applied to script edition of quran."
+    "this_font_will_be_only_applied_to_script_edition_of_quran": "This font will be only applied to script edition of quran.",
+    "highlight_the_currently_played_ayah": "Highlight the currently played ayah.",
+    "enabling_this_will_highlight_the_ayah_and_change_the_page_when_the_page_changes": "Enabling this will highlight the ayah and change the page when the page changes."
 }
