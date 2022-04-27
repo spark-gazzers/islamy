@@ -38,7 +38,7 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
                 children: <Widget>[
                   _SelectEditionTile(
                     delegate: 'select_text_quran',
-                    title: S.of(context).text_edition,
+                    title: S.of(context).script_edition,
                     edition: () => QuranStore.settings.defaultTextEdition,
                   ),
                   _SelectEditionTile(

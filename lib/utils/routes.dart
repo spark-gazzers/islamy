@@ -68,13 +68,13 @@ class Routes {
 
       case 'select_text_quran':
         builder = (BuildContext context) => SelectEditionDelegate(
-              propertyName: S.current.text_edition,
+              propertyName: S.current.script_edition,
               selected: QuranStore.settings.defaultTextEdition,
               choices: QuranStore.listTextEditions(),
               onSelected: (Edition? edition) {
                 QuranStore.settings.defaultTextEdition = edition!;
               },
-              title: S.current.select_text_edition,
+              title: S.current.select_script_edition,
               allowToDisable: false,
             );
         break;
