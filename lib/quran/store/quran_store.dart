@@ -370,6 +370,11 @@ class _QuranSettings {
     );
   }
 
+  /// Notifier for changes on the [shouldReadBasmlaOnSelection].
+  ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
+      _settingsBox
+          .listenable(keys: <String>['should_read_basmla_on_selection']);
+
   /// Wether the [QuranPlayerContoller] should read basmala when
   /// playing a single ayah.
   bool get highlightAyahOnPlayer =>
@@ -380,7 +385,6 @@ class _QuranSettings {
   }
 
   /// Notifier for changes on the [highlightAyahOnPlayer].
-  ValueListenable<Box<dynamic>> get shouldReadBasmlaOnSelectionListner =>
-      _settingsBox
-          .listenable(keys: <String>['should_read_basmla_on_selection']);
+  ValueListenable<Box<dynamic>> get highlightAyahOnPlayerListner =>
+      _settingsBox.listenable(keys: <String>['highlight_ayah_on_player']);
 }
