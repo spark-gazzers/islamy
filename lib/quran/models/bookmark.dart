@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/surah.dart';
@@ -22,23 +23,29 @@ class Bookmark extends HiveObject {
     required this.surah,
     required this.ayah,
     required this.page,
+    required this.createdAt,
+    required this.message,
   });
 
   Bookmark.fromPage({
     required this.surah,
     required this.page,
-  }) : ayah = QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
+    this.message = '',
+  })  : ayah = QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
             .surahs
             .singleWhere((Surah element) => element.number == surah)
             .ayahs
             .firstWhere((Ayah element) => element.page == page + 1)
-            .number;
+            .number,
+        createdAt = DateTime.now();
 
   Bookmark.fromAyah({
     required this.surah,
+    this.message = '',
     required Ayah ayah,
   })  : ayah = ayah.number,
-        page = ayah.page - 1;
+        page = ayah.page - 1,
+        createdAt = DateTime.now();
 
   @override
   bool operator ==(Object other) => other is Bookmark && other.key == key;
@@ -46,17 +53,24 @@ class Bookmark extends HiveObject {
   @override
   int get hashCode => key.hashCode;
 
-  @HiveField(0)
-
   /// The exact surah number from [Surah.number].
+  @HiveField(0)
   final int surah;
-  @HiveField(1)
 
   /// The exact ayah number from [Ayah.number].
+  @HiveField(1)
   final int ayah;
-  @HiveField(2)
 
   /// The index of the page in [TheHolyQuran.pages] so the UI relevant will be
   /// actually [Ayah.page] -1.
+  @HiveField(2)
   final int page;
+
+  /// When the [Bookmark] is created.
+  @HiveField(3)
+  DateTime createdAt;
+
+  /// An optional message.
+  @HiveField(4)
+  String message;
 }
