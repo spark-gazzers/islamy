@@ -38,7 +38,7 @@ class QuranStore {
       ..registerAdapter(EditionAdapter())
 
       // typeId == 1
-      ..registerAdapter(BookMarkAdapter())
+      ..registerAdapter(BookmarkAdapter())
 
       // typeId == 2
       ..registerAdapter(QuranContentTypeAdapter())
@@ -217,9 +217,11 @@ class _QuranSettings {
   const _QuranSettings._();
   static const _QuranSettings instance = _QuranSettings._();
   static late final Box<String?> _settingsBox;
+  static late final Box<Bookmark> _bookmarksBox;
   static late final List<Juz> _juzData;
   static Future<void> _init() async {
     _settingsBox = await QuranStore._getBox<String>('quran_settings');
+    _bookmarksBox = await QuranStore._getBox<Bookmark>('bookmarks');
     final String data =
         await rootBundle.loadString('assets/config/juz_data.json');
     _juzData = Juz.listFromRawJson(data);

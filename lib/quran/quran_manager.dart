@@ -19,7 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/book_mark.dart';
+import 'package:islamy/quran/models/bookmark.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/juz.dart';
