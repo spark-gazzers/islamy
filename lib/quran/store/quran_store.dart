@@ -393,28 +393,14 @@ class _QuranSettings {
       _settingsBox.listenable(keys: <String>['highlight_ayah_on_player']);
 
   /// The auto-saved bookmark generated after every user interaction.
-  ///
-  ///
-  ///
-  /// This will trow [StateError] if the user hasn't opened the quran yet.
-  /// If unsure please use the try/catch block.
-  Bookmark get autosavedBookmark {
-    try {
-      return _bookmarksBox.get('auto_saved')!;
-    } catch (e) {
-      throw StateError('The user did not open the quran yet');
-    }
+  Bookmark? get autosavedBookmark {
+    return _bookmarksBox.get('auto_saved');
   }
 
   /// Get all of the user created [Bookmark]s.
   List<Bookmark> get bookmarks {
-    Bookmark? autosaved;
-    try {
-      autosaved = autosavedBookmark;
-    } finally {}
-
     final List<Bookmark> bookmarks = _bookmarksBox.values.toList()
-      ..removeWhere((Bookmark element) => element == autosaved)
+      ..removeWhere((Bookmark element) => element == autosavedBookmark)
       ..sort(
         (Bookmark b1, Bookmark b2) => b1.createdAt.compareTo(b2.createdAt),
       );
