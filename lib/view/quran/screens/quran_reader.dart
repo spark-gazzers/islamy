@@ -115,8 +115,8 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 700),
         reverseDuration: const Duration(milliseconds: 700),
-        switchInCurve: Curves.ease,
-        switchOutCurve: Curves.ease,
+        switchInCurve: Curves.easeInOut,
+        switchOutCurve: Curves.easeInOut,
         child: _isScriptVersion
             ? ScriptQuranReader(surah: widget.surah)
             : QuranFeaturesReader(surah: widget.surah),
@@ -147,6 +147,7 @@ class SurahAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MaterialButton(onPressed: () {});
     return Container(
       color: Theme.of(context).primaryColor,
       padding: EdgeInsets.only(
