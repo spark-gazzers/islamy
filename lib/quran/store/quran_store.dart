@@ -38,8 +38,8 @@ class QuranStore {
       ..registerAdapter(EditionAdapter())
 
       // typeId == 1
-      // TODO(psyonixFx): rearange the typeId's.
-      // The type id 1 is now released.
+      ..registerAdapter(BookMarkAdapter())
+
       // typeId == 2
       ..registerAdapter(QuranContentTypeAdapter())
 
