@@ -4,6 +4,7 @@ import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/juz.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/view/common/sliding_segmented_control.dart';
+import 'package:islamy/view/quran/screens/bookmarks.dart';
 import 'package:islamy/view/quran/screens/juzs.dart';
 import 'package:islamy/view/quran/screens/surahs.dart';
 
@@ -62,7 +63,7 @@ class _QuranScreenState extends State<QuranScreen>
                     _surahsKey.currentState!.animateTo(i);
                   },
                 ),
-                Container(),
+                const BookmarksList(),
               ],
             ),
           ),
