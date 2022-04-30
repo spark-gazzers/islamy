@@ -94,16 +94,6 @@ class CloudQuran {
     );
   }
 
-  static String _formatDuration(Duration duration) =>
-      duration_formater.prettyDuration(
-        duration,
-        tersity: duration_formater.DurationTersity.microsecond,
-        locale: const EnglishDurationLocale(),
-        delimiter: ',',
-        abbreviated: true,
-        spacer: '',
-      );
-
   /// Downloads surahs ayahs and prepare it's meta for the player.
   ///
   ///
@@ -151,7 +141,7 @@ class CloudQuran {
     );
 
     // the duration map to be later a json which will be used in the player
-    final Map<String, String> durations = <String, String>{};
+    final Map<String, int> durations = <String, int>{};
     // making a seperate list to use later on the merger
     final List<File> ayahsFiles = <File>[];
     // iterating for each file in the directory append it
@@ -169,7 +159,7 @@ class CloudQuran {
                 .split(Platform.pathSeparator)
                 .last
                 .replaceFirst('.mp3', '')] =
-            _formatDuration(await QuranPlayerContoller.lengthOf(item.path));
+            (await QuranPlayerContoller.lengthOf(item.path)).inMicroseconds;
       }
     }
     // start by calculating if the surah needs basmala
@@ -200,7 +190,7 @@ class CloudQuran {
     // adding the basmala duration if it was added before
     if (needsBasmala) {
       durations['0'] =
-          _formatDuration(await QuranPlayerContoller.lengthOf(basmala.path));
+          (await QuranPlayerContoller.lengthOf(basmala.path)).inMicroseconds;
     }
     // write the durations map to the json file
     durationsJson.writeAsStringSync(

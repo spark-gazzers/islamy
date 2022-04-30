@@ -120,7 +120,7 @@ class QuranPlayerContoller extends BaseAudioHandler
     results = results.map<int, Duration>(
       (dynamic key, dynamic value) => MapEntry<int, Duration>(
         int.parse(key as String),
-        duration_formater.parseDuration(value as String),
+        Duration(microseconds: value as int),
       ),
     );
     final Map<int, Duration> positions = results.cast<int, Duration>();

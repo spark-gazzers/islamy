@@ -7,8 +7,6 @@ import 'dart:math' as math;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:dio/dio.dart';
-import 'package:duration/duration.dart' as duration_formater;
-import 'package:duration/locale.dart';
 import 'package:ffmpeg_kit_flutter_min/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_min/ffmpeg_session.dart';
 import 'package:ffmpeg_kit_flutter_min/return_code.dart';
