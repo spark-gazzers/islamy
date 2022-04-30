@@ -7,7 +7,8 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
-
+import 'package:islamy/generated/l10n/intl/messages_en_US.dart' as en_msg;
+import 'package:islamy/utils/store.dart';
 part 'helpers/localization.dart';
 part 'helpers/messages.dart';
 part 'helpers/formatters.dart';
