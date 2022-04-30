@@ -21,6 +21,7 @@ class AyahTajweedSplitter {
     TextSpan createSpan({required String text, TextStyle? style}) => TextSpan(
           text: text,
           recognizer: recognizer,
+          style: style,
         );
     // The spans list
     final List<TextSpan> spans = <TextSpan>[];
