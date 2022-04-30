@@ -7,7 +7,7 @@ part of quran;
 class QuranPlayerContoller extends BaseAudioHandler
     with QueueHandler, SeekHandler {
   /// This constuctor must only be called once and that should
-  /// be in the init project
+  /// be in the [init] method.
   QuranPlayerContoller._() {
     _player.playbackEventStream.map(_transformEvent).pipe(playbackState);
   }
@@ -84,13 +84,13 @@ class QuranPlayerContoller extends BaseAudioHandler
 
   /// The init method which should be only called once during the app startup
   static Future<void> init() async {
+    instance = await AudioService.init<QuranPlayerContoller>(
+      builder: QuranPlayerContoller._,
+    );
     // intilizing [_basmalaPlayer].
     await _initBasmala();
     // and making sure it always be updated
     QuranStore.settings._defaultAudioEditionListener.addListener(_initBasmala);
-    instance = await AudioService.init<QuranPlayerContoller>(
-      builder: QuranPlayerContoller._,
-    );
   }
 
   static Future<void> _initBasmala() async {

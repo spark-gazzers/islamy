@@ -335,25 +335,39 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
       parent: _animationController,
       curve: Curves.ease,
     );
-    _animationController.value =
-        QuranPlayerContoller.instance.isPlaying.value ? 1 : 0;
+  }
+
+  @override
+  void dispose() {
+    try {
+      QuranPlayerContoller.instance.isPlaying.removeListener(_playerListener);
+    } catch (_) {}
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (QuranPlayerContoller.instance.isForSurah(audioQuran, widget.surah)) {
-      _listenToPlayer();
+      _animationController.value =
+          QuranPlayerContoller.instance.isPlaying.value ? 1 : 0;
+      QuranPlayerContoller.instance.isPlaying.removeListener(_playerListener);
+      QuranPlayerContoller.instance.isPlaying.addListener(_playerListener);
     }
   }
 
   TheHolyQuran get audioQuran =>
       QuranManager.getQuran(QuranStore.settings.defaultAudioEdition);
-  void _listenToPlayer() {
-    QuranPlayerContoller.instance.isPlaying.addListener(() {
-      if (mounted) {
-        if (QuranPlayerContoller.instance.isPlaying.value) {
-          _animationController.forward();
-        } else {
-          _animationController.reverse();
-        }
+
+  void _playerListener() {
+    if (mounted) {
+      if (QuranPlayerContoller.instance.isPlaying.value) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
       }
-    });
+    }
   }
 
   @override
@@ -437,8 +451,8 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
       // or finishing up if the screen is off loaded
       if (!mounted) return;
       context.findAncestorStateOfType<_QuranSurahReaderState>()!._reload();
-      // this widget preparing
-      _listenToPlayer();
+      // this will call [State.didChangeDependencies] on this object and it will
+      // reload probaply.
     }
     // reverse action play if it's not and pause if playing
     if (!QuranPlayerContoller.instance.isPlaying.value) {
