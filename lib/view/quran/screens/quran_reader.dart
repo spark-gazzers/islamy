@@ -10,6 +10,7 @@ import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/helper.dart';
 import 'package:islamy/view/common/long_pressed_icon_button.dart';
+import 'package:islamy/view/common/surah_icon.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 import 'package:islamy/view/quran/screens/quran_features_reader.dart';
 import 'package:islamy/view/quran/screens/script_quran.dart';
@@ -147,7 +148,6 @@ class SurahAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialButton(onPressed: () {});
     return Container(
       color: Theme.of(context).primaryColor,
       padding: EdgeInsets.only(
@@ -156,6 +156,39 @@ class SurahAudioPlayer extends StatelessWidget {
       child: AbstractSliverBottomBar(
         startsExpanded: true,
         snap: true,
+        beforeBody: (BuildContext context, Animation<double> animation) =>
+            IntrinsicHeight(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Divider(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: IslamicStarIcon(
+                    // TODO:(psyonixFx) use the real page number
+                    number: 12,
+                    size: 30,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         mainBody: (BuildContext context, Animation<double> animation) =>
             _AudioSlider(
           surah: surah,
