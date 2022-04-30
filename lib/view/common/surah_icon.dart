@@ -6,12 +6,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// the [number] text.
 // TODO(psyonixFx): add the doc design asset
 class IslamicStarIcon extends StatelessWidget {
-  const IslamicStarIcon({Key? key, required this.number, this.color})
-      : super(key: key);
+  const IslamicStarIcon({
+    Key? key,
+    required this.number,
+    this.color,
+    this.style,
+    this.size = 38,
+  }) : super(key: key);
 
   final int number;
+  final double size;
   final Color? color;
-
+  final TextStyle? style;
   @override
   Widget build(BuildContext context) {
     return IntrinsicWidth(
@@ -21,17 +27,21 @@ class IslamicStarIcon extends StatelessWidget {
             alignment: Alignment.center,
             child: SvgPicture.asset(
               'assets/icons/surah_icon.svg',
+              width: size,
               color: color ?? Theme.of(context).primaryColor,
             ),
           ),
           Align(
             alignment: Alignment.center,
-            child: Text(
-              number.toString(),
+            child: DefaultTextStyle.merge(
               style: TextStyle(
                 fontSize: 12,
                 color: color,
                 fontWeight: FontWeight.bold,
+              ),
+              child: Text(
+                number.toString(),
+                style: style,
               ),
             ),
           ),
