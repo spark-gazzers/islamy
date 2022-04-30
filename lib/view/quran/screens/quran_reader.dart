@@ -262,25 +262,30 @@ class _AudioSliderState extends State<_AudioSlider> {
                           value: widget.transitionAnimation.value,
                         ),
                       Expanded(
-                        child: Slider.adaptive(
-                          value: position,
-                          onChanged: (double value) {
-                            // making the _value not null means
-                            // it's currently active
-                            setState(() {
-                              _dragValue = value;
-                              QuranPlayerContoller.instance
-                                  .fakePositionFromValue(_dragValue);
-                            });
-                          },
-                          onChangeEnd: (double value) {
-                            QuranPlayerContoller.instance.seekToValue(value);
-                            setState(() {
-                              _dragValue = null;
-                              QuranPlayerContoller.instance
-                                  .fakePositionFromValue(_dragValue);
-                            });
-                          },
+                        child: AbsorbPointer(
+                          absorbing: !isForThisSurah,
+                          child: Slider.adaptive(
+                            value: position,
+                            activeColor: Colors.white,
+                            inactiveColor: Colors.white,
+                            onChanged: (double value) {
+                              // making the _value not null means
+                              // it's currently active
+                              setState(() {
+                                _dragValue = value;
+                                QuranPlayerContoller.instance
+                                    .fakePositionFromValue(_dragValue);
+                              });
+                            },
+                            onChangeEnd: (double value) {
+                              QuranPlayerContoller.instance.seekToValue(value);
+                              setState(() {
+                                _dragValue = null;
+                                QuranPlayerContoller.instance
+                                    .fakePositionFromValue(_dragValue);
+                              });
+                            },
+                          ),
                         ),
                       ),
                       if (isForThisSurah)
@@ -422,7 +427,14 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
             ),
             IconButton(
               splashRadius: 150,
-              onPressed: QuranPlayerContoller.instance.skipToPrevious,
+              onPressed: () {
+                if (QuranPlayerContoller.instance
+                    .isForSurah(audioQuran, widget.surah)) {
+                  QuranPlayerContoller.instance.skipToPrevious();
+                } else {
+                  _resume();
+                }
+              },
               icon: const Icon(Iconsax.previous5),
             ),
             DecoratedBox(
@@ -443,8 +455,15 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
             ),
             IconButton(
               splashRadius: 150,
-              onPressed: QuranPlayerContoller.instance.skipToNext,
               icon: const Icon(Iconsax.next5),
+              onPressed: () {
+                if (QuranPlayerContoller.instance
+                    .isForSurah(audioQuran, widget.surah)) {
+                  QuranPlayerContoller.instance.skipToNext();
+                } else {
+                  _resume();
+                }
+              },
             ),
             LongPressedIconButton(
               icon: Icons.text_increase,
