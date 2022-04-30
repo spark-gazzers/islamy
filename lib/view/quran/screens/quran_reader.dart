@@ -339,9 +339,9 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
 
   @override
   void dispose() {
-    try {
+    if (QuranPlayerContoller.instance.isForSurah(audioQuran, widget.surah)) {
       QuranPlayerContoller.instance.isPlaying.removeListener(_playerListener);
-    } catch (_) {}
+    }
     _animationController.dispose();
     super.dispose();
   }
