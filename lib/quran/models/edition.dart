@@ -50,7 +50,7 @@ class Edition extends HiveObject with AlquranCloudObject {
       other is Edition && other.identifier == identifier;
   @override
   int get hashCode => identifier.hashCode;
-
+  bool get isTajweedVersion => identifier == 'quran-tajweed';
   @HiveField(0)
   final String identifier;
   @HiveField(1)
