@@ -525,8 +525,8 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
       // or finishing up if the screen is off loaded
       if (!mounted) return;
       context.findAncestorStateOfType<_QuranSurahReaderState>()!._reload();
-      // this will call [State.didChangeDependencies] on this object and it will
-      // reload probaply.
+      // updating this state listeners
+      didChangeDependencies();
     }
     // reverse action play if it's not and pause if playing
     if (!QuranPlayerContoller.instance.isPlaying.value) {
