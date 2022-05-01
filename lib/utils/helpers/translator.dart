@@ -8,7 +8,7 @@ class _Translator {
     switch (Store.locale.languageCode) {
       case 'en_US':
         try {
-          return en_msg.messages.messages[key] as String;
+          return (en_msg.messages.messages[key] as String Function()).call();
         } catch (_) {
           throw UnimplementedError(
             'The key $key is not yet implemented in'
