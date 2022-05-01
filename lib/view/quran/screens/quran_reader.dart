@@ -14,6 +14,8 @@ import 'package:islamy/view/common/surah_icon.dart';
 import 'package:islamy/view/quran/screens/download_surah.dart';
 import 'package:islamy/view/quran/screens/quran_features_reader.dart';
 import 'package:islamy/view/quran/screens/script_quran.dart';
+import 'package:islamy/view/quran/screens/tajweed_guide.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sliver_bottom_bar/sliver_bottom_bar.dart';
 
 /// The main quran reader screen.
@@ -52,82 +54,102 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: SurahAudioPlayer(
-        surah: widget.surah,
-      ),
-      appBar: CupertinoNavigationBar(
-        brightness: Brightness.dark,
-        leading: IconButton(
-          onPressed: Navigator.of(context).pop,
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
+    return CupertinoScaffold(
+      body: Scaffold(
+        bottomNavigationBar: SurahAudioPlayer(
+          surah: widget.surah,
         ),
-        trailing: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _isScriptVersion = !_isScriptVersion;
-                });
-              },
-              icon: Icon(
-                _isScriptVersion ? Icons.translate : Iconsax.book_1,
-              ),
-              color: Theme.of(context).colorScheme.onPrimary,
+        appBar: CupertinoNavigationBar(
+          brightness: Brightness.dark,
+          leading: IconButton(
+            onPressed: Navigator.of(context).pop,
+            icon: const Icon(
+              Icons.close,
+              color: Colors.white,
             ),
-            IconButton(
-              onPressed: () async {
-                final Edition text = QuranStore.settings.defaultTextEdition;
-                final Edition audio = QuranStore.settings.defaultAudioEdition;
-                final NavigatorState navigator = Navigator.of(context);
-                await Navigator.pushNamed(
-                  context,
-                  'quran_settings',
-                  arguments: <String, dynamic>{
-                    'fullscreenDialog': true,
-                  },
-                );
-                if (text != QuranStore.settings.defaultTextEdition ||
-                    audio != QuranStore.settings.defaultAudioEdition) {
-                  navigator
-                    ..pop()
-                    ..pushNamed(
-                      'surah_reader_screen',
-                      arguments: <String, dynamic>{
-                        'surah': widget.surah,
-                        'edition': QuranStore.settings.defaultTextEdition,
-                        'fullscreenDialog': true,
+          ),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              if (QuranStore.settings.defaultTextEdition.isTajweedVersion)
+                Builder(
+                  builder: (BuildContext context) {
+                    return IconButton(
+                      onPressed: () {
+                        CupertinoScaffold.showCupertinoModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              const TajweedGuide(),
+                        );
                       },
+                      icon: Icon(
+                        Icons.info,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     );
-                }
-              },
-              icon: Icon(
-                Icons.settings,
+                  },
+                ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isScriptVersion = !_isScriptVersion;
+                  });
+                },
+                icon: Icon(
+                  _isScriptVersion ? Icons.translate : Iconsax.book_1,
+                ),
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
-            ),
-          ],
+              IconButton(
+                onPressed: () async {
+                  final Edition text = QuranStore.settings.defaultTextEdition;
+                  final Edition audio = QuranStore.settings.defaultAudioEdition;
+                  final NavigatorState navigator = Navigator.of(context);
+                  await Navigator.pushNamed(
+                    context,
+                    'quran_settings',
+                    arguments: <String, dynamic>{
+                      'fullscreenDialog': true,
+                    },
+                  );
+                  if (text != QuranStore.settings.defaultTextEdition ||
+                      audio != QuranStore.settings.defaultAudioEdition) {
+                    navigator
+                      ..pop()
+                      ..pushNamed(
+                        'surah_reader_screen',
+                        arguments: <String, dynamic>{
+                          'surah': widget.surah,
+                          'edition': QuranStore.settings.defaultTextEdition,
+                          'fullscreenDialog': true,
+                        },
+                      );
+                  }
+                },
+                icon: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 700),
-        reverseDuration: const Duration(milliseconds: 700),
-        switchInCurve: Curves.easeInOut,
-        switchOutCurve: Curves.easeInOut,
-        child: _isScriptVersion
-            ? ScriptQuranReader(surah: widget.surah)
-            : QuranFeaturesReader(surah: widget.surah),
-        transitionBuilder: (Widget child, Animation<double> animation) =>
-            SharedAxisTransition(
-          animation: animation,
-          secondaryAnimation: ReverseAnimation(animation),
-          transitionType: SharedAxisTransitionType.scaled,
-          fillColor: Colors.transparent,
-          child: child,
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 700),
+          reverseDuration: const Duration(milliseconds: 700),
+          switchInCurve: Curves.easeInOut,
+          switchOutCurve: Curves.easeInOut,
+          child: _isScriptVersion
+              ? ScriptQuranReader(surah: widget.surah)
+              : QuranFeaturesReader(surah: widget.surah),
+          transitionBuilder: (Widget child, Animation<double> animation) =>
+              SharedAxisTransition(
+            animation: animation,
+            secondaryAnimation: ReverseAnimation(animation),
+            transitionType: SharedAxisTransitionType.scaled,
+            fillColor: Colors.transparent,
+            child: child,
+          ),
         ),
       ),
     );

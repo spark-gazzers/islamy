@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.4
   sliver_bottom_bar:
     git: https://github.com/psyonixFx/sliver_bottom_bar.git
+  modal_bottom_sheet: ^2.0.1
 
 dev_dependencies:
   flutter_test:

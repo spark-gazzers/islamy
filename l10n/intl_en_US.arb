@@ -98,6 +98,7 @@
     "idgham_mutaqaribayn": "Idgham - Mutaqaribayn",
     "ghunnah": "Ghunnah: 2 Vowels",
     "disabled": "Disabled",
+    "idgham_with_ghunnah": "Idgham - With Ghunnah",
     "disable": "Disable",
     "disable_this_edition_type_line_break_select_another_edition_to_enable_again": "Disable this edition type.\nSelect another edition and it will be enabled again",
     "quran_font_size": "Quran Font Size",
@@ -107,5 +108,10 @@
     "font_size_must_not_be_less_than_min": "Font size must not be less than {min}",
     "this_font_will_be_only_applied_to_script_edition_of_quran": "This font will be only applied to script edition of quran.",
     "highlight_the_currently_played_ayah": "Highlight the currently played ayah.",
-    "enabling_this_will_highlight_the_ayah_and_change_the_page_when_the_page_changes": "Enabling this will highlight the ayah and change the page when the page changes."
+    "enabling_this_will_highlight_the_ayah_and_change_the_page_when_the_page_changes": "Enabling this will highlight the ayah and change the page when the page changes.",
+    "done": "Done",
+    "tajweed_guide": "Tajweed Guide",
+    "tajweed_rules": "Tajweed Rules",
+    "rule_name": "Rule name",
+    "rule_color": "Rule Color"
 }
