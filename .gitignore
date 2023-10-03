@@ -139,3 +139,4 @@ ios/Podfile.lock
 
 lib/generated/
 lib/live.dart
+.vscode/launch.json
