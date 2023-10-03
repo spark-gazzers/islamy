@@ -199,7 +199,7 @@ class QuranManager {
   static Future<void> downloadSurah({
     required Edition edition,
     required Surah surah,
-    Function(int index)? onAyahDownloaded,
+    void Function(int)? onAyahDownloaded,
   }) =>
       CloudQuran.downloadSurah(
         edition: edition,

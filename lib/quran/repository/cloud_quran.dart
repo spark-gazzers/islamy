@@ -111,7 +111,7 @@ class CloudQuran {
   static Future<void> downloadSurah({
     required Edition edition,
     required Surah surah,
-    Function(int index)? onAyahDownloaded,
+    void Function(int)? onAyahDownloaded,
   }) async {
     // the surah directory
     final Directory surahDirectory =
