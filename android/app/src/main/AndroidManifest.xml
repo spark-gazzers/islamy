@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.islamy">
    <application
-        android:label="islamy"
+        android:label="iSlamy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

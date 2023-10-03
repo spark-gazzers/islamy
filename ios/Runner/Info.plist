@@ -17,7 +17,7 @@
 	<key>CFBundleName</key>
 	<string>islamy</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>iSlamy</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
