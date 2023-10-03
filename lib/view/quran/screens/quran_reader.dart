@@ -47,7 +47,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
   }
 
   void _reload() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});
     });
   }

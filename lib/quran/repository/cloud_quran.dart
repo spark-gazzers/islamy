@@ -27,8 +27,8 @@ class CloudQuran {
       queryParameters: query,
       onReceiveProgress: onReceiveProgress,
       options: Options(
-        receiveTimeout: 0,
-        sendTimeout: 0,
+        receiveTimeout: Duration.zero,
+        sendTimeout: Duration.zero,
         headers: headers,
         validateStatus: (_) => true,
         method: method,
