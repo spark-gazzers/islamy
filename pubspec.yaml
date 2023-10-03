@@ -13,25 +13,28 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+    
+  # Plugins
+  just_audio: ^0.9.20
+  permission_handler: ^11.0.0
+  location: ^5.0.3
+  audio_service: ^0.18.4
+  ffmpeg_kit_flutter_min: ^6.0.3
+
+  # libs 
+  path_provider: ^2.0.9
   intl: ^0.18.1
   dio: ^5.1.2
-  path_provider: ^2.0.9
   hive_flutter: ^1.1.0
-  just_audio: ^0.9.20
   flutter_svg: ^2.0.7
   iconsax: ^0.0.8
   pinput: ^3.0.1
-  location: ^5.0.3
-  permission_handler: ^11.0.0
   pubspec: ^2.1.0
-  flag: ^7.0.0
   country_code_picker: ^3.0.0
   proper_filesize: ^0.0.2
   another_flushbar: ^1.10.28
   animations: ^2.0.2
   scrollable_positioned_list: ^0.3.8
-  audio_service: ^0.18.4
-  ffmpeg_kit_flutter_min: ^6.0.3
   rxdart: ^0.27.3
   cupertino_icons: ^1.0.4
   sliver_bottom_bar:
