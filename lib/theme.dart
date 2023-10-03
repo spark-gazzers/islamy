@@ -28,12 +28,12 @@ class ThemeBuilder {
           ),
         ),
         textTheme: theme.textTheme.copyWith(
-          bodyText2: theme.textTheme.bodyText2?.copyWith(
+          bodyMedium: theme.textTheme.bodyMedium?.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: const Color(0xff778790),
           ),
-          subtitle1: theme.textTheme.subtitle1?.copyWith(
+          titleMedium: theme.textTheme.titleMedium?.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Colors.black,

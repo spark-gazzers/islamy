@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/routes.dart';
-import 'live.dart' as live;
 
 Future<void> main(List<String> args) async {
   // return live.main();
@@ -14,7 +13,7 @@ Future<void> main(List<String> args) async {
 
 ///The main application [WidgetsApp]
 class IslamyApp extends StatelessWidget {
-  const IslamyApp({Key? key}) : super(key: key);
+  const IslamyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

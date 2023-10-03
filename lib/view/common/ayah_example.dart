@@ -4,7 +4,7 @@ import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 
 class AyahExample extends StatefulWidget {
-  const AyahExample({Key? key, this.fontFamily}) : super(key: key);
+  const AyahExample({super.key, this.fontFamily});
   final String? fontFamily;
   @override
   State<AyahExample> createState() => _AyahExampleState();
@@ -41,7 +41,7 @@ class _AyahExampleState extends State<AyahExample>
           children: <Widget>[
             Text(
               S.of(context).example,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             IconButton(
               onPressed: () {

@@ -7,12 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 // TODO(psyonixFx): add the doc design asset
 class IslamicStarIcon extends StatelessWidget {
   const IslamicStarIcon({
-    Key? key,
     required this.number,
+    super.key,
     this.color,
     this.style,
     this.size = 38,
-  }) : super(key: key);
+  });
 
   final int number;
   final double size;

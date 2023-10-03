@@ -6,9 +6,9 @@ import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
-    Key? key,
     required this.phone,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String phone;
 

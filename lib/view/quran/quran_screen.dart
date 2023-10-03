@@ -12,7 +12,7 @@ import 'package:islamy/view/quran/screens/surahs.dart';
 /// the quran from either selecting a [Juz],[Surah]
 /// or a previously created bookmark.
 class QuranScreen extends StatefulWidget {
-  const QuranScreen({Key? key}) : super(key: key);
+  const QuranScreen({super.key});
 
   @override
   State<QuranScreen> createState() => _QuranScreenState();

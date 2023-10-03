@@ -3,7 +3,7 @@ import 'package:islamy/quran/models/bookmark.dart';
 import 'package:islamy/quran/quran_manager.dart';
 
 class BookmarksList extends StatelessWidget {
-  const BookmarksList({Key? key}) : super(key: key);
+  const BookmarksList({super.key});
   List<Bookmark> get bookmarks {
     final List<Bookmark> bookmarks = QuranStore.settings.bookmarks;
     if (QuranStore.settings.autosavedBookmark != null) {
@@ -31,7 +31,7 @@ class BookmarksList extends StatelessWidget {
 }
 
 class _BookmarkTile extends StatelessWidget {
-  const _BookmarkTile({Key? key, required this.bookmark}) : super(key: key);
+  const _BookmarkTile({required this.bookmark});
   final Bookmark bookmark;
 
   @override

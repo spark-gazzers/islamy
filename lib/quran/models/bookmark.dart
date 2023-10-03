@@ -41,8 +41,8 @@ class Bookmark extends HiveObject {
 
   Bookmark.fromAyah({
     required this.surah,
-    this.message = '',
     required Ayah ayah,
+    this.message = '',
   })  : ayah = ayah.number,
         page = ayah.page - 1,
         createdAt = DateTime.now();

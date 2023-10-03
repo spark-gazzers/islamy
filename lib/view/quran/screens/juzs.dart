@@ -9,9 +9,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 /// the first [Surah] of [Juz] upon selecting.
 class JuzsListScreen extends StatefulWidget {
   const JuzsListScreen({
-    Key? key,
     required this.onSelected,
-  }) : super(key: key);
+    super.key,
+  });
 
   final void Function(int number) onSelected;
 

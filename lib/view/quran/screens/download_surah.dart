@@ -11,10 +11,10 @@ import 'package:islamy/quran/quran_manager.dart';
 /// [Surah] using [QuranManager.downloadSurah].
 class DownloadSurahDialog extends StatefulWidget {
   const DownloadSurahDialog({
-    Key? key,
     required this.edition,
     required this.surah,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Edition edition;
   final Surah surah;
@@ -122,12 +122,11 @@ class _DownloadSurahDialogState extends State<DownloadSurahDialog> {
 
 class _AskToDownload extends StatelessWidget {
   const _AskToDownload({
-    Key? key,
     required this.download,
-    this.hasError = false,
     required this.surah,
     required this.edition,
-  }) : super(key: key);
+    this.hasError = false,
+  });
 
   final VoidCallback download;
   final Surah surah;

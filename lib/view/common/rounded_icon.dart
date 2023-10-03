@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// [Color(0xffdfefeb)] for the surrounding.
 // TODO(psyonixFx): add the doc design assets
 class RoundedIcon extends StatelessWidget {
-  const RoundedIcon(this.icon, {Key? key}) : super(key: key);
+  const RoundedIcon(this.icon, {super.key});
 
   final IconData icon;
 

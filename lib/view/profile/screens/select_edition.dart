@@ -17,14 +17,14 @@ import 'package:islamy/view/profile/screens/download_quran.dart';
 /// to download if desired.
 class SelectEditionDelegate extends StatelessWidget {
   const SelectEditionDelegate({
-    Key? key,
     required this.selected,
     required this.choices,
     required this.onSelected,
     required this.title,
     required this.propertyName,
+    super.key,
     this.allowToDisable = true,
-  }) : super(key: key);
+  });
 
   /// If this is true, then the screen will show an optional
   /// disable tile which will return null in [onSelected] callback.
@@ -65,7 +65,7 @@ class SelectEditionDelegate extends StatelessWidget {
                   ? const Icon(Icons.download)
                   : const Icon(Icons.download_done, color: Colors.transparent),
               selected: true,
-              selectedColor: Theme.of(context).errorColor,
+              selectedColor: Theme.of(context).colorScheme.error,
               title: Text(S.of(context).disable),
               subtitle: Text(
                 S
@@ -96,12 +96,11 @@ class SelectEditionDelegate extends StatelessWidget {
 
 class _EditionListTile extends StatelessWidget {
   const _EditionListTile({
-    Key? key,
     required this.edition,
     required this.isSelected,
     required this.onSelected,
     required this.propertyName,
-  }) : super(key: key);
+  });
 
   final Edition edition;
   final bool isSelected;

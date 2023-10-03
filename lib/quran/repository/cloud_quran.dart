@@ -4,7 +4,7 @@ part of quran;
 
 class CloudQuran {
   const CloudQuran._();
-  static late final Dio _dio = Dio();
+  static final Dio _dio = Dio();
 
   ///Intilizer that creates intlizes the needed properties on the [Dio] object.
   static void init() {

@@ -46,7 +46,7 @@ class QuranManager {
     'quran-corpus-qd',
     'quran-wordbyword-2',
     'quran-unicode',
-    'quran-uthmani-quran-academy'
+    'quran-uthmani-quran-academy',
   ];
 
   /// This file is a copy from the app logo copied to the

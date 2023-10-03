@@ -12,7 +12,7 @@ import 'package:islamy/view/common/long_pressed_icon_button.dart';
 /// This screen is responsible of changing a all of the preferences of the
 /// [QuranPlayerContoller] and the default [Edition] for each [Format].
 class QuranSettingsScreen extends StatefulWidget {
-  const QuranSettingsScreen({Key? key}) : super(key: key);
+  const QuranSettingsScreen({super.key});
 
   @override
   State<QuranSettingsScreen> createState() => _QuranSettingsScreenState();
@@ -141,11 +141,10 @@ class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
 
 class _SelectEditionTile extends StatefulWidget {
   const _SelectEditionTile({
-    Key? key,
     required this.delegate,
     required this.title,
     required this.edition,
-  }) : super(key: key);
+  });
 
   final Edition? Function() edition;
   final String delegate;
@@ -190,7 +189,7 @@ class _SelectEditionTileState extends State<_SelectEditionTile> {
 }
 
 class _FontSizeTile extends StatefulWidget {
-  const _FontSizeTile({Key? key}) : super(key: key);
+  const _FontSizeTile();
 
   @override
   State<_FontSizeTile> createState() => __FontSizeTileState();
@@ -236,7 +235,7 @@ class __FontSizeTileState extends State<_FontSizeTile>
         children: <Widget>[
           Text(
             '${S.of(context).quran_font_size} :',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           Center(
             child: Card(

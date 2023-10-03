@@ -1,6 +1,5 @@
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/utils/store.dart';
 
@@ -11,12 +10,12 @@ class SelectLanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: Column(
-        children: [
+        children: <Widget>[
           CupertinoSliverNavigationBar(
             largeTitle: Text(S.of(context).select_language),
           ),
           ListView(
-            children: const [
+            children: const <Widget>[
               _LanguageTile(
                 locale: Locale('En'),
                 name: 'English',
@@ -26,7 +25,7 @@ class SelectLanguageScreen extends StatelessWidget {
                 name: 'Arabic',
               ),
             ],
-          )
+          ),
         ],
       ),
     );

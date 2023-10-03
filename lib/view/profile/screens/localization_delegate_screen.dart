@@ -8,7 +8,7 @@ import 'package:islamy/utils/store.dart';
 /// The screen that is responsible for selecting the app
 /// language and store the new locale.
 class LocalizationDelegateScreen extends StatelessWidget {
-  const LocalizationDelegateScreen({Key? key}) : super(key: key);
+  const LocalizationDelegateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

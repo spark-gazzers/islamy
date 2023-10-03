@@ -5,9 +5,9 @@ import 'package:islamy/utils/form_controls.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({
-    Key? key,
     required this.phone,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? phone;
 

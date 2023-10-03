@@ -11,8 +11,8 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 /// and read the [Surah] upon selecting.
 class SurahsListScreen extends StatefulWidget {
   const SurahsListScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SurahsListScreen> createState() => SurahsListScreenState();
@@ -21,10 +21,6 @@ class SurahsListScreen extends StatefulWidget {
 class SurahsListScreenState extends State<SurahsListScreen>
     with AutomaticKeepAliveClientMixin {
   final ItemScrollController _controller = ItemScrollController();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   TheHolyQuran get quran {
     final TheHolyQuran quran =
@@ -61,9 +57,8 @@ class SurahsListScreenState extends State<SurahsListScreen>
 
 class _SurahListTile extends StatelessWidget {
   const _SurahListTile({
-    Key? key,
     required this.surah,
-  }) : super(key: key);
+  });
 
   final Surah surah;
 

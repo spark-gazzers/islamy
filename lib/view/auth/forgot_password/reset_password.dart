@@ -5,9 +5,9 @@ import 'package:islamy/utils/form_controls.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({
-    Key? key,
     required this.phone,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? phone;
 

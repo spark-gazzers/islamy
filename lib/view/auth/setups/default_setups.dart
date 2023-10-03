@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/quran_manager.dart';
 import 'package:islamy/utils/store.dart';
 
 class DefaultSetupsScreen extends StatelessWidget {
@@ -11,11 +10,11 @@ class DefaultSetupsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [
+        children: <Widget>[
           Expanded(
             flex: 1,
             child: Column(
-              children: [
+              children: <Widget>[
                 const Image(
                   filterQuality: FilterQuality.high,
                   image: AssetImage(

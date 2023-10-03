@@ -7,11 +7,11 @@ import 'package:flutter/services.dart';
 /// padding so consider wrapping with specified theme.
 class LongPressedIconButton extends StatefulWidget {
   const LongPressedIconButton({
-    Key? key,
     required this.icon,
     required this.onUpdate,
+    super.key,
     this.padding = const EdgeInsets.all(8),
-  }) : super(key: key);
+  });
 
   /// The shown icon.
   final IconData icon;

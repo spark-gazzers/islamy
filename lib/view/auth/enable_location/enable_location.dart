@@ -8,7 +8,7 @@ import 'package:permission_handler/permission_handler.dart' as perms;
 /// This screen is for asking for [perms.Permission.locationWhenInUse]
 /// after the onboarding.
 class EnableLocation extends StatefulWidget {
-  const EnableLocation({Key? key}) : super(key: key);
+  const EnableLocation({super.key});
 
   @override
   State<EnableLocation> createState() => _EnableLocationState();
@@ -73,14 +73,14 @@ class _EnableLocationState extends State<EnableLocation> {
                       child: ElevatedButton(
                         onPressed: () async {
                           final Location location = Location();
-                          PermissionStatus _permissionGranted;
-                          _permissionGranted = await location.hasPermission();
+                          PermissionStatus permissionGranted;
+                          permissionGranted = await location.hasPermission();
 
-                          if (_permissionGranted == PermissionStatus.denied) {
-                            _permissionGranted =
+                          if (permissionGranted == PermissionStatus.denied) {
+                            permissionGranted =
                                 await location.requestPermission();
                           }
-                          switch (_permissionGranted) {
+                          switch (permissionGranted) {
                             case PermissionStatus.granted:
                             case PermissionStatus.grantedLimited:
                               if (mounted) {
@@ -88,12 +88,14 @@ class _EnableLocationState extends State<EnableLocation> {
                               }
                               break;
                             case PermissionStatus.denied:
+                              // ignore: use_build_context_synchronously
                               showCupertinoModalPopup<void>(
                                 context: context,
                                 builder: (_) => const _AssuringLater(),
                               );
                               break;
                             case PermissionStatus.deniedForever:
+                              // ignore: use_build_context_synchronously
                               showCupertinoModalPopup<void>(
                                 context: context,
                                 builder: (_) => const _PermenantlyDenied(),
@@ -129,7 +131,7 @@ class _EnableLocationState extends State<EnableLocation> {
 }
 
 class _AssuringLater extends StatelessWidget {
-  const _AssuringLater({Key? key}) : super(key: key);
+  const _AssuringLater();
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +166,7 @@ class _AssuringLater extends StatelessWidget {
 }
 
 class _PermenantlyDenied extends StatelessWidget {
-  const _PermenantlyDenied({Key? key}) : super(key: key);
+  const _PermenantlyDenied();
 
   @override
   Widget build(BuildContext context) {

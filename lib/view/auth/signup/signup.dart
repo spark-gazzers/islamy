@@ -7,10 +7,10 @@ import 'package:islamy/utils/form_controls.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({
-    Key? key,
     required this.phone,
     required this.password,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? phone;
   final String? password;
@@ -157,7 +157,7 @@ class _SignupScreenState extends State<SignupScreen>
                               tag: 'sign_in_with_google',
                               child: ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
+                                  backgroundColor: Colors.white,
                                   shadowColor: Colors.white,
                                 ),
                                 onPressed: () {},

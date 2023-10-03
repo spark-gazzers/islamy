@@ -16,9 +16,9 @@ import 'package:proper_filesize/proper_filesize.dart';
 /// Al-fatiha if the [Edition.format] is audio.
 class DownloadQuranEditionDialog extends StatefulWidget {
   const DownloadQuranEditionDialog({
-    Key? key,
     required this.edition,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Edition edition;
 
@@ -155,10 +155,9 @@ class _DownloadQuranEditionDialogState
 
 class _AskToDownload extends StatelessWidget {
   const _AskToDownload({
-    Key? key,
     required this.download,
     this.hasError = false,
-  }) : super(key: key);
+  });
 
   final VoidCallback download;
   final bool hasError;

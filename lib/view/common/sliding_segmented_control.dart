@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 // TODO(psyonixFx): add the doc design assets
 class SlidingSegmentedControl extends StatelessWidget {
   const SlidingSegmentedControl({
-    Key? key,
-    this.controller,
     required this.tabs,
+    super.key,
+    this.controller,
     this.isScrollable = false,
-  }) : super(key: key);
+  });
 
   final TabController? controller;
   final List<Widget> tabs;
   final bool isScrollable;
   TabController _controller(BuildContext context) =>
-      controller ?? DefaultTabController.of(context)!;
+      controller ?? DefaultTabController.of(context);
   @override
   Widget build(BuildContext context) {
     return Card(

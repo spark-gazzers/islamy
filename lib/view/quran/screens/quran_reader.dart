@@ -26,10 +26,10 @@ import 'package:sliver_bottom_bar/sliver_bottom_bar.dart';
 /// if it's not downloaded yet .
 class QuranSurahReader extends StatefulWidget {
   const QuranSurahReader({
-    Key? key,
     required this.surah,
+    super.key,
     this.ayah,
-  }) : super(key: key);
+  });
 
   final Surah surah;
   final Ayah? ayah;
@@ -160,10 +160,10 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
 /// and notifying the screen if the [QuranPlayerContoller] surah is changed.
 class SurahAudioPlayer extends StatelessWidget {
   const SurahAudioPlayer({
-    Key? key,
     required this.surah,
+    super.key,
     this.ayah,
-  }) : super(key: key);
+  });
 
   final Surah surah;
   final Ayah? ayah;
@@ -193,7 +193,7 @@ class SurahAudioPlayer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: IslamicStarIcon(
-                    // TODO:(psyonixFx) use the real page number
+                    // TODO(psyonixFx): use the real page number
                     number: 12,
                     size: 30,
                     color: Theme.of(context).colorScheme.onPrimary,
@@ -228,10 +228,9 @@ class SurahAudioPlayer extends StatelessWidget {
 
 class _AudioSlider extends StatefulWidget {
   const _AudioSlider({
-    Key? key,
     required this.surah,
     required this.transitionAnimation,
-  }) : super(key: key);
+  });
   final Animation<double> transitionAnimation;
   final Surah surah;
   @override
@@ -348,10 +347,9 @@ class _AudioSliderState extends State<_AudioSlider> {
 
 class _ClippedText extends StatelessWidget {
   const _ClippedText({
-    Key? key,
     required this.value,
     required this.label,
-  }) : super(key: key);
+  });
   final double value;
   final String label;
   @override
@@ -370,10 +368,9 @@ class _ClippedText extends StatelessWidget {
 
 class _BottomActionsBars extends StatefulWidget {
   const _BottomActionsBars({
-    Key? key,
     required this.surah,
     required this.scrollAnimation,
-  }) : super(key: key);
+  });
   final Surah surah;
   final Animation<double> scrollAnimation;
   @override
@@ -503,6 +500,7 @@ class _BottomActionsBarsState extends State<_BottomActionsBars>
       audioQuran.edition,
       widget.surah,
     ))) {
+      // ignore: use_build_context_synchronously
       showCupertinoModalPopup<Edition>(
         context: context,
         builder: (_) => DownloadSurahDialog(

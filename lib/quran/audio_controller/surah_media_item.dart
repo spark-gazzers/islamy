@@ -7,7 +7,7 @@ class SurahMediaItem extends MediaItem {
   SurahMediaItem({
     required this.quran,
     required this.surah,
-    required Duration? duration,
+    super.duration,
   }) : super(
           id: idOf(quran, surah),
           title: surah.localizedName,
@@ -17,7 +17,6 @@ class SurahMediaItem extends MediaItem {
           rating: const Rating.newHeartRating(true),
           genre: S.current.the_holly_quran,
           artUri: QuranManager.artWork.absolute.uri,
-          duration: duration,
           extras: <String, dynamic>{
             S.current.number_in_quran: surah.number,
             S.current.juz: QuranStore.settings.juzData

@@ -6,7 +6,7 @@ import 'package:islamy/utils/helper.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 
 class TajweedGuide extends StatelessWidget {
-  const TajweedGuide({Key? key}) : super(key: key);
+  const TajweedGuide({super.key});
   Surah get surah =>
       QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs[23];
   @override
@@ -24,7 +24,7 @@ class TajweedGuide extends StatelessWidget {
                     S.of(context).tajweed_guide,
                     style: Theme.of(context)
                         .textTheme
-                        .headline4
+                        .headlineMedium
                         ?.copyWith(color: Theme.of(context).primaryColor),
                   ),
                 ),
@@ -41,7 +41,7 @@ class TajweedGuide extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                   child: DefaultTextStyle.merge(
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleMedium,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -84,7 +84,7 @@ class TajweedGuide extends StatelessWidget {
                 const Divider(),
                 Text(
                   S.of(context).tajweed_rules,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const _TajweedRules(),
                 const SizedBox(
@@ -110,7 +110,7 @@ class TajweedGuide extends StatelessWidget {
 }
 
 class _TajweedRules extends StatelessWidget {
-  const _TajweedRules({Key? key}) : super(key: key);
+  const _TajweedRules();
 
   @override
   Widget build(BuildContext context) {
@@ -141,14 +141,14 @@ class _TajweedRules extends StatelessWidget {
             ),
           ],
         ),
-        for (TajweedRule rule in TajweedRule.rules)
+        for (final TajweedRule rule in TajweedRule.rules)
           TableRow(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
                 child: Text(
                   Helper.translator.getString(rule.nameIdentifier),
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               Padding(

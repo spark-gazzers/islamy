@@ -9,7 +9,7 @@ import 'package:islamy/view/common/rounded_icon.dart';
 /// The screen that shows the current user profile and give
 /// access to all of the app settings.
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

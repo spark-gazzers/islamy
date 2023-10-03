@@ -12,7 +12,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 /// Reader for [QuranContentType.tafsir],[QuranContentType.translation]
 /// and [QuranContentType.transliteration] if the edition type is enabled.
 class QuranFeaturesReader extends StatefulWidget {
-  const QuranFeaturesReader({Key? key, required this.surah}) : super(key: key);
+  const QuranFeaturesReader({required this.surah, super.key});
 
   final Surah surah;
   @override
@@ -61,10 +61,10 @@ class _QuranFeaturesReaderState extends State<QuranFeaturesReader> {
 
 class AyahListTile extends StatelessWidget {
   const AyahListTile({
-    Key? key,
     required this.ayah,
     required this.surah,
-  }) : super(key: key);
+    super.key,
+  });
   final Ayah ayah;
   final Surah surah;
 
@@ -135,12 +135,11 @@ class AyahListTile extends StatelessWidget {
 
 class _AyahEditionView extends StatefulWidget {
   const _AyahEditionView({
-    Key? key,
     required this.ayah,
     required this.surah,
     required this.edition,
     required this.title,
-  }) : super(key: key);
+  });
   final Ayah ayah;
   final Edition edition;
   final String title;
@@ -184,7 +183,7 @@ class _AyahEditionViewState extends State<_AyahEditionView>
   void _lazyInit() {
     if (!_lazyInited) {
       _lazyInited = true;
-      _observer = ScrollNotificationObserver.of(context)!..addListener(_onDrag);
+      _observer = ScrollNotificationObserver.of(context)..addListener(_onDrag);
     }
   }
 
@@ -223,7 +222,7 @@ class _AyahEditionViewState extends State<_AyahEditionView>
                   children: <Widget>[
                     Text(
                       widget.title,
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(width: 8),
                     const Icon(Icons.arrow_forward_ios),

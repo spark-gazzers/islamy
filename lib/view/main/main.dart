@@ -9,7 +9,7 @@ import 'package:islamy/view/quran/quran_screen.dart';
 /// The main landing screen which provides as only [TabBarView]
 /// and a [BottomNavigationBar].
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();

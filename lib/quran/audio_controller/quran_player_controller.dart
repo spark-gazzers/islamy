@@ -204,15 +204,14 @@ class QuranPlayerContoller extends BaseAudioHandler
     _currentAyah =
         ValueNotifier<int>(surah.number == 1 || surah.number == 9 ? 1 : 0);
     // creating the transformer for the new value stream
-    final StreamTransformer<Duration, double> _durationToValueTransformer =
+    final StreamTransformer<Duration, double> durationToValueTransformer =
         StreamTransformer<Duration, double>.fromHandlers(
       handleData: (Duration duration, EventSink<double> sink) async {
         final double percentage = _percentageOfDuration(duration);
         sink.add(percentage);
       },
     );
-    _valueStream =
-        _player.positionStream.transform(_durationToValueTransformer);
+    _valueStream = _player.positionStream.transform(durationToValueTransformer);
     // listening to the new ayah change
     _player.positionStream.listen((Duration duration) {
       // get the ayah number based on the duration played from [_positions]

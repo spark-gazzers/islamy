@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class ApiHandler {
   const ApiHandler._();
-  static late final Dio _dio = Dio();
+  static final Dio _dio = Dio();
   static void init() {
     _dio.options.baseUrl = '';
     _dio.options.headers['Accept'] = 'application/json';

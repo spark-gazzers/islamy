@@ -11,7 +11,7 @@ import 'package:islamy/view/common/ayah_span.dart';
 
 /// A widget that should render the [QuranPage] as it is in the original quran.
 class ScriptQuranReader extends StatefulWidget {
-  const ScriptQuranReader({Key? key, required this.surah}) : super(key: key);
+  const ScriptQuranReader({required this.surah, super.key});
   final Surah surah;
   @override
   State<ScriptQuranReader> createState() => _ScriptQuranReaderState();
@@ -53,11 +53,11 @@ class _ScriptQuranReaderState extends State<ScriptQuranReader> {
 
 class ScriptPageReader extends StatelessWidget {
   const ScriptPageReader({
-    Key? key,
     required this.page,
     required this.playCallback,
     required this.surah,
-  }) : super(key: key);
+    super.key,
+  });
 
   final QuranPage page;
   final Surah surah;
@@ -97,10 +97,10 @@ class ScriptPageReader extends StatelessWidget {
 /// header if applicaple and a part for the [SurahInline.ayahs].
 class SurahInlineReader extends StatelessWidget {
   const SurahInlineReader({
-    Key? key,
     required this.inline,
     required this.selected,
-  }) : super(key: key);
+    super.key,
+  });
 
   final SurahInline inline;
   final bool selected;
@@ -255,10 +255,9 @@ class SurahInlineReader extends StatelessWidget {
 
 class _SurahTitle extends StatelessWidget {
   const _SurahTitle({
-    Key? key,
     required this.surah,
     required this.selected,
-  }) : super(key: key);
+  });
 
   final Surah surah;
   final bool selected;
