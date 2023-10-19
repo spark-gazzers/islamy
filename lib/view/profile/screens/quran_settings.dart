@@ -19,14 +19,27 @@ class QuranSettingsScreen extends StatefulWidget {
 }
 
 class _QuranSettingsScreenState extends State<QuranSettingsScreen> {
+  bool get shouldAddPopIcon {
+    final ModalRoute<dynamic>? route = ModalRoute.of(context);
+    return route is CupertinoPageRoute && route.fullscreenDialog;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(S.of(context).quran_settings),
-        previousPageTitle: S.of(context).profile,
-        brightness: Brightness.dark,
-      ),
+          middle: Text(S.of(context).quran_settings),
+          previousPageTitle: S.of(context).profile,
+          brightness: Brightness.dark,
+          leading: shouldAddPopIcon
+              ? IconButton(
+                  onPressed: Navigator.of(context).pop,
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                )
+              : null),
       backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       child: SingleChildScrollView(
         child: Padding(
