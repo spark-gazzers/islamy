@@ -11,7 +11,8 @@ class AyahSpan extends TextSpan {
   AyahSpan({
     required Ayah ayah,
     VoidCallback? onTap,
-    VoidCallback? onLongTap,
+    // TODO: Find a way OUT of the span to add long tap event.
+    // VoidCallback? onLongTap,
     bool isSelected = false,
     bool includeNumber = true,
   }) : super(
@@ -19,16 +20,7 @@ class AyahSpan extends TextSpan {
             TextSpan(
               children: AyahTajweedSplitter.formatAyah(
                 ayah,
-                recognizer: MultiTapGestureRecognizer(
-                  longTapDelay: const Duration(milliseconds: 300),
-                )
-                  ..onLongTapDown = (int pointer, TapDownDetails details) {
-                    if (onLongTap != null) {
-                      HapticFeedback.heavyImpact();
-                      onLongTap();
-                    }
-                  }
-                  ..onTap = (_) => onTap?.call(),
+                recognizer: TapGestureRecognizer()..onTap = () => onTap?.call(),
               ),
               style: TextStyle(
                 background: Paint()

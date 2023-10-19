@@ -192,7 +192,8 @@ class SurahInlineReader extends StatelessWidget {
         spans.add(
           AyahSpan(
             isSelected: isSelected,
-            onLongTap: onLongTap,
+            // TODO: Find a way OUT of the span to add long tap event.
+            // onLongTap: onLongTap,
             onTap: onTap,
             ayah: ayah.copyWith(
               text: ayah.text.replaceFirst(
@@ -212,7 +213,8 @@ class SurahInlineReader extends StatelessWidget {
           AyahSpan(
             ayah: ayah,
             isSelected: isSelected,
-            onLongTap: onLongTap,
+            // TODO: Find a way OUT of the span to add long tap event.
+            // onLongTap: onLongTap,
             onTap: onTap,
           ),
         );
