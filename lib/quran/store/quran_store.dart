@@ -21,6 +21,18 @@ class QuranStore {
   /// Minnimum allowed font size for quran font
   static const double minFontSize = 15;
 
+  /// Checks weather everything that needs to be downloaded at the bare
+  /// minimum are ready or not
+  static bool isReady() {
+    return _listEditions().isNotEmpty &&
+        QuranManager.isQuranDownloaded(
+          QuranStore.settings.defaultTextEdition,
+        ) &&
+        QuranManager.isQuranDownloaded(
+          QuranStore.settings.defaultAudioEdition,
+        );
+  }
+
   /// initializer for the [QuranStore] [Box]s and register
   /// every [TypeAdapter<T>] for each type needed.
   static Future<void> init() async {
