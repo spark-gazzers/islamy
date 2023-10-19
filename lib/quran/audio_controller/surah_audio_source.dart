@@ -3,7 +3,7 @@ part of quran;
 /// Curated [DashAudioSource] that passes the surah merged file as [Uri]
 /// and restores the [TheHolyQuran] and [Surah] property from the
 /// [uri] property.
-class SurahAudioSource extends DashAudioSource {
+class SurahAudioSource extends ProgressiveAudioSource {
   SurahAudioSource._({
     required this.quran,
     required this.surah,
