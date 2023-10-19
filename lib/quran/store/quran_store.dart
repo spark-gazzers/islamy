@@ -232,7 +232,7 @@ class _QuranSettings {
   static late final Box<Bookmark> _bookmarksBox;
   static late final List<Juz> _juzData;
   static Future<void> _init() async {
-    _settingsBox = await QuranStore._getBox<String>('quran_settings');
+    _settingsBox = await QuranStore._getBox<String?>('quran_settings');
     _bookmarksBox = await QuranStore._getBox<Bookmark>('bookmarks');
     final String data =
         await rootBundle.loadString('assets/config/juz_data.json');
