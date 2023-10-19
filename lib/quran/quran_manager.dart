@@ -101,10 +101,8 @@ class QuranManager {
         // Download quran meta too
         await QuranManager.downloadQuranMeta();
       }
-    } catch (e, s) {
+    } catch (e) {
       progress.addError(e);
-      print(e);
-      print(s);
       return;
     }
     // Download the default text quran
@@ -118,10 +116,8 @@ class QuranManager {
           edition: QuranStore.settings.defaultTextEdition,
         );
       }
-    } catch (e, s) {
+    } catch (e) {
       progress.addError(e);
-      print(e);
-      print(s);
       return;
     }
 
@@ -135,10 +131,8 @@ class QuranManager {
           edition: QuranStore.settings.defaultAudioEdition,
         );
       }
-    } catch (e, s) {
+    } catch (e) {
       progress.addError(e);
-      print(e);
-      print(s);
       return;
     }
 
