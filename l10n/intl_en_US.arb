@@ -113,5 +113,13 @@
     "tajweed_guide": "Tajweed Guide",
     "tajweed_rules": "Tajweed Rules",
     "rule_name": "Rule name",
-    "rule_color": "Rule Color"
+    "rule_color": "Rule Color",
+    "continue_": "Continue",
+    "tab_continue_to_start_your_journy": "Tab continue to start your journy!",
+    "it_seems_like_there_is_an_issue_connecting_to_the_server_check_the_connecting_and_try_again": "It seems like there is an issue connecting to the server, check the connecting and try again.",
+    "loading": "loading ...",
+    "downloading_x": "Downloading {x} ...",
+    "editions": "editions",
+    "the_default_script_edition": "the default script edition",
+    "mapping_the_default_audio_edition": "Mapping the default audio edition"
 }

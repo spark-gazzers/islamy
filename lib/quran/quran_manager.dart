@@ -70,36 +70,79 @@ class QuranManager {
   static const List<String> noMediaPlatforms = <String>['android', 'fuchsia'];
 
   /// Unified initializer for all of the quran library initializers.
-  static Future<void> init() async {
+  static Future<bool> init() async {
     await _initDefaultArtImage();
     CloudQuran.init();
     await QuranStore.init();
+    if (!QuranStore.isReady()) return false;
     await QuranPlayerContoller.init();
 
-    // Start download the necessary models to start
+    return true;
+  }
 
+  /// Download all the needed primar
+  static Stream<String> downloadInit() {
+    final StreamController<String> progress = StreamController<String>();
+    _downloadInit(progress);
+    progress.done;
+    return progress.stream.asBroadcastStream();
+  }
+
+  static Future<void> _downloadInit(StreamController<String> progress) async {
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+
+    // Start download the necessary models to start
     // Download the editions
-    if (QuranStore._listEditions().isEmpty) {
-      await QuranManager.downloadEditions();
-      // Download quran meta too
-      await QuranManager.downloadQuranMeta();
+    progress.add(S.current.downloading_x(S.current.editions));
+
+    try {
+      if (QuranStore._listEditions().isEmpty) {
+        await QuranManager.downloadEditions();
+        // Download quran meta too
+        await QuranManager.downloadQuranMeta();
+      }
+    } catch (e, s) {
+      progress.addError(e);
+      print(e);
+      print(s);
+      return;
     }
     // Download the default text quran
-    if (!QuranManager.isQuranDownloaded(
-      QuranStore.settings.defaultTextEdition,
-    )) {
-      await QuranManager.downloadQuran(
-        edition: QuranStore.settings.defaultTextEdition,
-      );
+    progress.add(S.current.downloading_x(S.current.script_edition));
+
+    try {
+      if (!QuranManager.isQuranDownloaded(
+        QuranStore.settings.defaultTextEdition,
+      )) {
+        await QuranManager.downloadQuran(
+          edition: QuranStore.settings.defaultTextEdition,
+        );
+      }
+    } catch (e, s) {
+      progress.addError(e);
+      print(e);
+      print(s);
+      return;
     }
+
     // Download the default audio quran
-    if (!QuranManager.isQuranDownloaded(
-      QuranStore.settings.defaultAudioEdition,
-    )) {
-      await QuranManager.downloadQuran(
-        edition: QuranStore.settings.defaultAudioEdition,
-      );
+    progress.add(S.current.mapping_the_default_audio_edition);
+    try {
+      if (!QuranManager.isQuranDownloaded(
+        QuranStore.settings.defaultAudioEdition,
+      )) {
+        await QuranManager.downloadQuran(
+          edition: QuranStore.settings.defaultAudioEdition,
+        );
+      }
+    } catch (e, s) {
+      progress.addError(e);
+      print(e);
+      print(s);
+      return;
     }
+
+    await progress.close();
   }
 
   static Future<void> _initDefaultArtImage() async {

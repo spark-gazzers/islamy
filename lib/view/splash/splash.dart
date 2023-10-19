@@ -33,12 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> init() async {
     await Store.init();
     ApiHandler.init();
-    await QuranManager.init();
     await Helper.init();
+    final bool isReady = await QuranManager.init();
     FFmpegKitConfig.setLogRedirectionStrategy(
       LogRedirectionStrategy.neverPrintLogs,
     );
-    if (mounted) Navigator.pushReplacementNamed(context, 'main');
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, isReady ? 'main' : 'on_boarding');
+    }
   }
 
   @override
