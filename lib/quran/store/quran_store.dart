@@ -419,6 +419,17 @@ class _QuranSettings {
     return bookmarks;
   }
 
+  /// Add a [Bookmark] object, no checks happens when it's inserted if
+  /// it's unique or not
+  void addBookmark(Bookmark bookmark) {
+    _bookmarksBox.add(bookmark);
+  }
+
+  /// Remove the specified book
+  void removeBookmark(Bookmark bookmark) {
+    _bookmarksBox.delete(bookmark.key);
+  }
+
   /// Bookmarks listenable.
   ValueListenable<dynamic> get bookmarksListenable =>
       _bookmarksBox.listenable();

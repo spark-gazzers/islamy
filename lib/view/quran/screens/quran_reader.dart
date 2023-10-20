@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/quran/models/ayah.dart';
+import 'package:islamy/quran/models/bookmark.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
 import 'package:islamy/quran/models/quran_page.dart';
@@ -42,6 +43,9 @@ class QuranSurahReader extends StatefulWidget {
 class _QuranSurahReaderState extends State<QuranSurahReader> {
   late bool _isScriptVersion;
   late ValueNotifier<int> _pageNotifier;
+  bool get _isBookmarked => QuranStore.settings.bookmarks
+      .where((Bookmark bookmark) => bookmark.page == _pageNotifier.value)
+      .isNotEmpty;
   int get _startingPage =>
       QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
           .pages
@@ -103,16 +107,38 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
                   },
                 ),
               if (_isScriptVersion)
-                IconButton(
-                  onPressed: () {
-                    setState(() {});
-                    // QuranStore.settings.bookmarks
-                    //     .where((Bookmark element) => element.page == page);
-                  },
-                  icon: const Icon(
-                    Icons.bookmark_add,
+                AnimatedBuilder(
+                  animation: Listenable.merge(
+                    <Listenable?>[
+                      _pageNotifier,
+                      QuranStore.settings.bookmarksListenable,
+                    ],
                   ),
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  builder: (BuildContext context, Widget? child) => IconButton(
+                    onPressed: () {
+                      print(QuranStore.settings.bookmarks.length);
+                      print(_isBookmarked);
+                      if (_isBookmarked) {
+                        final Bookmark bookmark = QuranStore.settings.bookmarks
+                            .singleWhere((Bookmark bookmark) =>
+                                bookmark.page == _pageNotifier.value);
+                        QuranStore.settings.removeBookmark(bookmark);
+                      } else {
+                        QuranStore.settings.addBookmark(
+                          Bookmark.fromPage(
+                            surah: widget.surah.number,
+                            page: _pageNotifier.value,
+                          ),
+                        );
+                      }
+                    },
+                    icon: Icon(
+                      _isBookmarked
+                          ? Icons.bookmarks_rounded
+                          : Icons.bookmark_add_outlined,
+                    ),
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               IconButton(
                 onPressed: () {
