@@ -11,8 +11,15 @@ import 'package:islamy/view/common/ayah_span.dart';
 
 /// A widget that should render the [QuranPage] as it is in the original quran.
 class ScriptQuranReader extends StatefulWidget {
-  const ScriptQuranReader({required this.surah, super.key});
+  const ScriptQuranReader({
+    required this.surah,
+    required this.pageNotifier,
+    required this.surahStartingPage,
+    super.key,
+  });
   final Surah surah;
+  final ValueNotifier<int> pageNotifier;
+  final int surahStartingPage;
   @override
   State<ScriptQuranReader> createState() => _ScriptQuranReaderState();
 }
@@ -24,6 +31,10 @@ class _ScriptQuranReaderState extends State<ScriptQuranReader> {
     // TODO(psyonixFx): should support from bookmark later
     const int start = 0;
     _pageController = PageController(initialPage: start);
+    _pageController.addListener(() {
+      widget.pageNotifier.value =
+          _pageController.page!.round() + widget.surahStartingPage;
+    });
     super.initState();
   }
 

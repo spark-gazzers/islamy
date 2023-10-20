@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/quran/models/quran_page.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
 import 'package:islamy/quran/quran_manager.dart';
@@ -40,9 +41,20 @@ class QuranSurahReader extends StatefulWidget {
 
 class _QuranSurahReaderState extends State<QuranSurahReader> {
   late bool _isScriptVersion;
+  late ValueNotifier<int> _pageNotifier;
+  int get _startingPage =>
+      QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
+          .pages
+          .firstWhere((QuranPage page) => page.inlines
+              .where((SurahInline inline) => inline.surah == widget.surah)
+              .isNotEmpty)
+          .pageNumber;
+
   @override
   void initState() {
     _isScriptVersion = true;
+
+    _pageNotifier = ValueNotifier<int>(_startingPage);
     super.initState();
   }
 
@@ -58,6 +70,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
       body: Scaffold(
         bottomNavigationBar: SurahAudioPlayer(
           surah: widget.surah,
+          pageNotifier: _pageNotifier,
         ),
         appBar: CupertinoNavigationBar(
           brightness: Brightness.dark,
@@ -88,6 +101,18 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
                       ),
                     );
                   },
+                ),
+              if (_isScriptVersion)
+                IconButton(
+                  onPressed: () {
+                    setState(() {});
+                    // QuranStore.settings.bookmarks
+                    //     .where((Bookmark element) => element.page == page);
+                  },
+                  icon: const Icon(
+                    Icons.bookmark_add,
+                  ),
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               IconButton(
                 onPressed: () {
@@ -140,7 +165,11 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
           switchInCurve: Curves.easeInOut,
           switchOutCurve: Curves.easeInOut,
           child: _isScriptVersion
-              ? ScriptQuranReader(surah: widget.surah)
+              ? ScriptQuranReader(
+                  surahStartingPage: _startingPage,
+                  surah: widget.surah,
+                  pageNotifier: _pageNotifier,
+                )
               : QuranFeaturesReader(surah: widget.surah),
           transitionBuilder: (Widget child, Animation<double> animation) =>
               SharedAxisTransition(
@@ -161,12 +190,14 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
 class SurahAudioPlayer extends StatelessWidget {
   const SurahAudioPlayer({
     required this.surah,
+    required this.pageNotifier,
     super.key,
     this.ayah,
   });
 
   final Surah surah;
   final Ayah? ayah;
+  final ValueNotifier<int> pageNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -192,13 +223,16 @@ class SurahAudioPlayer extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: IslamicStarIcon(
-                    // TODO(psyonixFx): use the real page number
-                    number: 12,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    style: const TextStyle(
-                      fontSize: 12,
+                  child: ValueListenableBuilder<int>(
+                    valueListenable: pageNotifier,
+                    builder: (BuildContext context, int value, Widget? child) =>
+                        IslamicStarIcon(
+                      number: pageNotifier.value,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
