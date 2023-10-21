@@ -409,6 +409,10 @@ class _QuranSettings {
     return _bookmarksBox.get('auto_saved');
   }
 
+  set autosavedBookmark(Bookmark? bookmark) {
+    _bookmarksBox.put('auto_saved', bookmark!);
+  }
+
   /// Get all of the user created [Bookmark]s.
   List<Bookmark> get bookmarks {
     final List<Bookmark> bookmarks = _bookmarksBox.values.toList()

@@ -37,24 +37,35 @@ class _BookmarkTile extends StatelessWidget {
   const _BookmarkTile({required this.bookmark});
   final Bookmark bookmark;
   static DateFormat get _bookmarkDateFormat => DateFormat('MMMMd hh:mm a');
+  bool get isAutosave => QuranStore.settings.autosavedBookmark == bookmark;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () => Navigator.of(context).pushNamed(
-        'surah_reader_screen_from_bookmark',
-        arguments: <String, dynamic>{
-          'bookmark': bookmark,
-        },
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: isAutosave
+            ? Theme.of(context).colorScheme.secondaryContainer
+            : null,
       ),
-      isThreeLine: false,
-      trailing: const Icon(Icons.arrow_forward_ios),
-      title: Text(
-        '''${QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs.singleWhere((Surah element) => element.number == bookmark.surah).localizedName}, ${bookmark.page}''',
-      ),
-      subtitle: Text(
-        S.of(context).bookmarked_at(
-              _bookmarkDateFormat.format(bookmark.createdAt),
-            ),
+      child: ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+          'surah_reader_screen_from_bookmark',
+          arguments: <String, dynamic>{
+            'bookmark': bookmark,
+          },
+        ),
+        isThreeLine: false,
+        trailing: const Icon(Icons.arrow_forward_ios),
+        title: Text(
+          '''${QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs.singleWhere((Surah element) => element.number == bookmark.surah).localizedName}, ${bookmark.page}''',
+        ),
+        subtitle: Text(
+          isAutosave
+              ? S
+                  .of(context)
+                  .autosaved_at(_bookmarkDateFormat.format(bookmark.createdAt))
+              : S.of(context).bookmarked_at(
+                  _bookmarkDateFormat.format(bookmark.createdAt)),
+        ),
       ),
     );
   }

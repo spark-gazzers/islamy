@@ -68,12 +68,19 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
               .where((SurahInline inline) => inline.surah == widget.surah)
               .isNotEmpty)
           .pageNumber;
-
+  Bookmark get _bookmarkHere => Bookmark.fromPage(
+        surah: widget.surah.number,
+        page: _pageNotifier.value,
+      );
   @override
   void initState() {
     _isScriptVersion = true;
 
     _pageNotifier = ValueNotifier<int>(_startingPage);
+    QuranStore.settings.autosavedBookmark = _bookmarkHere;
+    _pageNotifier.addListener(() {
+      QuranStore.settings.autosavedBookmark = _bookmarkHere;
+    });
     super.initState();
   }
 
@@ -137,12 +144,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
                                 bookmark.page == _pageNotifier.value);
                         QuranStore.settings.removeBookmark(bookmark);
                       } else {
-                        QuranStore.settings.addBookmark(
-                          Bookmark.fromPage(
-                            surah: widget.surah.number,
-                            page: _pageNotifier.value,
-                          ),
-                        );
+                        QuranStore.settings.addBookmark(_bookmarkHere);
                       }
                     },
                     icon: Icon(
