@@ -34,6 +34,7 @@ class _ScriptQuranReaderState extends State<ScriptQuranReader> {
         ? 0
         : widget.startingPage! - widget.surahStartingPage;
     _pageController = PageController(initialPage: start);
+    widget.pageNotifier.value += start;
     _pageController.addListener(() {
       widget.pageNotifier.value =
           _pageController.page!.round() + widget.surahStartingPage;
