@@ -4,7 +4,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/quran/models/ayah.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
 
 part '../../generated/adapters/quran/bookmark.dart';
 
@@ -31,13 +30,8 @@ class Bookmark extends HiveObject {
     required this.surah,
     required this.page,
     this.message = '',
-  })  : ayah = QuranManager.getQuran(QuranStore.settings.defaultTextEdition)
-            .surahs
-            .singleWhere((Surah element) => element.number == surah)
-            .ayahs
-            .firstWhere((Ayah element) => element.page == page + 1)
-            .number,
-        createdAt = DateTime.now();
+    this.ayah,
+  }) : createdAt = DateTime.now();
 
   Bookmark.fromAyah({
     required this.surah,
@@ -59,7 +53,7 @@ class Bookmark extends HiveObject {
 
   /// The exact ayah number from [Ayah.number].
   @HiveField(1)
-  final int ayah;
+  final int? ayah;
 
   /// The index of the page in [TheHolyQuran.pages] so the UI relevant will be
   /// actually [Ayah.page] -1.

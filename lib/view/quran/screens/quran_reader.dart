@@ -31,10 +31,24 @@ class QuranSurahReader extends StatefulWidget {
     required this.surah,
     super.key,
     this.ayah,
-  });
+    // ignore: avoid_field_initializers_in_const_classes
+  }) : bookmark = null;
 
+  QuranSurahReader.fromBookMark({
+    required Bookmark bookmark,
+    super.key,
+    // ignring it here since this bookmark needs to be non-null value
+    // ignore: prefer_initializing_formals
+  })  : bookmark = bookmark,
+        surah = quran.surahs[bookmark.surah],
+        ayah = bookmark.ayah == null
+            ? null
+            : quran.surahs[bookmark.surah].ayahs[bookmark.ayah!];
+  static TheHolyQuran get quran =>
+      QuranManager.getQuran(QuranStore.settings.defaultTextEdition);
   final Surah surah;
   final Ayah? ayah;
+  final Bookmark? bookmark;
 
   @override
   State<QuranSurahReader> createState() => _QuranSurahReaderState();
@@ -116,8 +130,6 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
                   ),
                   builder: (BuildContext context, Widget? child) => IconButton(
                     onPressed: () {
-                      print(QuranStore.settings.bookmarks.length);
-                      print(_isBookmarked);
                       if (_isBookmarked) {
                         final Bookmark bookmark = QuranStore.settings.bookmarks
                             .singleWhere((Bookmark bookmark) =>

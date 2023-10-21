@@ -132,6 +132,13 @@ class Routes {
               ayah: args['ayah'] as Ayah?,
             );
         break;
+
+      case 'surah_reader_screen_from_bookmark':
+        builder = (BuildContext context) => QuranSurahReader(
+              surah: args['surah'] as Surah,
+              ayah: args['ayah'] as Ayah?,
+            );
+        break;
       default:
     }
     return _buildRoute(settings, builder);

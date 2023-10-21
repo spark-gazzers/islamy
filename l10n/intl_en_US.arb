@@ -121,5 +121,7 @@
     "downloading_x": "Downloading {x} ...",
     "editions": "editions",
     "the_default_script_edition": "the default script edition",
-    "mapping_the_default_audio_edition": "Mapping the default audio edition"
+    "mapping_the_default_audio_edition": "Mapping the default audio edition",
+    "page": "Page",
+    "bookmarked_at": "Bookmarked at : {date}."
 }

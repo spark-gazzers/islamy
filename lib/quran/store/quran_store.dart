@@ -36,8 +36,8 @@ class QuranStore {
   /// initializer for the [QuranStore] [Box]s and register
   /// every [TypeAdapter<T>] for each type needed.
   static Future<void> init() async {
-    await _QuranSettings._init();
     _registerAdapters();
+    await _QuranSettings._init();
     _editionsBox = await _getBox('editions');
     _textQuranBox = await _getBox('text_quran');
   }

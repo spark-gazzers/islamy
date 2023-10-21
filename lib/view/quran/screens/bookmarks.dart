@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/bookmark.dart';
 import 'package:islamy/quran/quran_manager.dart';
 
@@ -33,9 +35,28 @@ class BookmarksList extends StatelessWidget {
 class _BookmarkTile extends StatelessWidget {
   const _BookmarkTile({required this.bookmark});
   final Bookmark bookmark;
-
+  static DateFormat get _bookmarkDateFormat => DateFormat('MMMMd hh:mm a');
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListTile(
+      onTap: () => Navigator.of(context).pushNamed(
+        'surah_reader_screen_from_bookmark',
+        arguments: <String, dynamic>{
+          'data': <String, dynamic>{
+            'bookmark': bookmark,
+          },
+        },
+      ),
+      isThreeLine: false,
+      trailing: const Icon(Icons.arrow_forward_ios),
+      title: Text(
+        '''${QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs[bookmark.surah].localizedName}, ${bookmark.page}''',
+      ),
+      subtitle: Text(
+        S.of(context).bookmarked_at(
+              _bookmarkDateFormat.format(bookmark.createdAt),
+            ),
+      ),
+    );
   }
 }
