@@ -77,7 +77,11 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
     _isScriptVersion = true;
 
     _pageNotifier = ValueNotifier<int>(_startingPage);
-    QuranStore.settings.autosavedBookmark = _bookmarkHere;
+    QuranStore.settings.autosavedBookmark = Bookmark.fromPage(
+      surah: widget.surah.number,
+      page:
+          widget.bookmark == null ? _pageNotifier.value : widget.bookmark!.page,
+    );
     _pageNotifier.addListener(() {
       QuranStore.settings.autosavedBookmark = _bookmarkHere;
     });
