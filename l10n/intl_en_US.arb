@@ -124,5 +124,6 @@
     "mapping_the_default_audio_edition": "Mapping the default audio edition",
     "page": "Page",
     "bookmarked_at": "Bookmarked at : {date}.",
-    "autosaved_at": "Autosaved at : {date}."
+    "autosaved_at": "Autosaved at : {date}.",
+    "no_bookmarks_here_yet": "No bookmarks here yet."
 }

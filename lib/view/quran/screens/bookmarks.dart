@@ -15,10 +15,38 @@ class BookmarksList extends StatelessWidget {
     return bookmarks;
   }
 
+  bool get isEmpty => QuranStore.settings.bookmarks.isEmpty;
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<dynamic>(
       builder: (BuildContext context, _, Widget? child) {
+        if (isEmpty) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _BookmarkTile(bookmark: QuranStore.settings.autosavedBookmark!),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Icon(
+                        Icons.collections_bookmark,
+                        size: 80,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    Text(
+                      S.of(context).no_bookmarks_here_yet,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
         return ListView.separated(
           itemCount: bookmarks.length,
           itemBuilder: (BuildContext context, int index) => _BookmarkTile(
