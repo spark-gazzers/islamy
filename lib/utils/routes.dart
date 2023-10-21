@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/ayah.dart';
+import 'package:islamy/quran/models/bookmark.dart';
 import 'package:islamy/quran/models/edition.dart';
 import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/quran_manager.dart';
@@ -134,9 +135,8 @@ class Routes {
         break;
 
       case 'surah_reader_screen_from_bookmark':
-        builder = (BuildContext context) => QuranSurahReader(
-              surah: args['surah'] as Surah,
-              ayah: args['ayah'] as Ayah?,
+        builder = (BuildContext context) => QuranSurahReader.fromBookMark(
+              bookmark: args['bookmark'] as Bookmark,
             );
         break;
       default:

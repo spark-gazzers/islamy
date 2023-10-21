@@ -42,9 +42,7 @@ class _BookmarkTile extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(
         'surah_reader_screen_from_bookmark',
         arguments: <String, dynamic>{
-          'data': <String, dynamic>{
-            'bookmark': bookmark,
-          },
+          'bookmark': bookmark,
         },
       ),
       isThreeLine: false,
