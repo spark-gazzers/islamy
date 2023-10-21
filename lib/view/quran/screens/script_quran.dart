@@ -15,11 +15,13 @@ class ScriptQuranReader extends StatefulWidget {
     required this.surah,
     required this.pageNotifier,
     required this.surahStartingPage,
+    required this.startingPage,
     super.key,
   });
   final Surah surah;
   final ValueNotifier<int> pageNotifier;
   final int surahStartingPage;
+  final int? startingPage;
   @override
   State<ScriptQuranReader> createState() => _ScriptQuranReaderState();
 }
@@ -28,8 +30,9 @@ class _ScriptQuranReaderState extends State<ScriptQuranReader> {
   late final PageController _pageController;
   @override
   void initState() {
-    // TODO(psyonixFx): should support from bookmark later
-    const int start = 0;
+    final int start = widget.startingPage == null
+        ? 0
+        : widget.startingPage! - widget.surahStartingPage;
     _pageController = PageController(initialPage: start);
     _pageController.addListener(() {
       widget.pageNotifier.value =

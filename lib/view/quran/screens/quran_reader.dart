@@ -40,7 +40,8 @@ class QuranSurahReader extends StatefulWidget {
     // ignring it here since this bookmark needs to be non-null value
     // ignore: prefer_initializing_formals
   })  : bookmark = bookmark,
-        surah = quran.surahs[bookmark.surah],
+        surah = quran.surahs
+            .singleWhere((Surah surah) => surah.number == bookmark.surah),
         ayah = bookmark.ayah == null
             ? null
             : quran.surahs[bookmark.surah].ayahs[bookmark.ayah!];
@@ -207,6 +208,7 @@ class _QuranSurahReaderState extends State<QuranSurahReader> {
                   surahStartingPage: _startingPage,
                   surah: widget.surah,
                   pageNotifier: _pageNotifier,
+                  startingPage: widget.bookmark?.page,
                 )
               : QuranFeaturesReader(surah: widget.surah),
           transitionBuilder: (Widget child, Animation<double> animation) =>

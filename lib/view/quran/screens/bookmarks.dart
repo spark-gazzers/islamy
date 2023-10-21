@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/quran/models/bookmark.dart';
+import 'package:islamy/quran/models/surah.dart';
 import 'package:islamy/quran/quran_manager.dart';
 
 class BookmarksList extends StatelessWidget {
@@ -48,7 +49,7 @@ class _BookmarkTile extends StatelessWidget {
       isThreeLine: false,
       trailing: const Icon(Icons.arrow_forward_ios),
       title: Text(
-        '''${QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs[bookmark.surah].localizedName}, ${bookmark.page}''',
+        '''${QuranManager.getQuran(QuranStore.settings.defaultTextEdition).surahs.singleWhere((Surah element) => element.number == bookmark.surah).localizedName}, ${bookmark.page}''',
       ),
       subtitle: Text(
         S.of(context).bookmarked_at(
