@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/theme.dart';
 import 'package:islamy/utils/routes.dart';
+// import 'live.dart' as live;
 
 Future<void> main(List<String> args) async {
   // return live.main();

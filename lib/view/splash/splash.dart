@@ -2,6 +2,7 @@ import 'package:ffmpeg_kit_flutter_min/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_min/log_redirection_strategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:islamy/engines/hadeeth/hadeeth_manager.dart';
 import 'package:islamy/engines/quran/models/the_holy_quran.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
 import 'package:islamy/utils/api/api_handler.dart';
@@ -34,7 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
     await Store.init();
     ApiHandler.init();
     await Helper.init();
-    final bool isReady = await QuranManager.init();
+    final bool quran = await QuranManager.init();
+    final bool hadeeth = await HadeethManager.init();
+    final bool isReady = quran && hadeeth;
     FFmpegKitConfig.setLogRedirectionStrategy(
       LogRedirectionStrategy.neverPrintLogs,
     );

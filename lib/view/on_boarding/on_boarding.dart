@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/engines/hadeeth/hadeeth_manager.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 
 /// The first timer welcoming scrreen that explains the essence of the app.
 class OnBoarding extends StatelessWidget {
@@ -71,6 +72,12 @@ class _ContinueSectionState extends State<_ContinueSection> {
   static const Duration _microInterActionDuration = Duration(milliseconds: 300);
   Stream<String>? _currentLibs;
   bool _hasError = false;
+  Stream<String> _startDownloading() async* {
+    yield* QuranManager.downloadInit();
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    yield S.current.downloading_x(S.current.available_hadeeth_languages);
+    await HadeethManager.downloadHadeethLanguages();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +125,7 @@ class _ContinueSectionState extends State<_ContinueSection> {
                             _hasError
                                 ? S
                                     .of(context)
+                                    // ignore: lines_longer_than_80_chars
                                     .it_seems_like_there_is_an_issue_connecting_to_the_server_check_the_connecting_and_try_again
                                 : S
                                     .of(context)
@@ -138,12 +146,17 @@ class _ContinueSectionState extends State<_ContinueSection> {
                         onPressed: () {
                           setState(() {
                             _hasError = false;
-                            _currentLibs = QuranManager.downloadInit();
+                            _currentLibs =
+                                _startDownloading().asBroadcastStream();
                             _currentLibs!.listen(
                               (String event) {},
                               onDone: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, 'main', (_) => false);
+                                print('done');
+                                // Stream<String> hadeeth() async {
+                                //   return 'asd';
+                                // }
+                                // Navigator.pushNamedAndRemoveUntil(
+                                //     context, 'main', (_) => false);
                               },
                               onError: (_) {
                                 setState(() {
