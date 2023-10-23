@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/bookmark.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/models/ayah.dart';
+import 'package:islamy/engines/quran/models/bookmark.dart';
+import 'package:islamy/engines/quran/models/edition.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 import 'package:islamy/view/auth/enable_location/enable_location.dart';
 import 'package:islamy/view/auth/forgot_password/forgot_password.dart';
 import 'package:islamy/view/auth/forgot_password/otp.dart';

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
-import 'package:islamy/quran/models/enums.dart';
-import 'package:islamy/quran/models/sajda.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
+import 'package:islamy/engines/quran/models/enums.dart';
+import 'package:islamy/engines/quran/models/sajda.dart';
+import 'package:islamy/engines/quran/models/the_holy_quran.dart';
 
-part '../../generated/adapters/quran/ayah.dart';
+part '../../../generated/adapters/quran/ayah.dart';
 
 @HiveType(typeId: 7)
 

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/models/edition.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 
 /// A dialog that request to download the specified
 /// [Surah] using [QuranManager.downloadSurah].

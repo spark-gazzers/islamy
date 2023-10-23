@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:islamy/quran/models/alquran_cloud_object.dart';
-import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/engines/quran/models/alquran_cloud_object.dart';
+import 'package:islamy/engines/quran/models/enums.dart';
 
-part '../../generated/adapters/quran/edition.dart';
+part '../../../generated/adapters/quran/edition.dart';
 
 /// The quran edition.
 ///

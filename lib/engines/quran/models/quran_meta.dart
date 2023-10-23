@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:islamy/quran/models/enums.dart';
+import 'package:islamy/engines/quran/models/enums.dart';
 
 // A meta that holds the most important data of the [TheHolyQuran] meta's.
 class QuranMeta {

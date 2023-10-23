@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 
 /// The first timer welcoming scrreen that explains the essence of the app.
 class OnBoarding extends StatelessWidget {

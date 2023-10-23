@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/adapters.dart';
-import 'package:islamy/quran/models/edition.dart';
-import 'package:islamy/quran/models/quran_page.dart';
-import 'package:islamy/quran/models/surah.dart';
+import 'package:islamy/engines/quran/models/edition.dart';
+import 'package:islamy/engines/quran/models/quran_page.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
 
-part '../../generated/adapters/quran/the_holy_quran.dart';
+part '../../../generated/adapters/quran/the_holy_quran.dart';
 
 @HiveType(typeId: 5)
 class TheHolyQuran {

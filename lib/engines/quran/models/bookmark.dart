@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
+import 'package:islamy/engines/quran/models/ayah.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/engines/quran/models/the_holy_quran.dart';
 
-part '../../generated/adapters/quran/bookmark.dart';
+part '../../../generated/adapters/quran/bookmark.dart';
 
 @HiveType(typeId: 1)
 

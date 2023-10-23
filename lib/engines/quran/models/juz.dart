@@ -1,6 +1,6 @@
 import 'dart:convert' show json;
 
-import 'package:islamy/quran/models/alquran_cloud_object.dart';
+import 'package:islamy/engines/quran/models/alquran_cloud_object.dart';
 import 'package:islamy/utils/store.dart';
 
 class Juz extends AlquranCloudObject {

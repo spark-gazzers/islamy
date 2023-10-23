@@ -1,5 +1,5 @@
-import 'package:islamy/quran/models/ayah.dart';
-import 'package:islamy/quran/models/surah.dart';
+import 'package:islamy/engines/quran/models/ayah.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
 
 class QuranPage {
   const QuranPage(this.pageNumber, this.inlines);

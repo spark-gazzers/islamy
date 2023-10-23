@@ -4,7 +4,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 
 /// Mixin that contains all of the needed [TextFormField] validators
 /// and automation for necessary properties.

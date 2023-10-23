@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/bookmark.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/models/bookmark.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 
 class BookmarksList extends StatelessWidget {
   const BookmarksList({super.key});

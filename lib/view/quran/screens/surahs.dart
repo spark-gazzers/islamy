@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
-import 'package:islamy/quran/models/enums.dart';
-import 'package:islamy/quran/models/surah.dart';
-import 'package:islamy/quran/models/the_holy_quran.dart';
-import 'package:islamy/quran/quran_manager.dart';
+import 'package:islamy/engines/quran/models/enums.dart';
+import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/engines/quran/models/the_holy_quran.dart';
+import 'package:islamy/engines/quran/quran_manager.dart';
 import 'package:islamy/view/common/surah_icon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
 
-part '../../generated/adapters/quran/enums.dart';
+part '../../../generated/adapters/quran/enums.dart';
 
 /// The type which represents the way it should be manifested in the UI view.
 @HiveType(typeId: 2)
@@ -18,6 +18,7 @@ enum QuranContentType {
   @HiveField(4)
   versebyverse,
 }
+
 @HiveType(typeId: 3)
 enum Format {
   @HiveField(0)
