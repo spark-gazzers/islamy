@@ -75,8 +75,14 @@ class _ContinueSectionState extends State<_ContinueSection> {
   Stream<String> _startDownloading() async* {
     yield* QuranManager.downloadInit();
     await Future<void>.delayed(const Duration(milliseconds: 50));
-    yield S.current.downloading_x(S.current.available_hadeeth_languages);
-    await HadeethManager.downloadHadeethLanguages();
+    if (HadeethStore.listLanguages().isEmpty) {
+      yield S.current.downloading_x(S.current.available_hadeeth_languages);
+      await HadeethManager.downloadHadeethLanguages();
+    }
+    if (HadeethStore.listCategories().isEmpty) {
+      yield S.current.downloading_x(S.current.hadeeth_categories);
+      await HadeethManager.downloadHadeethCategories();
+    }
   }
 
   @override
@@ -151,12 +157,8 @@ class _ContinueSectionState extends State<_ContinueSection> {
                             _currentLibs!.listen(
                               (String event) {},
                               onDone: () {
-                                print('done');
-                                // Stream<String> hadeeth() async {
-                                //   return 'asd';
-                                // }
-                                // Navigator.pushNamedAndRemoveUntil(
-                                //     context, 'main', (_) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, 'main', (_) => false);
                               },
                               onError: (_) {
                                 setState(() {

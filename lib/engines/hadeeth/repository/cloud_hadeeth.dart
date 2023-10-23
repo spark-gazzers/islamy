@@ -44,4 +44,17 @@ class CloudHadeeth {
       (response.data! as List<dynamic>).cast<Map<String, dynamic>>(),
     );
   }
+
+  /// Fetches all the available [HadeethCategory] from the host.
+  static Future<List<HadeethCategory>> listCategories() async {
+    final Response<List<dynamic>> response = await _call(
+        path:
+            'categories/list/?language=${HadeethStore.settings.language.code}');
+    return HadeethCategory.listFrom(
+      // it's actually necessary since we need to cast the list not
+      // the maps inside!
+      // ignore: unnecessary_cast
+      (response.data! as List<dynamic>).cast<Map<String, dynamic>>(),
+    );
+  }
 }
