@@ -14,6 +14,7 @@ class HadeethStore {
 
   static late final Box<HadeethLanguage> _languagesBox;
   static late final Box<HadeethCategory> _categoriesBox;
+  static late final Box<Hadeeth> _hadeethsBox;
 
   /// Checks weather everything that needs to be downloaded at the bare
   /// minimum are ready or not
@@ -27,8 +28,7 @@ class HadeethStore {
     await _HadeethSettings._init();
     _languagesBox = await _getBox('hadeeth_languages');
     _categoriesBox = await _getBox('hadeeth_categories');
-    _languagesBox.clear();
-    _categoriesBox.clear();
+    _hadeethsBox = await _getBox('hadeeths');
     return isReady();
   }
 
@@ -36,10 +36,14 @@ class HadeethStore {
     // Hadeeth adapters typeId should start from 10
 
     Hive
-      // typeId == 10
-      ..registerAdapter(HadeethLanguageAdapter())
-      // typeId == 11
-      ..registerAdapter(HadeethCategoryAdapter());
+          // typeId == 10
+          ..registerAdapter(HadeethLanguageAdapter())
+          // typeId == 11
+          ..registerAdapter(HadeethCategoryAdapter())
+          // typeId == 12
+          ..registerAdapter(HadeethAdapter())
+        //
+        ;
   }
 
   static Future<Box<T>> _getBox<T>(String boxName) async {
@@ -65,6 +69,9 @@ class HadeethStore {
 
   static Future<void> _addCategories(List<HadeethCategory> categories) =>
       _addAll(values: categories, box: _categoriesBox);
+
+  static Future<void> _addHadeeths(List<Hadeeth> hadeeths) =>
+      _addAll(values: hadeeths, box: _hadeethsBox);
 
   static Future<void> _saveValue<T>({
     required String name,

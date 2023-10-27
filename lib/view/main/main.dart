@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/view/hadeeth/recently_opened_hadeeths.dart';
 import 'package:islamy/view/home/home.dart';
 import 'package:islamy/view/profile/profile.dart';
 import 'package:islamy/view/quran/quran_screen.dart';
@@ -31,8 +32,8 @@ class _MainPageState extends State<MainPage>
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
         children: const <Widget>[
-          HomeScreen(),
           QuranScreen(),
+          RecentlyOpenedHadeeths(),
           HomeScreen(),
           ProfileScreen(),
         ],
@@ -51,14 +52,14 @@ class _MainPageState extends State<MainPage>
                 onTap: _controller.animateTo,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    label: S.of(context).home,
-                    activeIcon: const Icon(Iconsax.home_15),
-                    icon: const Icon(Iconsax.home_14),
-                  ),
-                  BottomNavigationBarItem(
                     label: S.of(context).quran,
                     icon: const Icon(CupertinoIcons.book),
                     activeIcon: const Icon(CupertinoIcons.book_fill),
+                  ),
+                  BottomNavigationBarItem(
+                    label: S.of(context).hadeeth,
+                    activeIcon: const Icon(Iconsax.archive5),
+                    icon: const Icon(Iconsax.archive),
                   ),
                   BottomNavigationBarItem(
                     label: S.of(context).prayers,
