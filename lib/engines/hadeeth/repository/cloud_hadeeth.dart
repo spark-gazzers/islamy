@@ -61,14 +61,15 @@ class CloudHadeeth {
   /// Fetches all the available [Hadeeth]s in a category.
   static Future<List<Hadeeth>> listHadeeths(HadeethCategory category,
       {HadeethLanguage? language}) async {
+    language ??= HadeethStore.settings.language;
     final Response<Map<String, dynamic>> response = await _call(
-      path:
-          'hadeeths/list/?language=${(language ?? HadeethStore.settings.language).code}'
+      path: 'hadeeths/list/?language=${language.code}'
           '&category_id=${category.id}'
           '&per_page=${category.hadeethsCount}',
     );
     return Hadeeth.listFrom(
       (response.data!['data'] as List<dynamic>).cast<Map<String, dynamic>>(),
+      language.code,
     );
   }
 }
