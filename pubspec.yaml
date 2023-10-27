@@ -44,6 +44,7 @@ dependencies:
       url: https://github.com/danReynolds/modal_bottom_sheet.git
       path: modal_bottom_sheet
   flag: ^7.0.0
+  super_cupertino_navigation_bar: ^1.1.0
   
 
 dev_dependencies:
