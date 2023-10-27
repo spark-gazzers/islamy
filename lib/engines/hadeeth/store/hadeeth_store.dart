@@ -63,6 +63,19 @@ class HadeethStore {
   static List<HadeethLanguage> listLanguages() => _languagesBox.values.toList();
   static List<HadeethCategory> listCategories() =>
       _categoriesBox.values.toList();
+  static List<HadeethCategory> listRoots() => _categoriesBox.values
+      .toList()
+      .where((HadeethCategory category) => category.parentId == null)
+      .toList();
+  static List<Hadeeth> listHadeeths({HadeethLanguage? langauge}) {
+    List<Hadeeth> hadeeths = _hadeethsBox.values.toList();
+    if (langauge != null) {
+      hadeeths = hadeeths
+          .where((Hadeeth hadeeth) => hadeeth.languageCode == langauge.code)
+          .toList();
+    }
+    return hadeeths;
+  }
 
   static Future<void> _addLanguages(List<HadeethLanguage> languages) =>
       _addAll(values: languages, box: _languagesBox);
@@ -70,8 +83,16 @@ class HadeethStore {
   static Future<void> _addCategories(List<HadeethCategory> categories) =>
       _addAll(values: categories, box: _categoriesBox);
 
-  static Future<void> _addHadeeths(List<Hadeeth> hadeeths) =>
-      _addAll(values: hadeeths, box: _hadeethsBox);
+  static Future<void> _addHadeeths(List<Hadeeth> hadeeths) {
+    final List<Hadeeth> memory = listHadeeths();
+    for (final Hadeeth hadeeth in hadeeths) {
+      if (memory.contains(hadeeth)) {
+        throw ArgumentError('The hadeeth with ID:${hadeeth.id} and '
+            'language:${hadeeth.languageCode} already exists');
+      }
+    }
+    return _addAll(values: hadeeths, box: _hadeethsBox);
+  }
 
   static Future<void> _saveValue<T>({
     required String name,
