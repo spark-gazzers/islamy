@@ -15,6 +15,8 @@ class HadeethStore {
   static late final Box<HadeethLanguage> _languagesBox;
   static late final Box<HadeethCategory> _categoriesBox;
   static late final Box<Hadeeth> _hadeethsBox;
+  static late final Box<HadeethDetails> _hadeethDetailsBox;
+  static late final Box<String> _debugBox;
 
   /// Checks weather everything that needs to be downloaded at the bare
   /// minimum are ready or not
@@ -26,11 +28,20 @@ class HadeethStore {
   static Future<bool> init() async {
     _registerAdapters();
     await _HadeethSettings._init();
-    _languagesBox = await _getBox('hadeeth_languages');
-    _categoriesBox = await _getBox('hadeeth_categories');
-    _hadeethsBox = await _getBox('hadeeths');
+    _languagesBox = await _getBox<HadeethLanguage>('hadeeth_languages');
+    _categoriesBox = await _getBox<HadeethCategory>('hadeeth_categories');
+    _hadeethsBox = await _getBox<Hadeeth>('hadeeths');
+    _debugBox = await _getBox<String>('hadeeth_debug');
+    _hadeethDetailsBox = await _getBox<HadeethDetails>('hadeeth_details');
+
     return isReady();
   }
+
+  static void addDebugData(String data) {
+    _addAll(values: [data], box: _debugBox);
+  }
+
+  static List<String> get debugList => _debugBox.values.toList();
 
   static void _registerAdapters() {
     // Hadeeth adapters typeId should start from 10
@@ -38,10 +49,18 @@ class HadeethStore {
     Hive
           // typeId == 10
           ..registerAdapter(HadeethLanguageAdapter())
+
           // typeId == 11
           ..registerAdapter(HadeethCategoryAdapter())
+
           // typeId == 12
           ..registerAdapter(HadeethAdapter())
+
+          // typeId == 13
+          ..registerAdapter(HadeethDetailsAdapter())
+
+          // typeId == 14
+          ..registerAdapter(WordsMeaningAdapter())
         //
         ;
   }
@@ -77,11 +96,37 @@ class HadeethStore {
     return hadeeths;
   }
 
+  static List<HadeethDetails> _listHadeethDetails({HadeethLanguage? langauge}) {
+    List<HadeethDetails> hadeeths = _hadeethDetailsBox.values.toList();
+    if (langauge != null) {
+      hadeeths = hadeeths
+          .where((HadeethDetails hadeeth) => hadeeth.language == langauge.code)
+          .toList();
+    }
+    return hadeeths;
+  }
+
+  static HadeethDetails? getDetails({
+    required String id,
+    HadeethLanguage? language,
+  }) {
+    language ??= settings.language;
+    try {
+      return _listHadeethDetails(langauge: language)
+          .singleWhere((HadeethDetails details) => details.id == id);
+      // ignore: empty_catches
+    } catch (e) {}
+    return null;
+  }
+
   static Future<void> _addLanguages(List<HadeethLanguage> languages) =>
       _addAll(values: languages, box: _languagesBox);
 
   static Future<void> _addCategories(List<HadeethCategory> categories) =>
       _addAll(values: categories, box: _categoriesBox);
+
+  static Future<void> addDetails(List<HadeethDetails> details) =>
+      _addAll(values: details, box: _hadeethDetailsBox);
 
   static Future<void> _addHadeeths(List<Hadeeth> hadeeths) {
     final List<Hadeeth> memory = listHadeeths();
@@ -132,10 +177,19 @@ class _HadeethSettings {
       HadeethStore._saveValue(name: name, value: value, box: _settingsBox);
 
   /// Getter for the selected hadeeth languages, defaults to EN
-  HadeethLanguage get language =>
-      HadeethStore.listLanguages().singleWhere((HadeethLanguage language) =>
-          language.code.toLowerCase() ==
-          ((_readValue(name: 'language') ?? 'en').toLowerCase()));
+  HadeethLanguage get language {
+    return HadeethStore.listLanguages().singleWhere((HadeethLanguage language) {
+      return language.code.toLowerCase() ==
+          ((_readValue(name: 'language') ?? 'en').toLowerCase());
+    });
+  }
+
+  String? get debugLanguage => _readValue(name: 'language');
+
+  void debugBox() {
+    HadeethStore._hadeethsBox.clear();
+    print(HadeethStore.listHadeeths().length);
+  }
 
   set language(HadeethLanguage language) =>
       _saveValue(name: 'language', value: language.code);

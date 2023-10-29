@@ -67,9 +67,43 @@ class CloudHadeeth {
           '&category_id=${category.id}'
           '&per_page=${category.hadeethsCount}',
     );
+    if (response.statusCode == 404 &&
+        (response.data == null || (response.data as String).trim().isEmpty)) {
+      return [];
+    }
     return Hadeeth.listFrom(
       (response.data!['data'] as List<dynamic>).cast<Map<String, dynamic>>(),
       language.code,
+      category.id,
     );
+  }
+
+  /// Fetches a single [HadeethDetails].
+  static Future<HadeethDetails> getHadeeth(Hadeeth hadeeth,
+      {HadeethLanguage? language}) async {
+    language ??= HadeethStore.settings.language;
+    final Response<Map<String, dynamic>> response = await _call(
+        path: 'hadeeths/one/?language=${language.code}'
+            '&id=${hadeeth.id}');
+
+    return HadeethDetails.fromJson(
+      response.data as Map<String, dynamic>,
+      hadeeth.category!,
+      language.code,
+    );
+  }
+
+  static Future<Map<String, dynamic>> debugHadeeth(
+    Hadeeth hadeeth, {
+    String? language,
+  }) async {
+    language ??= hadeeth.languageCode;
+    final Response<Map<String, dynamic>> response = await _call(
+        path: 'hadeeths/one/?language=${language}'
+            '&id=${hadeeth.id}');
+    Map<String, dynamic> data = Map<String, dynamic>.from(response.data as Map);
+    data['debug_category'] = hadeeth.category;
+    data['debug_language'] = language;
+    return data;
   }
 }

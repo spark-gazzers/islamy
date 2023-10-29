@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_category.dart';
+import 'package:islamy/engines/hadeeth/models/hadeeth_details.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_language.dart';
 
 part 'repository/cloud_hadeeth.dart';
