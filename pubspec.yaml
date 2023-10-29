@@ -45,6 +45,7 @@ dependencies:
       path: modal_bottom_sheet
   flag: ^7.0.0
   super_cupertino_navigation_bar: ^1.1.0
+  sliver_tools: ^0.2.12
   
 
 dev_dependencies:
