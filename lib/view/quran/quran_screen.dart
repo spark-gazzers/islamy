@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/engines/quran/models/juz.dart';
 import 'package:islamy/engines/quran/models/surah.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/view/common/sliding_segmented_control.dart';
 import 'package:islamy/view/quran/screens/bookmarks.dart';
 import 'package:islamy/view/quran/screens/juzs.dart';
