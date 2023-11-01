@@ -13,20 +13,55 @@ import 'package:path_provider/path_provider.dart';
 class Store {
   const Store._();
   static late Box<String> _settingsBox;
+  static late Box<String> _hadeethSearchesBox;
+  static late Box<String> _quranSearchesBox;
 
   /// Intializer for the class which calls [HiveX.initFlutter].
   static Future<void> init() async {
     String subDirForHive = (await getApplicationDocumentsDirectory()).path;
     subDirForHive += '${Platform.pathSeparator}HiveDB';
     await Hive.initFlutter(subDirForHive);
-    if (Hive.isBoxOpen('settings')) {
-      _settingsBox = Hive.box<String>('settings');
+    _settingsBox = await _getBox<String>('settings');
+    _hadeethSearchesBox = await _getBox<String>('hadeeth_search_history');
+    _quranSearchesBox = await _getBox<String>('quran_search_history');
+  }
+
+  List<String> get hadeethSearchHistory => _hadeethSearchesBox.values.toList();
+  List<String> get quranSearchHistory => _quranSearchesBox.values.toList();
+
+  static Future<void> _addValue<T>(T value, Box<T> box) async {
+    box.add(value);
+  }
+
+  static Future<void> _addHistoryValue<T>(T value, Box<T> box) async {
+    if (box.values.contains(value)) {
+      return;
+    }
+    box.putAt(0, value);
+    if (box.length > 10) {
+      final Iterable<T> values = box.values.take(10);
+      box.clear();
+      await box.addAll(values);
+    }
+  }
+
+  static Future<void> addQuranSearchHistry(String history) =>
+      _addHistoryValue(history, _quranSearchesBox);
+  static Future<void> addHadeethSearchHistry(String history) =>
+      _addHistoryValue(history, _hadeethSearchesBox);
+
+  static Future<Box<T>> _getBox<T>(String boxName) async {
+    Box<T> box;
+    if (Hive.isBoxOpen(boxName)) {
+      box = Hive.box<T>(boxName);
     } else {
-      _settingsBox = await Hive.openBox<String>('settings');
+      box = await Hive.openBox<T>(boxName);
     }
-    if (!_settingsBox.isOpen) {
-      await Hive.openBox<String>(_settingsBox.name);
+
+    if (!box.isOpen) {
+      await Hive.openBox<T>(box.name);
     }
+    return box;
   }
 
   static Future<void> _saveValue({
