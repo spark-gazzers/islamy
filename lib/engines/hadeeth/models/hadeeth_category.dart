@@ -13,7 +13,6 @@ class HadeethCategory {
     required this.hadeethsCount,
     required this.parentId,
   });
-
   factory HadeethCategory.fromRawJson(String str) =>
       HadeethCategory.fromJson(json.decode(str) as Map<String, dynamic>);
 
@@ -24,6 +23,7 @@ class HadeethCategory {
         hadeethsCount: json['hadeeths_count'] as String,
         parentId: json['parent_id'] as String?,
       );
+
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -45,4 +45,7 @@ class HadeethCategory {
         'hadeeths_count': hadeethsCount,
         'parent_id': parentId,
       };
+  @override
+  // ignore: hash_and_equals
+  bool operator ==(Object other) => other is HadeethCategory && id == other.id;
 }
