@@ -128,5 +128,13 @@
     "no_bookmarks_here_yet": "No bookmarks here yet.",
     "available_hadeeth_languages": "Available hadeeth languages",
     "hadeeth_categories": "Hadeeth categories",
-    "hadeeth": "Hadeeth"
+    "hadeeth": "Hadeeth",
+    "browse_over_400_category_including_more_than_a_thousand_hadeeths": "Browse over 400+ category including more than a thousand hadeeths!",
+    "recently_opened": "Recently opened",
+    "hadeeth_roots": "Hadeeth Roots",
+    "hadeeths_are_divided_to_multiple_categories_with_roots_count_as_root_category_you_can_browse_or_search_right_through_them": "Hadeeths are divided to multiple categories with {roots_count} as root category, you can browse or search right through them.",
+    "category": "Category",
+    "categories": "Categories",
+    "hadeeths": "Hadeeths",
+    "hadeeth_search": "Hadeeth Search"
 }

@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
+import 'package:islamy/engines/hadeeth/models/hadeeth_category.dart';
+import 'package:islamy/engines/hadeeth/models/hadeeth_language.dart';
 import 'package:islamy/engines/quran/models/ayah.dart';
 import 'package:islamy/engines/quran/models/bookmark.dart';
 import 'package:islamy/engines/quran/models/edition.dart';
 import 'package:islamy/engines/quran/models/surah.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/view/auth/enable_location/enable_location.dart';
 import 'package:islamy/view/auth/forgot_password/forgot_password.dart';
 import 'package:islamy/view/auth/forgot_password/otp.dart';
 import 'package:islamy/view/auth/forgot_password/reset_password.dart';
 import 'package:islamy/view/auth/login/login.dart';
 import 'package:islamy/view/auth/signup/signup.dart';
+import 'package:islamy/view/hadeeth/hadeeth_categories_screen.dart';
+import 'package:islamy/view/hadeeth/hadeeth_search.dart';
+import 'package:islamy/view/hadeeth/hadeeths_screen.dart';
 import 'package:islamy/view/main/main.dart';
 import 'package:islamy/view/on_boarding/on_boarding.dart';
 import 'package:islamy/view/profile/screens/localization_delegate_screen.dart';
@@ -64,6 +69,25 @@ class Routes {
       case 'otp':
         builder = (BuildContext context) => OTPScreen(
               phone: args['phone'] as String,
+            );
+        break;
+
+      case 'hadeeth_category':
+        builder = (BuildContext context) => HadeethCategoryScreen(
+              category: args['category'] as HadeethCategory?,
+              language: args['language'] as HadeethLanguage?,
+            );
+        break;
+
+      case 'hadeeths_screen':
+        builder = (BuildContext context) => HadeethsScreen(
+              category: args['category'] as HadeethCategory,
+            );
+        break;
+
+      case 'hadeeths_search':
+        builder = (BuildContext context) => SearchScreen(
+              scope: args['scope'] as HadeethCategory?,
             );
         break;
 
