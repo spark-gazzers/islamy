@@ -12,7 +12,7 @@ class HadeethTile extends StatelessWidget {
       title: Text(
         hadeeth.title,
         maxLines: 2,
-        overflow: TextOverflow.fade,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: const Icon(CupertinoIcons.forward),
       onTap: () {
