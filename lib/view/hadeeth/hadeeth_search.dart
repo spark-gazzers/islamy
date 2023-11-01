@@ -23,20 +23,14 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
+  Future<void>? _search;
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   late final TabController _tabController;
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-      animationDuration: const Duration(milliseconds: 300),
-      initialIndex: 0,
-    );
-  }
+
+  List<Hadeeth> hadeethSearchResults = <Hadeeth>[];
+  List<HadeethCategory> categoriesSearchResults = <HadeethCategory>[];
 
   List<HadeethCategory> get _scope {
     final Set<HadeethCategory> results = _getSubs(widget.scope).toSet();
@@ -76,15 +70,28 @@ class _SearchScreenState extends State<SearchScreen>
         .toList();
   }
 
-  List<Hadeeth> hadeethSearchResults = [];
-  List<HadeethCategory> categoriesSearchResults = [];
+  bool get shouldSearch => _searchController.length >= 3;
   List<HadeethCategory> _getSubs(HadeethCategory? parent) {
     return HadeethStore.listCategories()
         .where((HadeethCategory category) => category.parentId == parent?.id)
         .toList();
   }
 
-  bool get shouldSearch => _searchController.length >= 3;
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      animationDuration: const Duration(milliseconds: 300),
+      initialIndex: 0,
+    );
+  }
+
+  Future<void> _startSearch() async {
+    hadeethSearchResults = _hadeethSearchResults;
+    categoriesSearchResults = _categoriesSearchResults;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +116,9 @@ class _SearchScreenState extends State<SearchScreen>
                     padding: const EdgeInsets.all(16),
                     child: CupertinoSearchTextField(
                       onChanged: (_) {
-                        hadeethSearchResults = _hadeethSearchResults;
-                        categoriesSearchResults = _categoriesSearchResults;
+                        setState(() {
+                          _search = _startSearch();
+                        });
                       },
                       onTap: () {
                         // _scrollController.animateTo(0,
@@ -138,50 +146,63 @@ class _SearchScreenState extends State<SearchScreen>
             ),
           ),
         ],
-        body: TabBarView(
-          controller: _tabController,
-          children: <Widget>[
-            AnimatedBuilder(
-              animation: _searchController,
-              builder: (BuildContext context, Widget? child) {
-                if (!(shouldSearch && categoriesSearchResults.isNotEmpty)) {
-                  return const SizedBox.shrink();
-                }
-                return ListView.separated(
-                  addAutomaticKeepAlives: false,
-                  addRepaintBoundaries: false,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CategoryTile(
-                      category: categoriesSearchResults[index],
+        body: FutureBuilder<void>(
+          future: _search,
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.none) {
+              return const SizedBox.shrink();
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CupertinoActivityIndicator(
+                animating: true,
+              );
+            }
+            return TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                AnimatedBuilder(
+                  animation: _searchController,
+                  builder: (BuildContext context, Widget? child) {
+                    if (!(shouldSearch && categoriesSearchResults.isNotEmpty)) {
+                      return const SizedBox.shrink();
+                    }
+                    return ListView.separated(
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CategoryTile(
+                          category: categoriesSearchResults[index],
+                        );
+                      },
+                      itemCount: categoriesSearchResults.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                     );
                   },
-                  itemCount: categoriesSearchResults.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                );
-              },
-            ),
-            AnimatedBuilder(
-              animation: _searchController,
-              builder: (BuildContext context, Widget? child) {
-                if (!(shouldSearch && hadeethSearchResults.isNotEmpty)) {
-                  return const SizedBox.shrink();
-                }
-                return ListView.separated(
-                  addAutomaticKeepAlives: false,
-                  addRepaintBoundaries: false,
-                  itemBuilder: (BuildContext context, int index) {
-                    return HadeethTile(
-                      hadeeth: hadeethSearchResults[index],
+                ),
+                AnimatedBuilder(
+                  animation: _searchController,
+                  builder: (BuildContext context, Widget? child) {
+                    if (!(shouldSearch && hadeethSearchResults.isNotEmpty)) {
+                      return const SizedBox.shrink();
+                    }
+                    return ListView.separated(
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      itemBuilder: (BuildContext context, int index) {
+                        return HadeethTile(
+                          hadeeth: hadeethSearchResults[index],
+                        );
+                      },
+                      itemCount: hadeethSearchResults.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                     );
                   },
-                  itemCount: hadeethSearchResults.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                );
-              },
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
