@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage>
   late final TabController _controller;
   @override
   void initState() {
-    _controller = TabController(length: 4, vsync: this, initialIndex: 2);
+    _controller = TabController(length: 4, vsync: this, initialIndex: 1);
     super.initState();
   }
 

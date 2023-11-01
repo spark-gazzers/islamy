@@ -85,6 +85,11 @@ class ThemeBuilder {
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ),
+        navLargeTitleTextStyle: TextStyle(
+          fontSize: 34,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
         navActionTextStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
