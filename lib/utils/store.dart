@@ -13,8 +13,10 @@ import 'package:path_provider/path_provider.dart';
 class Store {
   const Store._();
   static late Box<String> _settingsBox;
-  static late Box<String> _hadeethSearchesBox;
   static late Box<String> _quranSearchesBox;
+  static late Box<String> _hadeethSearchesBox;
+  static late Box<double> _hadeethFontsSizeBox;
+  static const HadeethFontSize fontsSize = HadeethFontSize._instance;
 
   /// Intializer for the class which calls [HiveX.initFlutter].
   static Future<void> init() async {
@@ -22,8 +24,9 @@ class Store {
     subDirForHive += '${Platform.pathSeparator}HiveDB';
     await Hive.initFlutter(subDirForHive);
     _settingsBox = await _getBox<String>('settings');
-    _hadeethSearchesBox = await _getBox<String>('hadeeth_search_history');
     _quranSearchesBox = await _getBox<String>('quran_search_history');
+    _hadeethSearchesBox = await _getBox<String>('hadeeth_search_history');
+    _hadeethFontsSizeBox = await _getBox<double>('hadeeth_fonts_size');
   }
 
   List<String> get hadeethSearchHistory => _hadeethSearchesBox.values.toList();
@@ -105,4 +108,19 @@ class Store {
   /// Notifier for changes on the [muteNotfication].
   static ValueListenable<Box<dynamic>> get muteNotficationListner =>
       _settingsBox.listenable(keys: <String>['mute_notifications']);
+}
+
+class HadeethFontSize {
+  const HadeethFontSize._();
+  static const HadeethFontSize _instance = HadeethFontSize._();
+  double? operator [](String name) {
+    Store._hadeethFontsSizeBox.get(name);
+  }
+
+  void operator []=(String name, double value) {
+    Store._hadeethFontsSizeBox.put(name, value);
+  }
+
+  ValueListenable<dynamic> get listenable =>
+      Store._hadeethFontsSizeBox.listenable();
 }
