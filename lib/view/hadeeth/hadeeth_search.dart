@@ -115,6 +115,7 @@ class _SearchScreenState extends State<SearchScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: CupertinoSearchTextField(
+                      autofocus: true,
                       onChanged: (_) {
                         setState(() {
                           _search = _startSearch();
