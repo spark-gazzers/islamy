@@ -136,5 +136,10 @@
     "category": "Category",
     "categories": "Categories",
     "hadeeths": "Hadeeths",
-    "hadeeth_search": "Hadeeth Search"
+    "hadeeth_search": "Hadeeth Search",
+    "explanation": "Explanation",
+    "attribution": "Attribution",
+    "reference": "Reference",
+    "grade": "Grade",
+    "hints": "Hints"
 }

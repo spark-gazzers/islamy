@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:islamy/engines/hadeeth/hadeeth_manager.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth.dart';
 
 class HadeethTile extends StatelessWidget {
@@ -10,18 +11,19 @@ class HadeethTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        hadeeth.title,
+        // hadeeth.title,
+        HadeethStore.getDetails(id: hadeeth.id).toString(),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: const Icon(CupertinoIcons.forward),
       onTap: () {
-        // Navigator.of(context).pushNamed(
-        //   'hadeeth_details',
-        //   arguments: <String, Object?>{
-        //     'category': hadeeth,
-        //   },
-        // );
+        Navigator.of(context).pushNamed(
+          'hadeeth_screen',
+          arguments: <String, Object?>{
+            'hadeeth': HadeethStore.getDetails(id: hadeeth.id),
+          },
+        );
       },
     );
   }
