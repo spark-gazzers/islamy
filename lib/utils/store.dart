@@ -113,9 +113,7 @@ class Store {
 class HadeethFontSize {
   const HadeethFontSize._();
   static const HadeethFontSize _instance = HadeethFontSize._();
-  double? operator [](String name) {
-    Store._hadeethFontsSizeBox.get(name);
-  }
+  double? operator [](String name) => Store._hadeethFontsSizeBox.get(name);
 
   void operator []=(String name, double value) {
     Store._hadeethFontsSizeBox.put(name, value);
