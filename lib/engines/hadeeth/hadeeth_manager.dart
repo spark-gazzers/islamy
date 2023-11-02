@@ -1,6 +1,7 @@
 library hadeeth;
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_category.dart';

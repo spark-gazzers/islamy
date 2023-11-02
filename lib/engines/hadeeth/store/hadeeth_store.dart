@@ -190,6 +190,10 @@ class _HadeethSettings {
     });
   }
 
+  /// Hadeeth languages listenable
+  ValueListenable<dynamic> get languageListner =>
+      _settingsBox.listenable(keys: ['language']);
+
   String? get debugLanguage => _readValue(name: 'language');
 
   void debugBox() {
