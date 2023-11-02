@@ -80,8 +80,14 @@ class HadeethStore {
   }
 
   static List<HadeethLanguage> listLanguages() => _languagesBox.values.toList();
-  static List<HadeethCategory> listCategories() =>
-      _categoriesBox.values.toList();
+  static List<HadeethCategory> listCategories({HadeethLanguage? langauge}) {
+    langauge ??= HadeethStore.settings.language;
+    List<HadeethCategory> categories = _categoriesBox.values.toList();
+    // categories =
+    //     categories.where((category) => category.language == langauge.code);
+    return categories;
+  }
+
   static List<HadeethCategory> listRoots() => _categoriesBox.values
       .toList()
       .where((HadeethCategory category) => category.parentId == null)
