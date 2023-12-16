@@ -30,9 +30,8 @@ class _HadeethCategoryScreenState extends State<HadeethCategoryScreen> {
     super.initState();
   }
 
-  List<HadeethCategory> get _categories => HadeethStore.listCategories()
-      .where((HadeethCategory category) => category.parentId == _category?.id)
-      .toList();
+  List<HadeethCategory> get _categories =>
+      HadeethStore.subCategoriesOf(_category);
 
   @override
   Widget build(BuildContext context) {

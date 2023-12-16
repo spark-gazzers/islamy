@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_category.dart';
+import 'package:islamy/engines/hadeeth/models/hadeeth_details.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_language.dart';
 import 'package:islamy/engines/quran/models/ayah.dart';
 import 'package:islamy/engines/quran/models/bookmark.dart';
@@ -14,6 +15,7 @@ import 'package:islamy/view/auth/forgot_password/reset_password.dart';
 import 'package:islamy/view/auth/login/login.dart';
 import 'package:islamy/view/auth/signup/signup.dart';
 import 'package:islamy/view/hadeeth/hadeeth_categories_screen.dart';
+import 'package:islamy/view/hadeeth/hadeeth_screen.dart';
 import 'package:islamy/view/hadeeth/hadeeth_search.dart';
 import 'package:islamy/view/hadeeth/hadeeths_screen.dart';
 import 'package:islamy/view/main/main.dart';
@@ -82,6 +84,12 @@ class Routes {
       case 'hadeeths_screen':
         builder = (BuildContext context) => HadeethsScreen(
               category: args['category'] as HadeethCategory,
+            );
+        break;
+
+      case 'hadeeth_screen':
+        builder = (BuildContext context) => HadeethScreen(
+              hadeeth: args['hadeeth'] as HadeethDetails,
             );
         break;
 

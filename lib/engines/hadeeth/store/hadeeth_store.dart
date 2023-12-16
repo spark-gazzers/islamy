@@ -33,7 +33,6 @@ class HadeethStore {
     _hadeethsBox = await _getBox<Hadeeth>('hadeeths');
     _debugBox = await _getBox<String>('hadeeth_debug');
     _hadeethDetailsBox = await _getBox<HadeethDetails>('hadeeth_details');
-
     return isReady();
   }
 
@@ -41,7 +40,13 @@ class HadeethStore {
     _addAll(values: [data], box: _debugBox);
   }
 
-  static List<String> get debugList => _debugBox.values.toList();
+  static List<String> get debugList {
+    return _debugBox.values.toList();
+  }
+
+  static List<HadeethDetails> get debugDetails {
+    return _hadeethDetailsBox.values.toList();
+  }
 
   static void _registerAdapters() {
     // Hadeeth adapters typeId should start from 10
@@ -82,7 +87,7 @@ class HadeethStore {
   static List<HadeethLanguage> listLanguages() => _languagesBox.values.toList();
   static List<HadeethCategory> listCategories({HadeethLanguage? langauge}) {
     langauge ??= HadeethStore.settings.language;
-    List<HadeethCategory> categories = _categoriesBox.values.toList();
+    final List<HadeethCategory> categories = _categoriesBox.values.toList();
     // categories =
     //     categories.where((category) => category.language == langauge.code);
     return categories;
@@ -94,13 +99,20 @@ class HadeethStore {
       .toList();
   static List<Hadeeth> listHadeeths({HadeethLanguage? langauge}) {
     langauge ??= settings.language;
-    List<Hadeeth> hadeeths = _hadeethsBox.values.toList();
+    final List<Hadeeth> hadeeths = _hadeethsBox.values.toList();
     return hadeeths
         .where((Hadeeth hadeeth) => hadeeth.languageCode == langauge!.code)
-          .toList();
-    }
-    return hadeeths;
+        .toList();
   }
+
+  static List<HadeethCategory> subCategoriesOf(HadeethCategory? category,
+          {HadeethLanguage? language}) =>
+      category == null
+          ? listCategories(langauge: language ?? settings.language)
+          : listCategories(langauge: language ?? settings.language)
+              .where(
+                  (HadeethCategory element) => element.parentId == category.id)
+              .toList();
 
   static List<HadeethDetails> _listHadeethDetails({HadeethLanguage? langauge}) {
     List<HadeethDetails> hadeeths = _hadeethDetailsBox.values.toList();

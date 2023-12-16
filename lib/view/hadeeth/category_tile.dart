@@ -28,17 +28,12 @@ class CategoryTile extends StatelessWidget {
     );
   }
 
-  bool get hasSubs => HadeethStore.listCategories(langauge: langauge)
-      .where((HadeethCategory element) => element.parentId == category.id)
-      .isNotEmpty;
+  bool get hasSubs =>
+      HadeethStore.subCategoriesOf(category, language: langauge).isNotEmpty;
 
   String get childrenCount {
-    if (hasSubs) {
-      return HadeethStore.listCategories(langauge: langauge)
-          .where((HadeethCategory element) => element.parentId == category.id)
-          .length
-          .toString();
-    }
-    return category.hadeethsCount;
+    return HadeethStore.subCategoriesOf(category, language: langauge)
+        .length
+        .toString();
   }
 }

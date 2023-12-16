@@ -33,13 +33,14 @@ class _SearchScreenState extends State<SearchScreen>
   List<HadeethCategory> categoriesSearchResults = <HadeethCategory>[];
 
   List<HadeethCategory> get _scope {
-    final Set<HadeethCategory> results = _getSubs(widget.scope).toSet();
+    final Set<HadeethCategory> results =
+        HadeethStore.subCategoriesOf(widget.scope).toSet();
     final Set<HadeethCategory> subs = <HadeethCategory>{};
     do {
       results.addAll(subs);
       subs.clear();
       for (final HadeethCategory parent in results) {
-        subs.addAll(_getSubs(parent));
+        subs.addAll(HadeethStore.subCategoriesOf(parent));
       }
       subs.removeAll(results);
     } while (subs.isNotEmpty);
@@ -71,11 +72,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   bool get shouldSearch => _searchController.length >= 3;
-  List<HadeethCategory> _getSubs(HadeethCategory? parent) {
-    return HadeethStore.listCategories()
-        .where((HadeethCategory category) => category.parentId == parent?.id)
-        .toList();
-  }
 
   @override
   void initState() {

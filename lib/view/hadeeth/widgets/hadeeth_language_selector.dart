@@ -19,7 +19,6 @@ class HadeethLanguageSelector extends StatelessWidget {
       available ?? HadeethStore.listLanguages();
   @override
   Widget build(BuildContext context) {
-    print(languages.map((HadeethLanguage e) => e.code).toList());
     return ValueListenableBuilder<dynamic>(
       valueListenable: HadeethStore.settings.languageListner,
       builder: (BuildContext context, Object? value, Widget? child) {

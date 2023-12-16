@@ -23,13 +23,14 @@ class _HadeethsScreenState extends State<HadeethsScreen> {
   final FocusNode _searchNode = FocusNode();
 
   List<Hadeeth> get hadeeths => HadeethStore.listHadeeths()
-      .where((Hadeeth hadeeth) => hadeeth.category == widget.category.id)
-      .where((Hadeeth hadeeth) =>
-          hadeeth.languageCode == HadeethStore.settings.language.code)
+      .where(
+        (Hadeeth hadeeth) =>
+            hadeeth.category == widget.category.id &&
+            hadeeth.languageCode == HadeethStore.settings.language.code,
+      )
       .toList();
   @override
   Widget build(BuildContext context) {
-    HadeethStore.debugList;
     return CupertinoPageScaffold(
       child: CustomScrollView(
         slivers: <Widget>[
