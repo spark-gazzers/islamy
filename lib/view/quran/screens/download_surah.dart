@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/engines/quran/models/edition.dart';
 import 'package:islamy/engines/quran/models/surah.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 
 /// A dialog that request to download the specified
 /// [Surah] using [QuranManager.downloadSurah].
@@ -107,9 +107,7 @@ class _DownloadSurahDialogState extends State<DownloadSurahDialog> {
         download = QuranManager.downloadSurah(
           edition: widget.edition,
           surah: widget.surah,
-          onAyahDownloaded: (int index) {
-            _downloadMeterController.add(index);
-          },
+          onAyahDownloaded: _downloadMeterController.add,
         );
 
         download!.then((_) {

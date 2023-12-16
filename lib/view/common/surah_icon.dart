@@ -28,7 +28,8 @@ class IslamicStarIcon extends StatelessWidget {
             child: SvgPicture.asset(
               'assets/icons/surah_icon.svg',
               width: size,
-              color: color ?? Theme.of(context).primaryColor,
+              colorFilter: ColorFilter.mode(
+                  color ?? Theme.of(context).primaryColor, BlendMode.srcIn),
             ),
           ),
           Align(

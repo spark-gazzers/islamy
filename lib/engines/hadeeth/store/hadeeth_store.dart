@@ -37,7 +37,7 @@ class HadeethStore {
   }
 
   static void addDebugData(String data) {
-    _addAll(values: [data], box: _debugBox);
+    _addAll(values: <String>[data], box: _debugBox);
   }
 
   static List<String> get debugList {
@@ -204,14 +204,9 @@ class _HadeethSettings {
 
   /// Hadeeth languages listenable
   ValueListenable<dynamic> get languageListner =>
-      _settingsBox.listenable(keys: ['language']);
+      _settingsBox.listenable(keys: <String>['language']);
 
   String? get debugLanguage => _readValue(name: 'language');
-
-  void debugBox() {
-    HadeethStore._hadeethsBox.clear();
-    print(HadeethStore.listHadeeths().length);
-  }
 
   set language(HadeethLanguage language) =>
       _saveValue(name: 'language', value: language.code);

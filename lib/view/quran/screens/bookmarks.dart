@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/engines/quran/models/bookmark.dart';
 import 'package:islamy/engines/quran/models/surah.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 
 class BookmarksList extends StatelessWidget {
   const BookmarksList({super.key});
@@ -23,12 +23,12 @@ class BookmarksList extends StatelessWidget {
         if (isEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               _BookmarkTile(bookmark: QuranStore.settings.autosavedBookmark!),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(32),
                       child: Icon(

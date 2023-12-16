@@ -7,6 +7,7 @@ import 'package:islamy/engines/hadeeth/models/hadeeth.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_category.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_details.dart';
 import 'package:islamy/engines/hadeeth/models/hadeeth_language.dart';
+import 'package:islamy/engines/quran/models/juz.dart';
 
 part 'repository/cloud_hadeeth.dart';
 part 'store/hadeeth_store.dart';

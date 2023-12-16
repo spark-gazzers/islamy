@@ -68,8 +68,8 @@ class CloudHadeeth {
           '&per_page=${category.hadeethsCount}',
     );
     if (response.statusCode == 404 &&
-        (response.data == null || (response.data as String).trim().isEmpty)) {
-      return [];
+        (response.data == null || (response.data! as String).trim().isEmpty)) {
+      return <Hadeeth>[];
     }
     return Hadeeth.listFrom(
       (response.data!['data'] as List<dynamic>).cast<Map<String, dynamic>>(),
@@ -87,7 +87,7 @@ class CloudHadeeth {
             '&id=${hadeeth.id}');
 
     return HadeethDetails.fromJson(
-      response.data as Map<String, dynamic>,
+      response.data!,
       hadeeth.category!,
       language.code,
     );
@@ -99,9 +99,10 @@ class CloudHadeeth {
   }) async {
     language ??= hadeeth.languageCode;
     final Response<Map<String, dynamic>> response = await _call(
-        path: 'hadeeths/one/?language=${language}'
+        path: 'hadeeths/one/?language=$language'
             '&id=${hadeeth.id}');
-    Map<String, dynamic> data = Map<String, dynamic>.from(response.data as Map);
+    final Map<String, dynamic> data =
+        Map<String, dynamic>.from(response.data! as Map<dynamic, dynamic>);
     data['debug_category'] = hadeeth.category;
     data['debug_language'] = language;
     return data;

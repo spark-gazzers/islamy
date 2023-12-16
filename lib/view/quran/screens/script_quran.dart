@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/engines/quran/models/ayah.dart';
 import 'package:islamy/engines/quran/models/enums.dart';
 import 'package:islamy/engines/quran/models/quran_page.dart';
 import 'package:islamy/engines/quran/models/surah.dart';
 import 'package:islamy/engines/quran/models/the_holy_quran.dart';
 import 'package:islamy/engines/quran/quran_manager.dart';
+import 'package:islamy/generated/l10n/l10n.dart';
 import 'package:islamy/view/common/ayah_span.dart';
 
 /// A widget that should render the [QuranPage] as it is in the original quran.
