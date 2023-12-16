@@ -23,11 +23,15 @@ class Store {
     String subDirForHive = (await getApplicationDocumentsDirectory()).path;
     subDirForHive += '${Platform.pathSeparator}HiveDB';
     await Hive.initFlutter(subDirForHive);
+    // _debugClearHive(subDirForHive);
     _settingsBox = await _getBox<String>('settings');
     _quranSearchesBox = await _getBox<String>('quran_search_history');
     _hadeethSearchesBox = await _getBox<String>('hadeeth_search_history');
     _hadeethFontsSizeBox = await _getBox<double>('hadeeth_fonts_size');
   }
+
+  static void _debugClearHive(String path) =>
+      Directory(path).deleteSync(recursive: true);
 
   List<String> get hadeethSearchHistory => _hadeethSearchesBox.values.toList();
   List<String> get quranSearchHistory => _quranSearchesBox.values.toList();
