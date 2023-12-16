@@ -69,10 +69,12 @@ class _ContinueSection extends StatefulWidget {
 }
 
 class _ContinueSectionState extends State<_ContinueSection> {
-  static const Duration _microInterActionDuration = Duration(milliseconds: 300);
   Stream<String>? _currentLibs;
   bool _hasError = false;
+  final Set<String> passedDownloads = <String>{};
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   Stream<String> _startDownloading() async* {
+
     yield* QuranManager.downloadInit();
     await Future<void>.delayed(const Duration(milliseconds: 50));
     if (HadeethStore.listLanguages().isEmpty) {
@@ -93,124 +95,170 @@ class _ContinueSectionState extends State<_ContinueSection> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          AnimatedSwitcher(
-            duration: _microInterActionDuration,
-            reverseDuration: _microInterActionDuration,
-            transitionBuilder: (Widget child, Animation<double> animation) =>
-                FadeTransition(
-              opacity: animation,
-              child: ScaleTransition(
-                scale: animation,
-                child: child,
-              ),
-            ),
-            child: _currentLibs == null || _hasError
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(
-                          bottom: _hasError ? 16 : 0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _hasError
-                              ? Theme.of(context).colorScheme.errorContainer
-                              : null,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(
-                              10,
+          StreamBuilder<String>(
+            stream: _currentLibs,
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  if (passedDownloads.length > 1)
+                    AnimatedList(
+                      key: _listKey,
+                      initialItemCount: passedDownloads.length - 1,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                        Animation<double> animation,
+                      ) {
+                        animation = Tween<double>(begin: 0, end: 1)
+                            .chain(CurveTween(curve: Curves.ease))
+                            .animate(animation);
+                        final Animation<Offset> position = Tween<Offset>(
+                                begin: const Offset(0, 1), end: Offset.zero)
+                            .animate(animation);
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: position,
+                            child: Text.rich(
+                              TextSpan(
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: passedDownloads.elementAt(index),
+                                  ),
+                                  WidgetSpan(
+                                    child: Icon(
+                                      Icons.done,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              key: ValueKey<String>(
+                                passedDownloads.elementAt(index),
+                              ),
                             ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 8,
-                          ),
-                          child: Text(
-                            _hasError
-                                ? S
-                                    .of(context)
-                                    // ignore: lines_longer_than_80_chars
-                                    .it_seems_like_there_is_an_issue_connecting_to_the_server_check_the_connecting_and_try_again
-                                : S
-                                    .of(context)
-                                    .tab_continue_to_start_your_journy,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: _hasError
-                                  ? Theme.of(context)
-                                      .colorScheme
-                                      .onErrorContainer
-                                  : null,
-                              fontWeight: FontWeight.w700,
+                        );
+                      },
+                    ),
+                  if (_currentLibs != null || _hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text.rich(
+                        TextSpan(
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: _hasError
+                                  ?  passedDownloads.last
+                                  : (snapshot.data ?? S.of(context).loading),
                             ),
+                            WidgetSpan(
+                              child: _hasError
+                                  ? Icon(
+                                      Icons.error_outline,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    )
+                                  : const CupertinoActivityIndicator(
+                                      animating: true,
+                                    ),
+                            )
+                          ],
+                        ),
+                        key: ValueKey<String>(
+                          snapshot.data ?? S.of(context).loading,
+                        ),
+                      ),
+                    ),
+                  if (_currentLibs == null)
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: _hasError ? 16 : 0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _hasError
+                            ? Theme.of(context).colorScheme.errorContainer
+                            : null,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(
+                            10,
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _hasError = false;
-                            _currentLibs =
-                                _startDownloading().asBroadcastStream();
-                            _currentLibs!.listen(
-                              (String event) {},
-                              onDone: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, 'main', (_) => false);
-                              },
-                              onError: (_) {
-                                setState(() {
-                                  _hasError = true;
-                                });
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                        child: Text(
+                          _hasError
+                              ? S
+                                  .of(context)
+                                  // ignore: lines_longer_than_80_chars
+                                  .it_seems_like_there_is_an_issue_connecting_to_the_server_check_the_connecting_and_try_again
+                              : S.of(context).tab_continue_to_start_your_journy,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _hasError
+                                ? Theme.of(context).colorScheme.onErrorContainer
+                                : null,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (_currentLibs == null)
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _hasError = false;
+                          _currentLibs =
+                              _startDownloading().asBroadcastStream();
+
+                          _currentLibs!.listen((String event) {
+                            passedDownloads.add(event);
+                            _listKey.currentState?.removeAllItems(
+                              (BuildContext context,
+                                      Animation<double> animation) =>
+                                  SizedBox.fromSize(),
+                              duration: Duration.zero,
+                            );
+                            _listKey.currentState
+                                ?.insertAllItems(0, passedDownloads.length - 1);
+                          }, onDone: () {
+                            if (!_hasError) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'main', (_) => false);
+                            }
+                          }, onError: (_) {
+                            _hasError = true;
+                            _currentLibs = null;
+                            WidgetsBinding.instance.addPostFrameCallback(
+                              (Duration timeStamp) {
+                                setState(() {});
                                 return;
                               },
                             );
                           });
-                        },
-                        child: Text(
-                          S.of(context).continue_,
-                        ),
+                        });
+                      },
+                      child: Text(
+                        _hasError
+                            ? S.of(context).try_again
+                            : S.of(context).continue_,
                       ),
-                    ],
+                    ),
+                  const SizedBox(
+                    height: 16,
                   )
-                : StreamBuilder<String>(
-                    key: ValueKey<Stream<String>>(_currentLibs!),
-                    stream: _currentLibs,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      return Column(
-                        children: <Widget>[
-                          AnimatedSwitcher(
-                            duration: _microInterActionDuration,
-                            reverseDuration: _microInterActionDuration,
-                            child: Text(
-                              snapshot.data ?? S.of(context).loading,
-                              key: ValueKey<String>(
-                                  snapshot.data ?? S.of(context).loading),
-                            ),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) =>
-                                    FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: CupertinoActivityIndicator(
-                              animating: true,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                ],
+              );
+            },
           ),
-          const SizedBox(
-            height: 16,
-          )
         ],
       ),
     );
