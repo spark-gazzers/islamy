@@ -31,13 +31,8 @@ class HadeethStore {
     _languagesBox = await _getBox<HadeethLanguage>('hadeeth_languages');
     _categoriesBox = await _getBox<HadeethCategory>('hadeeth_categories');
     _hadeethsBox = await _getBox<Hadeeth>('hadeeths');
-    _debugBox = await _getBox<String>('hadeeth_debug');
     _hadeethDetailsBox = await _getBox<HadeethDetails>('hadeeth_details');
     return isReady();
-  }
-
-  static void addDebugData(String data) {
-    _addAll(values: <String>[data], box: _debugBox);
   }
 
   static List<String> get debugList {
@@ -88,21 +83,31 @@ class HadeethStore {
   static List<HadeethCategory> listCategories({HadeethLanguage? langauge}) {
     langauge ??= HadeethStore.settings.language;
     final List<HadeethCategory> categories = _categoriesBox.values.toList();
-    // categories =
-    //     categories.where((category) => category.language == langauge.code);
-    return categories;
+
+    return categories
+        .where(
+            (HadeethCategory category) => category.language == langauge!.code)
+        .toList();
   }
 
   static List<HadeethCategory> listRoots() => _categoriesBox.values
       .toList()
       .where((HadeethCategory category) => category.parentId == null)
       .toList();
-  static List<Hadeeth> listHadeeths({HadeethLanguage? langauge}) {
+  static List<Hadeeth> _listHadeeths({
+    HadeethLanguage? langauge,
+    HadeethCategory? category,
+  }) {
     langauge ??= settings.language;
-    final List<Hadeeth> hadeeths = _hadeethsBox.values.toList();
-    return hadeeths
-        .where((Hadeeth hadeeth) => hadeeth.languageCode == langauge!.code)
-        .toList();
+    Iterable<Hadeeth> hadeeths = _hadeethsBox.values
+        .toList()
+        .where((Hadeeth hadeeth) => hadeeth.languageCode == langauge!.code);
+
+    if (category != null) {
+      hadeeths =
+          hadeeths.where((Hadeeth element) => element.category == category.id);
+    }
+    return hadeeths.toList();
   }
 
   static List<HadeethCategory> subCategoriesOf(HadeethCategory? category,
@@ -137,23 +142,28 @@ class HadeethStore {
     return null;
   }
 
-  static Future<void> _addLanguages(List<HadeethLanguage> languages) =>
-      _addAll(values: languages, box: _languagesBox);
+  static Future<void> _addLanguages(List<HadeethLanguage> languages) {
+    languages.removeWhere(
+        (HadeethLanguage element) => _languagesBox.values.contains(element));
+    return _addAll(values: languages, box: _languagesBox);
+  }
 
-  static Future<void> _addCategories(List<HadeethCategory> categories) =>
-      _addAll(values: categories, box: _categoriesBox);
+  static Future<void> _addCategories(List<HadeethCategory> categories) {
+    categories.removeWhere(
+        (HadeethCategory element) => _categoriesBox.values.contains(element));
+    return _addAll(values: categories, box: _categoriesBox);
+  }
 
-  static Future<void> addDetails(List<HadeethDetails> details) =>
-      _addAll(values: details, box: _hadeethDetailsBox);
+  static Future<void> addDetails(List<HadeethDetails> details) {
+    details.removeWhere((HadeethDetails element) =>
+        _hadeethDetailsBox.values.contains(element));
+
+    return _addAll(values: details, box: _hadeethDetailsBox);
+  }
 
   static Future<void> _addHadeeths(List<Hadeeth> hadeeths) {
-    final List<Hadeeth> memory = listHadeeths();
-    for (final Hadeeth hadeeth in hadeeths) {
-      if (memory.contains(hadeeth)) {
-        throw ArgumentError('The hadeeth with ID:${hadeeth.id} and '
-            'language:${hadeeth.languageCode} already exists');
-      }
-    }
+    hadeeths.removeWhere(
+        (Hadeeth element) => _hadeethsBox.values.contains(element));
     return _addAll(values: hadeeths, box: _hadeethsBox);
   }
 
