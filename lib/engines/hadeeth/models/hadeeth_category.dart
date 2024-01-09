@@ -12,16 +12,22 @@ class HadeethCategory {
     required this.title,
     required this.hadeethsCount,
     required this.parentId,
+    required this.language,
   });
-  factory HadeethCategory.fromRawJson(String str) =>
-      HadeethCategory.fromJson(json.decode(str) as Map<String, dynamic>);
+  factory HadeethCategory.fromRawJson(String str, String language) =>
+      HadeethCategory.fromJson(
+          json.decode(str) as Map<String, dynamic>, language);
 
-  factory HadeethCategory.fromJson(Map<String, dynamic> json) =>
+  factory HadeethCategory.fromJson(
+    Map<String, dynamic> json,
+    String language,
+  ) =>
       HadeethCategory(
         id: json['id'] as String,
         title: json['title'] as String,
         hadeethsCount: json['hadeeths_count'] as String,
         parentId: json['parent_id'] as String?,
+        language: language,
       );
 
   @HiveField(0)
@@ -32,10 +38,13 @@ class HadeethCategory {
   final String hadeethsCount;
   @HiveField(3)
   final String? parentId;
+  @HiveField(4)
+  final String language;
 
-  static List<HadeethCategory> listFrom(List<Map<String, dynamic>> json) =>
-      List<HadeethCategory>.from(
-          json.map<HadeethCategory>(HadeethCategory.fromJson));
+  static List<HadeethCategory> listFrom(
+          List<Map<String, dynamic>> json, String langauge) =>
+      List<HadeethCategory>.from(json
+          .map<HadeethCategory>((e) => HadeethCategory.fromJson(e, langauge)));
 
   String toRawJson() => json.encode(toJson());
 
@@ -47,5 +56,6 @@ class HadeethCategory {
       };
   @override
   // ignore: hash_and_equals
-  bool operator ==(Object other) => other is HadeethCategory && id == other.id;
+  bool operator ==(Object other) =>
+      other is HadeethCategory && id == other.id && other.language == language;
 }
