@@ -32,8 +32,21 @@ class CategoryTile extends StatelessWidget {
       HadeethStore.subCategoriesOf(category, language: langauge).isNotEmpty;
 
   String get childrenCount {
-    return HadeethStore.subCategoriesOf(category, language: langauge)
-        .length
-        .toString();
+    return hasSubs
+        ? HadeethStore.subCategoriesOf(category, language: langauge)
+            .length
+            .toString()
+        : category.hadeethsCount;
+  }
+
+  String hadeethCount(HadeethCategory category) {
+    int count = int.parse(category.hadeethsCount);
+    if (hasSubs) {
+      for (final HadeethCategory subCategory
+          in HadeethStore.subCategoriesOf(category)) {
+        count += int.parse(hadeethCount(subCategory));
+      }
+    }
+    return count.toString();
   }
 }
