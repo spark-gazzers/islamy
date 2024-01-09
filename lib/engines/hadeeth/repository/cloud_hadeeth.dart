@@ -46,15 +46,17 @@ class CloudHadeeth {
   }
 
   /// Fetches all the available [HadeethCategory] from the host.
-  static Future<List<HadeethCategory>> listCategories() async {
-    final Response<List<dynamic>> response = await _call(
-        path:
-            'categories/list/?language=${HadeethStore.settings.language.code}');
+  static Future<List<HadeethCategory>> listCategories(
+      {HadeethLanguage? language}) async {
+    language ??= HadeethStore.settings.language;
+    final Response<List<dynamic>> response =
+        await _call(path: 'categories/list/?language=${language.code}');
     return HadeethCategory.listFrom(
       // it's actually necessary since we need to cast the list not
       // the maps inside!
       // ignore: unnecessary_cast
       (response.data! as List<dynamic>).cast<Map<String, dynamic>>(),
+      language.code,
     );
   }
 
@@ -67,6 +69,7 @@ class CloudHadeeth {
           '&category_id=${category.id}'
           '&per_page=${category.hadeethsCount}',
     );
+
     if (response.statusCode == 404 &&
         (response.data == null || (response.data! as String).trim().isEmpty)) {
       return <Hadeeth>[];
@@ -88,7 +91,7 @@ class CloudHadeeth {
 
     return HadeethDetails.fromJson(
       response.data!,
-      hadeeth.category!,
+      hadeeth.category,
       language.code,
     );
   }
