@@ -13,18 +13,10 @@ class Hadeeth extends HiveObject {
     required this.category,
   });
 
-  factory Hadeeth.fromRawJson(
-    String str,
-    String languageCode,
-    String? category,
-  ) =>
-      Hadeeth.fromJson(
-          json.decode(str) as Map<String, dynamic>, languageCode, category);
-
   factory Hadeeth.fromJson(
     Map<String, dynamic> json,
     String languageCode,
-    String? category,
+    String category,
   ) =>
       Hadeeth(
         id: json['id'] as String,
@@ -44,12 +36,12 @@ class Hadeeth extends HiveObject {
   @HiveField(3)
   final String languageCode;
   @HiveField(4)
-  final String? category;
+  final String category;
 
   static List<Hadeeth> listFrom(
     List<Map<String, dynamic>> json,
     String languageCode,
-    String? category,
+    String category,
   ) =>
       List<Hadeeth>.from(json.map<Hadeeth>(
         (Map<String, dynamic> e) => Hadeeth.fromJson(e, languageCode, category),
@@ -66,5 +58,8 @@ class Hadeeth extends HiveObject {
   @override
   // ignore: hash_and_equals
   bool operator ==(Object other) =>
-      other is Hadeeth && other.id == id && other.languageCode == languageCode;
+      other is Hadeeth &&
+      other.id == id &&
+      other.languageCode == languageCode &&
+      other.category == category;
 }
