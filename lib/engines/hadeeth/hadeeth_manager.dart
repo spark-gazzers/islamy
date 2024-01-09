@@ -31,4 +31,22 @@ class HadeethManager {
         await CloudHadeeth.listCategories();
     HadeethStore._addCategories(categories);
   }
+
+  static Future<List<Hadeeth>> listHadeeths(HadeethCategory category,
+      {HadeethLanguage? language}) async {
+    final List<Hadeeth> hadeeths = HadeethStore._listHadeeths(
+      langauge: language,
+      category: category,
+    );
+    if (hadeeths.isEmpty) {
+      final List<Hadeeth> downloaded =
+          await CloudHadeeth.listHadeeths(category, language: language);
+      await HadeethStore._addHadeeths(downloaded);
+      hadeeths.addAll(HadeethStore._listHadeeths(
+        langauge: language,
+        category: category,
+      ));
+    }
+    return hadeeths;
+  }
 }
