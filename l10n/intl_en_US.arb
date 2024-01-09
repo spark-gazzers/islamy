@@ -141,5 +141,8 @@
     "attribution": "Attribution",
     "reference": "Reference",
     "grade": "Grade",
-    "hints": "Hints"
+    "hints": "Hints",
+    "no_hadeeth_found_with": "No hadeeth found with",
+    "in_the": "in the",
+    "category_maybe_try_a_more_generic_search": "category, maybe try a more generic search?"
 }
