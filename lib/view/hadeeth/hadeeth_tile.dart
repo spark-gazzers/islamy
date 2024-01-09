@@ -11,8 +11,7 @@ class HadeethTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        // hadeeth.title,
-        HadeethStore.getDetails(id: hadeeth.id).toString(),
+        hadeeth.title,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
