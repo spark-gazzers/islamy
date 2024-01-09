@@ -20,6 +20,9 @@ class HadeethLanguage {
         code: json['code'] as String,
         native: json['native'] as String,
       );
+  @override
+  bool operator ==(Object other) =>
+      other is HadeethLanguage && other.code == code;
 
   static List<HadeethLanguage> listFrom(List<Map<String, dynamic>> json) =>
       List<HadeethLanguage>.from(
