@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 part '../../../generated/adapters/hadeeth/hadeeth_details.dart';
@@ -58,6 +60,10 @@ class HadeethDetails {
       language: language,
     );
   }
+  @override
+  bool operator ==(Object other) =>
+      other is HadeethDetails && other.id == id && other.language == language;
+
   @HiveField(0)
   String id;
   @HiveField(1)
@@ -100,6 +106,9 @@ class HadeethDetails {
         'words_meanings': wordsMeanings?.map((WordsMeaning e) => e.toJson()),
         'reference': reference,
       };
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 @HiveType(typeId: 14)
